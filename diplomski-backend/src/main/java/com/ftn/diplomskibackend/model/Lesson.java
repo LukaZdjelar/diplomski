@@ -20,8 +20,6 @@ public class Lesson {
     private ELessonType lessonType;
 
 
-//    @OneToMany(cascade = CascadeType.ALL)
-//    private List<Task> tasks;
-    @ManyToOne
-    private Chapter chapter;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Task> tasks;
 }

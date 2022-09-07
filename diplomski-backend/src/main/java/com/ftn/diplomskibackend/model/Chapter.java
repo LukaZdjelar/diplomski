@@ -20,8 +20,6 @@ public class Chapter {
     private String name;
     @Column
     private Integer level;
-//    @OneToMany(cascade = CascadeType.ALL)
-//    private List<Lesson> lessons;
-    @ManyToOne
-    private Course course;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Lesson> lessons;
 }

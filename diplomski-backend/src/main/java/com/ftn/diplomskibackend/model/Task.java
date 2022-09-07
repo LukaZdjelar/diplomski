@@ -14,8 +14,6 @@ public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne
-    private Lesson lesson;
     @Column
     private String question;
     @Column

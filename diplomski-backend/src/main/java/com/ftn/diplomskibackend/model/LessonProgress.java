@@ -16,8 +16,6 @@ public class LessonProgress {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
-    private User user;
-    @ManyToOne
     private Lesson lesson;
     @Column
     private ELessonStatus status;

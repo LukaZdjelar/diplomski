@@ -21,6 +21,6 @@ public class Course {
     private Language local;
     @ManyToOne
     private Language foreign;
-//    @OneToMany(cascade = CascadeType.ALL)
-//    private List<Chapter> chapters;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Chapter> chapters;
 }

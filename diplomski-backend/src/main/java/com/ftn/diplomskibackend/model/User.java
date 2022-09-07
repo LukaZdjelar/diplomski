@@ -23,6 +23,6 @@ public class User {
     private String password;
     @Column
     private Boolean isAdministrator;
-//    @OneToMany(cascade = CascadeType.ALL)
-//    private List<LessonProgress> lessonProgresses;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<LessonProgress> lessonProgresses;
 }
