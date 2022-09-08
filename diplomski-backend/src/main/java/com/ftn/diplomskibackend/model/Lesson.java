@@ -1,6 +1,5 @@
 package com.ftn.diplomskibackend.model;
 
-import com.ftn.diplomskibackend.model.enumeration.ELessonType;
 import lombok.*;
 
 import javax.persistence.*;
@@ -18,8 +17,6 @@ public class Lesson {
     private Long id;
     @Column
     private ELessonType lessonType;
-
-
     @OneToMany(cascade = CascadeType.ALL)
     private List<Task> tasks;
 }

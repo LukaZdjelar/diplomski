@@ -1,6 +1,5 @@
 package com.ftn.diplomskibackend.model;
 
-import com.ftn.diplomskibackend.model.enumeration.ELessonStatus;
 import lombok.*;
 
 import javax.persistence.*;

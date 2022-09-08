@@ -1,4 +1,4 @@
-package com.ftn.diplomskibackend.model.enumeration;
+package com.ftn.diplomskibackend.model;
 
 public enum ELessonType {
     VOCABULARY,
