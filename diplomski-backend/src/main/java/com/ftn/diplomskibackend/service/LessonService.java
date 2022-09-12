@@ -1,6 +1,7 @@
 package com.ftn.diplomskibackend.service;
 
 
+import com.ftn.diplomskibackend.model.ELessonStatus;
 import com.ftn.diplomskibackend.model.Lesson;
 
 import java.util.List;
@@ -11,4 +12,5 @@ public interface LessonService {
     Optional<Lesson> findById(Long id);
     Lesson save(Lesson lesson);
     void delete(Lesson lesson);
+    ELessonStatus getLessonStatus(Long lesson_id);
 }

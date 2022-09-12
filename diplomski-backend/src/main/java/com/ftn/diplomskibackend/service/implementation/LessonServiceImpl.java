@@ -1,5 +1,6 @@
 package com.ftn.diplomskibackend.service.implementation;
 
+import com.ftn.diplomskibackend.model.ELessonStatus;
 import com.ftn.diplomskibackend.model.Lesson;
 import com.ftn.diplomskibackend.repository.LessonRepository;
 import com.ftn.diplomskibackend.service.LessonService;
@@ -32,5 +33,10 @@ public class LessonServiceImpl implements LessonService {
     @Override
     public void delete(Lesson lesson) {
         lessonRepository.delete(lesson);
+    }
+
+    @Override
+    public ELessonStatus getLessonStatus(Long lesson_id) {
+        return lessonRepository.getLessonStatus(lesson_id);
     }
 }

@@ -24,10 +24,8 @@ public class CourseController {
 
     @GetMapping
     public ResponseEntity<List<CourseDTO>> getAll(){
-        System.out.println("aaaa");
         List<Course> courses = courseService.findAll();
-        List<CourseDTO> coursesDTO = CourseMapper.mapListToDTO(courses);
-        return new ResponseEntity<>(coursesDTO, HttpStatus.OK);
+        return new ResponseEntity<>(CourseMapper.mapListToDTO(courses), HttpStatus.OK);
     }
 
 }

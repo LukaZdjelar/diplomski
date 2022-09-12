@@ -33,4 +33,9 @@ public class ChapterServiceImpl implements ChapterService {
     public void delete(Chapter chapter) {
         chapterRepository.delete(chapter);
     }
+
+    @Override
+    public Integer countCompletedLessons(Long user_id, Long chapter_id) {
+        return chapterRepository.countCompletedLessons(user_id, chapter_id);
+    }
 }

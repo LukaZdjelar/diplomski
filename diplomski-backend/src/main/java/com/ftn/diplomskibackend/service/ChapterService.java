@@ -10,4 +10,5 @@ public interface ChapterService {
     Optional<Chapter> findById(Long id);
     Chapter save(Chapter chapter);
     void delete(Chapter chapter);
+    Integer countCompletedLessons(Long user_id, Long chapter_id);
 }
