@@ -7,18 +7,13 @@ import com.ftn.diplomskibackend.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@CrossOrigin
 @RequestMapping(value = "/api/courses")
 public class CourseController {
-
     @Autowired
     CourseService courseService;
 
@@ -27,5 +22,13 @@ public class CourseController {
         List<Course> courses = courseService.findAll();
         return new ResponseEntity<>(CourseMapper.mapListToDTO(courses), HttpStatus.OK);
     }
-
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<CourseDTO> getOne(@PathVariable Long id){
+        Course course = courseService.findById(id).orElse(null);
+        if (course!=null){
+            return new ResponseEntity<>(CourseMapper.mapDTO(course), HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 }
