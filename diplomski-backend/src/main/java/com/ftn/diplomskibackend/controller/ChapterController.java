@@ -9,11 +9,9 @@ import com.ftn.diplomskibackend.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -35,7 +33,7 @@ public class ChapterController {
         if(chapter!=null){
             return new ResponseEntity<>(ChapterMapper.mapDTO(chapter),HttpStatus.OK);
         }else{
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
     @GetMapping(value = "/course/{id}")
@@ -45,8 +43,39 @@ public class ChapterController {
             List<Chapter> chapters = course.getChapters();
             return new ResponseEntity<>(ChapterMapper.mapListToDTO(chapters), HttpStatus.OK);
         }else {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
+    }
+    @PostMapping
+    public ResponseEntity<ChapterDTO> create(@RequestBody ChapterDTO chapterDTO){
+        chapterDTO.setLessons(new ArrayList<>());
+        if (chapterDTO.getName().equals("") || chapterDTO.getLevel()<1 || chapterDTO.getCourseId() == null ||
+                chapterDTO.getLevel() > courseService.countChaptersByCourse(chapterDTO.getCourseId())+1 || chapterDTO.getId()!=null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }else {
+            if (chapterDTO.getLevel()<=courseService.countChaptersByCourse(chapterDTO.getCourseId())){
+                chapterService.adjustLevels(chapterDTO.getLevel(), chapterDTO.getCourseId());
+            }
+            Chapter chapter = ChapterMapper.mapModel(chapterDTO);
+            chapterService.save(chapter);
+            Course course = courseService.findById(chapterDTO.getCourseId()).orElse(null);
+            course.getChapters().add(chapter);
+            courseService.save(course);
+            return new ResponseEntity<>(chapterDTO, HttpStatus.CREATED);
+        }
+    }
+    @PutMapping
+    public ResponseEntity<ChapterDTO> update(@RequestBody ChapterDTO chapterDTO) {
+        if (chapterDTO.getName().equals("") || chapterDTO.getLevel() < 1 ||
+                chapterDTO.getLevel() > courseService.countChaptersByCourse(chapterDTO.getCourseId()) + 1 || chapterDTO.getId() == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else {
+            if (chapterDTO.getLevel() <= courseService.countChaptersByCourse(chapterDTO.getCourseId())) {
+                chapterService.adjustLevels(chapterDTO.getLevel(), chapterDTO.getCourseId());
+            }
+            Chapter chapter = ChapterMapper.mapModel(chapterDTO);
+            chapterService.save(chapter);
+            return new ResponseEntity<>(chapterDTO, HttpStatus.CREATED);
+        }
     }
 }

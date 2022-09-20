@@ -14,4 +14,5 @@ public class LessonDTO {
     private ELessonType lessonType;
     private ELessonStatus lessonStatus;
     private List<TaskDTO> tasks;
+    private Long chapterId;
 }

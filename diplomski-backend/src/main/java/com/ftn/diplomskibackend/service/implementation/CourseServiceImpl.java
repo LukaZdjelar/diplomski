@@ -33,4 +33,14 @@ public class CourseServiceImpl implements CourseService {
     public void delete(Course course) {
         courseRepository.delete(course);
     }
+
+    @Override
+    public Course courseExists(Long localId, Long foreignId) {
+        return courseRepository.courseExists(localId, foreignId);
+    }
+
+    @Override
+    public Integer countChaptersByCourse(Long courseId) {
+        return courseRepository.countChaptersByCourse(courseId);
+    }
 }

@@ -9,4 +9,5 @@ public class TaskDTO {
     private Long id;
     private String question;
     private String answer;
+    private Long lessonId;
 }

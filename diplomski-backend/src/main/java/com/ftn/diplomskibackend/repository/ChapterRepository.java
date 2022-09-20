@@ -19,4 +19,8 @@ public interface ChapterRepository extends JpaRepository<Chapter, Long> {
             "                                 inner join chapter_lessons cl on cl.lessons_id = pr.lesson_id\n" +
             "where pr.status=2 and u.id=:user_id and cl.chapter_id=:chapter_id", nativeQuery = true)
     Integer countCompletedLessons(@Param("user_id") Long user_id, @Param("chapter_id") Long chapter_id);
+    @Query(value = "select c.* \n" +
+            "from chapter c inner join course_chapters cc on c.id=cc.chapters_id\n" +
+            "where level>=:level and cc.course_id=:courseId", nativeQuery = true)
+    List<Chapter> chaptersLevelsToBeAdjusted(@Param("level") Integer level, @Param("courseId") Long courseId);
 }

@@ -13,4 +13,5 @@ public class ChapterDTO {
     private Integer level;
     private Boolean isLocked;
     private List<LessonDTO> lessons;
+    private Long courseId;
 }

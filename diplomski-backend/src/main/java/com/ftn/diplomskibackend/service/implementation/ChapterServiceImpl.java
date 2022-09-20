@@ -38,4 +38,12 @@ public class ChapterServiceImpl implements ChapterService {
     public Integer countCompletedLessons(Long user_id, Long chapter_id) {
         return chapterRepository.countCompletedLessons(user_id, chapter_id);
     }
+
+    @Override
+    public void adjustLevels(Integer level, Long courseId) {
+        for (Chapter chapter: chapterRepository.chaptersLevelsToBeAdjusted(level, courseId)) {
+            chapter.setLevel(chapter.getLevel()+1);
+            save(chapter);
+        }
+    }
 }

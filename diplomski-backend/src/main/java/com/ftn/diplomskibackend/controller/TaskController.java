@@ -9,15 +9,12 @@ import com.ftn.diplomskibackend.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/api/task")
+@RequestMapping(value = "/api/tasks")
 public class TaskController {
     @Autowired
     TaskService taskService;
@@ -35,7 +32,7 @@ public class TaskController {
         if (task!=null){
             return new ResponseEntity<>(TaskMapper.mapDTO(task),HttpStatus.OK);
         }else {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
     @GetMapping(value = "/lesson/{id}")
@@ -44,7 +41,20 @@ public class TaskController {
         if (lesson!=null){
             return new ResponseEntity<>(TaskMapper.mapListToDTO(lesson.getTasks()),HttpStatus.OK);
         }else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+    @PostMapping
+    public ResponseEntity<TaskDTO> create(@RequestBody TaskDTO taskDTO){
+        if (taskDTO.getQuestion().equals("") || taskDTO.getAnswer().equals("") || taskDTO.getId()!=null || taskDTO.getLessonId() == null){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }else{
+            Task task = TaskMapper.mapModel(taskDTO);
+            taskService.save(task);
+            Lesson lesson = lessonService.findById(taskDTO.getLessonId()).orElse(null);
+            lesson.getTasks().add(task);
+            lessonService.save(lesson);
+            return new ResponseEntity<>(taskDTO, HttpStatus.CREATED);
         }
     }
 }

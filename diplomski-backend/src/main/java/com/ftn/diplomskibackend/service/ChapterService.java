@@ -11,4 +11,5 @@ public interface ChapterService {
     Chapter save(Chapter chapter);
     void delete(Chapter chapter);
     Integer countCompletedLessons(Long user_id, Long chapter_id);
+    void adjustLevels(Integer level, Long courseId);
 }

@@ -10,4 +10,6 @@ public interface CourseService {
     Optional<Course> findById(Long id);
     Course save(Course course);
     void delete(Course course);
+    Course courseExists(Long localId, Long foreignId);
+    Integer countChaptersByCourse(Long courseId);
 }
