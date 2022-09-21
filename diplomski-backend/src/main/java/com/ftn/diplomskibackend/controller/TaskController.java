@@ -6,6 +6,8 @@ import com.ftn.diplomskibackend.model.Task;
 import com.ftn.diplomskibackend.model.dto.TaskDTO;
 import com.ftn.diplomskibackend.service.LessonService;
 import com.ftn.diplomskibackend.service.TaskService;
+import org.apache.commons.text.StringEscapeUtils;
+import org.apache.commons.text.similarity.LevenshteinDistance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -56,5 +58,14 @@ public class TaskController {
             lessonService.save(lesson);
             return new ResponseEntity<>(taskDTO, HttpStatus.CREATED);
         }
+    }
+    @PostMapping(value = "/check/{id}")
+    public ResponseEntity<Integer> checkDistance(@PathVariable Long id, @RequestBody String answer){
+        Task task = taskService.findById(id).orElse(null);
+        if (task!=null){
+            int distance = LevenshteinDistance.getDefaultInstance().apply(task.getAnswer(), answer);
+            return new ResponseEntity<>(distance, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 }
