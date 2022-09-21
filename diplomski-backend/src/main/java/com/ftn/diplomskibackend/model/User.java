@@ -22,7 +22,7 @@ public class User {
     @Column
     private String password;
     @Column
-    private Boolean isAdministrator;
+    private EUserRole role;
     @OneToMany(cascade = CascadeType.ALL)
     private List<LessonProgress> lessonProgresses;
 }
