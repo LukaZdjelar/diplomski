@@ -30,6 +30,9 @@ android {
         jvmTarget = '1.8'
     }
     namespace 'com.example.diplomski_android'
+    buildFeatures {
+        dataBinding true
+    }
 }
 
 dependencies {
