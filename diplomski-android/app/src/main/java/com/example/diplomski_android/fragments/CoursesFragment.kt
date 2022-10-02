@@ -5,10 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModel
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.diplomski_android.R
@@ -54,13 +51,8 @@ class CoursesFragment : Fragment() {
         coursesAdapter.differ.submitList(coursesTest)
     }
 
-    fun onCourseSelection(text: String){
-        mainViewModel.setCourseId(text)
-        findNavController().navigate(R.id.action_coursesFragment_to_chaptersFragment)
-    }
-
     private fun setupRecyclerView(){
-        coursesAdapter = CoursesAdapter()
+        coursesAdapter = CoursesAdapter(mainViewModel)
         rvCourses.apply {
             adapter = coursesAdapter
             layoutManager = LinearLayoutManager(activity)

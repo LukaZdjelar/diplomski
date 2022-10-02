@@ -22,9 +22,6 @@
         <action
             android:id="@+id/action_chaptersFragment_to_taskFragment"
             app:destination="@id/taskFragment" />
-        <action
-            android:id="@+id/action_chaptersFragment_to_coursesFragment"
-            app:destination="@id/coursesFragment" />
     </fragment>
     <fragment
         android:id="@+id/taskFragment"

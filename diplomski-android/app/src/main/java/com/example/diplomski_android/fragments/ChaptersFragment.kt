@@ -1,11 +1,13 @@
 package com.example.diplomski_android.fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
 import com.example.diplomski_android.R
@@ -20,13 +22,6 @@ class ChaptersFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-//        val view = inflater.inflate(R.layout.fragment_chapters, container, false)
-//
-//        view.findViewById<Button>(R.id.chapters_courses_button).setOnClickListener { Navigation.findNavController(view).navigate(R.id.action_chaptersFragment_to_coursesFragment) }
-//        view.findViewById<Button>(R.id.chapters_task_button).setOnClickListener { Navigation.findNavController(view).navigate(R.id.action_chaptersFragment_to_taskFragment) }
-//
-//        return view
         val fragmentBinding = FragmentChaptersBinding.inflate(inflater, container, false)
         chaptersBinding = fragmentBinding
 
@@ -36,13 +31,8 @@ class ChaptersFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         chaptersBinding?.apply {
-            // Specify the fragment as the lifecycle owner
             lifecycleOwner = viewLifecycleOwner
-
-            // Assign the view model to a property in the binding class
             viewModel = mainViewModel
-
-            // Assign the fragment
             chaptersFragment = this@ChaptersFragment
         }
     }

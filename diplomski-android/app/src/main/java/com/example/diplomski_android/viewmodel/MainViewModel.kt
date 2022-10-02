@@ -6,10 +6,10 @@ import androidx.lifecycle.ViewModel
 import com.example.diplomski_android.model.Course
 
 class MainViewModel:ViewModel() {
-    private val _courseId = MutableLiveData<String>("")
-    val courseId : LiveData<String> = _courseId
+    private val _course = MutableLiveData<Course>()
+    val course : LiveData<Course> = _course
 
-    fun setCourseId(selectedCourse: String){
-        _courseId.value = selectedCourse
+    fun setCourse(selectedCourse: Course){
+        _course.value = selectedCourse
     }
 }
