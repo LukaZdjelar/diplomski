@@ -5,5 +5,5 @@ data class Lesson(
     val chapterId: Long,
     val lessonStatus: String,
     val lessonType: String,
-    val tasks: List<Task>
+    val tasks: List<Task>?
 )

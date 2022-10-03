@@ -44,7 +44,6 @@ class CoursesAdapter(private val mainViewModel: MainViewModel) : RecyclerView.Ad
                 mainViewModel.setCourse(course)
                 Navigation.findNavController(view).navigate(R.id.action_coursesFragment_to_chaptersFragment)
             }
-
         }
     }
 

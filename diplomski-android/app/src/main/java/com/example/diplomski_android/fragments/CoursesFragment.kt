@@ -6,12 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.diplomski_android.R
 import com.example.diplomski_android.adapter.CoursesAdapter
 import com.example.diplomski_android.databinding.FragmentCoursesBinding
+import com.example.diplomski_android.model.Chapter
 import com.example.diplomski_android.model.Course
+import com.example.diplomski_android.model.Lesson
 import com.example.diplomski_android.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.fragment_courses.*
 
@@ -42,11 +42,7 @@ class CoursesFragment : Fragment() {
         setupRecyclerView()
 
         //TODO test, izbrisati
-        coursesTest = listOf(Course(1,null,"Course 1", null,null),
-                                            Course(2,null,"Course 2", null, null),
-                                            Course(3,null,"Course 3", null, null),
-                                            Course(4,null,"Course 4", null, null),
-                                            Course(5,null,"Course 5", null, null))
+        coursesTest = listOf(Course(1, null ,"Course 1", null,null))
 
         coursesAdapter.differ.submitList(coursesTest)
     }
