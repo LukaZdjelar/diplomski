@@ -3,7 +3,6 @@ package com.ftn.diplomskibackend.controller;
 import com.ftn.diplomskibackend.mapper.CourseMapper;
 import com.ftn.diplomskibackend.model.Course;
 import com.ftn.diplomskibackend.model.dto.CourseDTO;
-import com.ftn.diplomskibackend.model.dto.TaskDTO;
 import com.ftn.diplomskibackend.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,12 +15,14 @@ import java.util.Objects;
 
 @RestController
 @RequestMapping(value = "/api/courses")
+@CrossOrigin
 public class CourseController {
     @Autowired
     CourseService courseService;
 
     @GetMapping
     public ResponseEntity<List<CourseDTO>> getAll(){
+        System.out.println("courses hit");
         List<Course> courses = courseService.findAll();
         return new ResponseEntity<>(CourseMapper.mapListToDTO(courses), HttpStatus.OK);
     }

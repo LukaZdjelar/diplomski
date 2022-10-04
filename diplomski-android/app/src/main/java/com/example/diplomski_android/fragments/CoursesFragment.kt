@@ -1,17 +1,20 @@
 package com.example.diplomski_android.fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.diplomski_android.adapter.CoursesAdapter
 import com.example.diplomski_android.databinding.FragmentCoursesBinding
 import com.example.diplomski_android.model.Chapter
 import com.example.diplomski_android.model.Course
 import com.example.diplomski_android.model.Lesson
+import com.example.diplomski_android.retrofit.RetrofitInstance
 import com.example.diplomski_android.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.fragment_courses.*
 
@@ -28,6 +31,11 @@ class CoursesFragment : Fragment() {
         val fragmentBinding = FragmentCoursesBinding.inflate(inflater, container, false)
         coursesBinding = fragmentBinding
 
+        lifecycleScope.launchWhenCreated {
+            val response = RetrofitInstance.courseApi.getCourses()
+            coursesAdapter.differ.submitList(response.body())
+        }
+
         return fragmentBinding.root
     }
 
@@ -40,11 +48,6 @@ class CoursesFragment : Fragment() {
             coursesFragment = this@CoursesFragment
         }
         setupRecyclerView()
-
-        //TODO test, izbrisati
-        coursesTest = listOf(Course(1, null ,"Course 1", null,null))
-
-        coursesAdapter.differ.submitList(coursesTest)
     }
 
     private fun setupRecyclerView(){
@@ -52,7 +55,6 @@ class CoursesFragment : Fragment() {
         rvCourses.apply {
             adapter = coursesAdapter
             layoutManager = LinearLayoutManager(activity)
-
         }
     }
 }
