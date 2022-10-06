@@ -22,7 +22,6 @@ class CoursesFragment : Fragment() {
     private val mainViewModel : MainViewModel by activityViewModels()
     private var coursesBinding : FragmentCoursesBinding? = null
     private lateinit var coursesAdapter : CoursesAdapter
-    private var coursesTest : List<Course>? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

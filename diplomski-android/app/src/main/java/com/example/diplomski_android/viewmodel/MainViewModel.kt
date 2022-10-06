@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.diplomski_android.model.Course
 import com.example.diplomski_android.model.Lesson
+import com.example.diplomski_android.model.Task
 
 class MainViewModel:ViewModel() {
     private val _course = MutableLiveData<Course>()
@@ -19,5 +20,12 @@ class MainViewModel:ViewModel() {
 
     fun setLesson(selectedLesson: Lesson){
         _lesson.value = selectedLesson
+    }
+
+    private val _task = MutableLiveData<Task>()
+    val task : LiveData<Task> = _task
+
+    fun setTask(nextTask: Task){
+        _task.value = nextTask
     }
 }

@@ -1,9 +1,11 @@
 package com.example.diplomski_android.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -42,8 +44,16 @@ class LessonsAdapter(private val mainViewModel: MainViewModel): RecyclerView.Ada
             tvLessonName.text = lesson.lessonType
 
             setOnClickListener{
-                mainViewModel.setLesson(lesson)
-                Toast.makeText(context, mainViewModel.lesson.value?.id.toString(), Toast.LENGTH_SHORT).show()
+                if (lesson.tasks!=null){
+                    if (lesson.tasks.isNotEmpty()){
+                        mainViewModel.setLesson(lesson)
+                        Navigation.findNavController(view).navigate(R.id.action_chaptersFragment_to_taskFragment)
+                    }else{
+                        Toast.makeText(context,"There are no tasks", Toast.LENGTH_SHORT).show()
+                    }
+                }else{
+                    Toast.makeText(context,"There are no tasks", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }

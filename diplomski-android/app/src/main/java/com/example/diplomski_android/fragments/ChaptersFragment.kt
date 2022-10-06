@@ -48,6 +48,7 @@ class ChaptersFragment : Fragment() {
         }
         setupRecyclerView()
 
+        //TODO: if != null
         chaptersAdapter.differ.submitList(mainViewModel.course.value?.chapters)
     }
 
