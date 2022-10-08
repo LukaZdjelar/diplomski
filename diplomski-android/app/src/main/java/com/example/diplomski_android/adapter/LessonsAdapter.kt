@@ -1,6 +1,5 @@
 package com.example.diplomski_android.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.diplomski_android.R
 import com.example.diplomski_android.model.Lesson
 import com.example.diplomski_android.viewmodel.MainViewModel
-import kotlinx.android.synthetic.main.item_course.view.*
 import kotlinx.android.synthetic.main.item_lesson.view.*
 
 class LessonsAdapter(private val mainViewModel: MainViewModel): RecyclerView.Adapter<LessonsAdapter.LessonsViewHolder>() {
@@ -44,13 +42,9 @@ class LessonsAdapter(private val mainViewModel: MainViewModel): RecyclerView.Ada
             tvLessonName.text = lesson.lessonType
 
             setOnClickListener{
-                if (lesson.tasks!=null){
-                    if (lesson.tasks.isNotEmpty()){
-                        mainViewModel.setLesson(lesson)
-                        Navigation.findNavController(view).navigate(R.id.action_chaptersFragment_to_taskFragment)
-                    }else{
-                        Toast.makeText(context,"There are no tasks", Toast.LENGTH_SHORT).show()
-                    }
+                if (lesson.tasks?.isNotEmpty() == true){
+                    mainViewModel.setLesson(lesson)
+                    Navigation.findNavController(view).navigate(R.id.action_chaptersFragment_to_taskFragment)
                 }else{
                     Toast.makeText(context,"There are no tasks", Toast.LENGTH_SHORT).show()
                 }

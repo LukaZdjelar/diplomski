@@ -1,7 +1,6 @@
 package com.example.diplomski_android.fragments
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,9 +10,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.diplomski_android.adapter.CoursesAdapter
 import com.example.diplomski_android.databinding.FragmentCoursesBinding
-import com.example.diplomski_android.model.Chapter
-import com.example.diplomski_android.model.Course
-import com.example.diplomski_android.model.Lesson
 import com.example.diplomski_android.retrofit.RetrofitInstance
 import com.example.diplomski_android.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.fragment_courses.*
@@ -26,7 +22,7 @@ class CoursesFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val fragmentBinding = FragmentCoursesBinding.inflate(inflater, container, false)
         coursesBinding = fragmentBinding
 
