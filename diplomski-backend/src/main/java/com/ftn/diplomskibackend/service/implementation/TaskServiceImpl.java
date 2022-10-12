@@ -3,6 +3,7 @@ package com.ftn.diplomskibackend.service.implementation;
 import com.ftn.diplomskibackend.model.Task;
 import com.ftn.diplomskibackend.repository.TaskRepository;
 import com.ftn.diplomskibackend.service.TaskService;
+import org.apache.commons.text.similarity.LevenshteinDistance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,5 +33,11 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public void delete(Task task) {
         taskRepository.delete(task);
+    }
+
+    @Override
+    public Boolean checkAnswer(Task task, String answer) {
+        int mistake = LevenshteinDistance.getDefaultInstance().apply(task.getAnswer(), answer);
+        return mistake < 2;
     }
 }

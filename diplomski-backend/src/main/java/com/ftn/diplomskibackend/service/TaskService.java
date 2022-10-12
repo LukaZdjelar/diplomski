@@ -10,4 +10,5 @@ public interface TaskService {
     Optional<Task> findById(Long id);
     Task save(Task task);
     void delete(Task task);
+    Boolean checkAnswer(Task task, String answer);
 }

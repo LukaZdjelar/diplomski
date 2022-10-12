@@ -2,6 +2,7 @@ package com.example.diplomski_android.fragments
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,12 +10,14 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.Navigation
-import com.example.diplomski_android.MainActivity
+import androidx.lifecycle.lifecycleScope
 import com.example.diplomski_android.databinding.FragmentTaskBinding
 import com.example.diplomski_android.model.Task
+import com.example.diplomski_android.retrofit.RetrofitInstance
 import com.example.diplomski_android.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.fragment_task.*
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class TaskFragment : Fragment() {
     private val mainViewModel : MainViewModel by activityViewModels()
@@ -64,13 +67,20 @@ class TaskFragment : Fragment() {
         }
     }
 
+    private suspend fun checkAnswer(id: Long, answer: String): Boolean? {
+        val response = RetrofitInstance.taskApi.checkAnswer(id, answer)
+        return response.body()
+    }
+
     private fun onButtonClick(){
         buttonTest.setOnClickListener {
-            if (editTextAnswer.text.toString() == mainViewModel.task.value?.answer){
-                Toast.makeText(context,"Tacno",Toast.LENGTH_SHORT).show()
-            }else{
-                Toast.makeText(context,"Netacno",Toast.LENGTH_SHORT).show()
+
+            val check: Boolean? = runBlocking {
+                Log.d("String", editTextAnswer.text.toString())
+                checkAnswer(mainViewModel.task.value?.id!!, editTextAnswer.text.toString())
             }
+
+            Toast.makeText(context, check.toString(), Toast.LENGTH_SHORT).show()
             editTextAnswer.text = null
             taskNumber++
             it.hideKeyboard()

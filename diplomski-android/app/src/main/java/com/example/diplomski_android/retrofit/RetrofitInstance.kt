@@ -2,6 +2,7 @@ package com.example.diplomski_android.retrofit
 
 import com.example.diplomski_android.api.ChapterApi
 import com.example.diplomski_android.api.CourseApi
+import com.example.diplomski_android.api.TaskApi
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -22,5 +23,13 @@ object RetrofitInstance {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(ChapterApi::class.java)
+    }
+
+    val taskApi: TaskApi by lazy {
+        Retrofit.Builder()
+            .baseUrl(baseUrl)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(TaskApi::class.java)
     }
 }

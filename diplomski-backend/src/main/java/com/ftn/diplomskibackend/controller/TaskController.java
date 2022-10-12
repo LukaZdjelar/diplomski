@@ -1,12 +1,12 @@
 package com.ftn.diplomskibackend.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ftn.diplomskibackend.mapper.TaskMapper;
 import com.ftn.diplomskibackend.model.Lesson;
 import com.ftn.diplomskibackend.model.Task;
 import com.ftn.diplomskibackend.model.dto.TaskDTO;
 import com.ftn.diplomskibackend.service.LessonService;
 import com.ftn.diplomskibackend.service.TaskService;
-import org.apache.commons.text.StringEscapeUtils;
 import org.apache.commons.text.similarity.LevenshteinDistance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -54,17 +54,21 @@ public class TaskController {
             Task task = TaskMapper.mapModel(taskDTO);
             taskService.save(task);
             Lesson lesson = lessonService.findById(taskDTO.getLessonId()).orElse(null);
-            lesson.getTasks().add(task);
-            lessonService.save(lesson);
-            return new ResponseEntity<>(taskDTO, HttpStatus.CREATED);
+            if (lesson != null){
+                lesson.getTasks().add(task);
+                lessonService.save(lesson);
+                return new ResponseEntity<>(taskDTO, HttpStatus.CREATED);
+            }else {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
         }
     }
     @PostMapping(value = "/check/{id}")
-    public ResponseEntity<Integer> checkDistance(@PathVariable Long id, @RequestBody String answer){
+    public ResponseEntity<Boolean> checkAnswer(@PathVariable Long id, @RequestBody final Object answer){
         Task task = taskService.findById(id).orElse(null);
+        String answerString = answer.toString();
         if (task!=null){
-            int distance = LevenshteinDistance.getDefaultInstance().apply(task.getAnswer(), answer);
-            return new ResponseEntity<>(distance, HttpStatus.OK);
+            return new ResponseEntity<>(taskService.checkAnswer(task, answerString), HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
