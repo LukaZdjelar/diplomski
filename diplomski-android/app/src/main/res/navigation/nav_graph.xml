@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/coursesFragment"
-        android:name="com.example.diplomski_android.fragments.CoursesFragment"
+        android:name="com.example.diplomski_android.ui.fragment.CoursesFragment"
         android:label="fragment_courses"
         tools:layout="@layout/fragment_courses" >
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/chaptersFragment"
-        android:name="com.example.diplomski_android.fragments.ChaptersFragment"
+        android:name="com.example.diplomski_android.ui.fragment.ChaptersFragment"
         android:label="fragment_chapters"
         tools:layout="@layout/fragment_chapters" >
         <action
@@ -25,7 +25,7 @@
     </fragment>
     <fragment
         android:id="@+id/taskFragment"
-        android:name="com.example.diplomski_android.fragments.TaskFragment"
+        android:name="com.example.diplomski_android.ui.fragment.TaskFragment"
         android:label="fragment_task"
         tools:layout="@layout/fragment_task" />
 </navigation>

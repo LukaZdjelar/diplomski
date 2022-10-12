@@ -1,4 +1,4 @@
-package com.example.diplomski_android.adapter
+package com.example.diplomski_android.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.diplomski_android.R
 import com.example.diplomski_android.model.Lesson
-import com.example.diplomski_android.viewmodel.MainViewModel
+import com.example.diplomski_android.ui.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.item_lesson.view.*
 
 class LessonsAdapter(private val mainViewModel: MainViewModel): RecyclerView.Adapter<LessonsAdapter.LessonsViewHolder>() {

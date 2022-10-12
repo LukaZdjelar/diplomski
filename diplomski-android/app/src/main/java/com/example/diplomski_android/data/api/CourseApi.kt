@@ -1,4 +1,4 @@
-package com.example.diplomski_android.api
+package com.example.diplomski_android.data.api
 
 import com.example.diplomski_android.model.Course
 import retrofit2.Response

@@ -1,8 +1,8 @@
-package com.example.diplomski_android.retrofit
+package com.example.diplomski_android.data.retrofit
 
-import com.example.diplomski_android.api.ChapterApi
-import com.example.diplomski_android.api.CourseApi
-import com.example.diplomski_android.api.TaskApi
+import com.example.diplomski_android.data.api.ChapterApi
+import com.example.diplomski_android.data.api.CourseApi
+import com.example.diplomski_android.data.api.TaskApi
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 

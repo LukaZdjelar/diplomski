@@ -1,4 +1,4 @@
-package com.example.diplomski_android.api
+package com.example.diplomski_android.data.api
 
 import retrofit2.Response
 import retrofit2.http.Body

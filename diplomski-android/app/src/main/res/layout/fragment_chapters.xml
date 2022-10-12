@@ -5,16 +5,16 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.diplomski_android.viewmodel.MainViewModel" />
+            type="com.example.diplomski_android.ui.viewmodel.MainViewModel" />
         <variable
             name="chaptersFragment"
-            type="com.example.diplomski_android.fragments.ChaptersFragment" />
+            type="com.example.diplomski_android.ui.fragment.ChaptersFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".fragments.ChaptersFragment">
+        tools:context=".ui.fragment.ChaptersFragment">
 
         <TextView
             android:id="@+id/textView"

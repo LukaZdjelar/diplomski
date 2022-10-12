@@ -5,16 +5,16 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.diplomski_android.viewmodel.MainViewModel" />
+            type="com.example.diplomski_android.ui.viewmodel.MainViewModel" />
         <variable
             name="taskFragment"
-            type="com.example.diplomski_android.fragments.TaskFragment" />
+            type="com.example.diplomski_android.ui.fragment.TaskFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".fragments.TaskFragment">
+        tools:context=".ui.fragment.TaskFragment">
 
         <TextView
             android:id="@+id/textQuestion"
@@ -28,16 +28,18 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/buttonTest"
+            android:id="@+id/answerTest"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Submit"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            android:onClick="@{() -> viewModel.onAnswerButtonClick()}"
             app:layout_constraintTop_toBottomOf="@+id/editTextAnswer" />
 
         <EditText
             android:id="@+id/editTextAnswer"
+            android:text="@={viewModel.answer}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
