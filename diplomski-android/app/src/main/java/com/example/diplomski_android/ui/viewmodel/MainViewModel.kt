@@ -4,11 +4,11 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.diplomski_android.data.retrofit.RetrofitInstance
 import com.example.diplomski_android.data.service.TaskService
 import com.example.diplomski_android.model.Course
 import com.example.diplomski_android.model.Lesson
 import com.example.diplomski_android.model.Task
+import com.example.diplomski_android.ui.fragment.TaskFragment
 import kotlinx.coroutines.runBlocking
 
 class MainViewModel:ViewModel() {
@@ -28,14 +28,14 @@ class MainViewModel:ViewModel() {
         _lesson.value = selectedLesson
     }
 
-    private val _task = MutableLiveData<Task>()
-    val task : LiveData<Task> = _task
+    private val _task = MutableLiveData<Task?>()
+    val task : MutableLiveData<Task?> = _task
 
-    fun setTask(nextTask: Task){
+    fun setTask(nextTask: Task?){
         _task.value = nextTask
     }
 
-    val answer = MutableLiveData<String>()
+    val answer = MutableLiveData("")
     private fun resetAnswer(){
         answer.value = ""
     }
@@ -47,13 +47,25 @@ class MainViewModel:ViewModel() {
         _taskNumber.value = nextTaskNumber
     }
 
+    private val _completed = MutableLiveData(false)
+    val completed : LiveData<Boolean> = _completed
+
+    fun setCompleted(isCompleted: Boolean){
+        _completed.value = isCompleted
+    }
+
     fun onAnswerButtonClick(){
         runBlocking {
             taskService.checkAnswer(task.value?.id!!, answer.value!!)
         }
         resetAnswer()
-        setTaskNumber(taskNumber.value!! +1)
-        setTask(lesson.value?.tasks!![taskNumber.value!!])
-//        it.hideKeyboard()
+
+        val nextTaskNumber = taskNumber.value!! + 1
+        if (nextTaskNumber < lesson.value?.tasks!!.size){
+            setTaskNumber(nextTaskNumber)
+            setTask(lesson.value?.tasks!![taskNumber.value!!])
+        }else{
+            setCompleted(true)
+        }
     }
 }

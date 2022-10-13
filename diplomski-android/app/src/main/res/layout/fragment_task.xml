@@ -28,13 +28,12 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/answerTest"
+            android:id="@+id/buttonAnswer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Submit"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:onClick="@{() -> viewModel.onAnswerButtonClick()}"
             app:layout_constraintTop_toBottomOf="@+id/editTextAnswer" />
 
         <EditText
