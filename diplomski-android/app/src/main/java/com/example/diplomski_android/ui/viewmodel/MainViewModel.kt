@@ -1,6 +1,5 @@
 package com.example.diplomski_android.ui.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,7 +7,6 @@ import com.example.diplomski_android.data.service.TaskService
 import com.example.diplomski_android.model.Course
 import com.example.diplomski_android.model.Lesson
 import com.example.diplomski_android.model.Task
-import com.example.diplomski_android.ui.fragment.TaskFragment
 import kotlinx.coroutines.runBlocking
 
 class MainViewModel:ViewModel() {
@@ -29,7 +27,7 @@ class MainViewModel:ViewModel() {
     }
 
     private val _task = MutableLiveData<Task?>()
-    val task : MutableLiveData<Task?> = _task
+    val task : LiveData<Task?> = _task
 
     fun setTask(nextTask: Task?){
         _task.value = nextTask

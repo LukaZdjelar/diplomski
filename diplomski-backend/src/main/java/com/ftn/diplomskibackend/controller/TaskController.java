@@ -64,7 +64,7 @@ public class TaskController {
         }
     }
     @PostMapping(value = "/check/{id}")
-    public ResponseEntity<Boolean> checkAnswer(@PathVariable Long id, @RequestBody final Object answer){
+    public ResponseEntity<Boolean> checkAnswer(@PathVariable Long id, @RequestBody Object answer){
         Task task = taskService.findById(id).orElse(null);
         String answerString = answer.toString();
         if (task!=null){
