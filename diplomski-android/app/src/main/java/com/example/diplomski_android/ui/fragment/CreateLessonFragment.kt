@@ -4,10 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.example.diplomski_android.R
 import com.example.diplomski_android.databinding.FragmentCreateLessonBinding
 import com.example.diplomski_android.ui.viewmodel.MainViewModel
+import kotlinx.android.synthetic.main.fragment_create_lesson.*
 
 class CreateLessonFragment : Fragment() {
 
@@ -32,5 +36,12 @@ class CreateLessonFragment : Fragment() {
             viewModel = mainViewModel
             createLessonFragment = this@CreateLessonFragment
         }
+
+        //TODO: Privremeno
+        val items = listOf("Option 1", "Option 2", "Option 3", "Option 4")
+        val adapter = ArrayAdapter(requireContext(), R.layout.list_item, items)
+        (menu_lesson_courses.editText as? AutoCompleteTextView)?.setAdapter(adapter)
+        (menu_lesson_chapters.editText as? AutoCompleteTextView)?.setAdapter(adapter)
+        (menu_lesson_type.editText as? AutoCompleteTextView)?.setAdapter(adapter)
     }
 }

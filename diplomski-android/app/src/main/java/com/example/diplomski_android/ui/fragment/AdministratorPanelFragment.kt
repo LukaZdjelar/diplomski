@@ -44,5 +44,8 @@ class AdministratorPanelFragment : Fragment() {
         button_create_lesson.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.action_administratorPanelFragment_to_createLessonFragment)
         }
+        button_create_task.setOnClickListener {
+            Navigation.findNavController(view).navigate(R.id.action_administratorPanelFragment_to_createTaskFragment)
+        }
     }
 }

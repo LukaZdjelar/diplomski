@@ -9,21 +9,21 @@ import android.widget.AutoCompleteTextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.diplomski_android.R
-import com.example.diplomski_android.databinding.FragmentCreateCourseBinding
+import com.example.diplomski_android.databinding.FragmentCreateTaskBinding
 import com.example.diplomski_android.ui.viewmodel.MainViewModel
-import kotlinx.android.synthetic.main.fragment_create_course.*
+import kotlinx.android.synthetic.main.fragment_create_task.*
 
-class CreateCourseFragment: Fragment() {
+class CreateTaskFragment : Fragment() {
 
     private val mainViewModel : MainViewModel by activityViewModels()
-    private var createCourseBinding: FragmentCreateCourseBinding? = null
+    private var createTaskBinding: FragmentCreateTaskBinding? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val fragmentBinding = FragmentCreateCourseBinding.inflate(inflater, container, false)
-        createCourseBinding = fragmentBinding
+        val fragmentBinding = FragmentCreateTaskBinding.inflate(inflater, container, false)
+        createTaskBinding = fragmentBinding
 
         return fragmentBinding.root
     }
@@ -31,16 +31,17 @@ class CreateCourseFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        createCourseBinding?.apply {
+        createTaskBinding?.apply {
             lifecycleOwner = viewLifecycleOwner
             viewModel = mainViewModel
-            createCourseFragment = this@CreateCourseFragment
+            createTaskFragment = this@CreateTaskFragment
         }
 
         //TODO: Privremeno
-        val items = listOf("Language 1", "Language 2", "Language 3", "Language 4")
+        val items = listOf("Option 1", "Option 2", "Option 3", "Option 4")
         val adapter = ArrayAdapter(requireContext(), R.layout.list_item, items)
-        (menu_course_native.editText as? AutoCompleteTextView)?.setAdapter(adapter)
-        (menu_course_foreign.editText as? AutoCompleteTextView)?.setAdapter(adapter)
+        (menu_task_lessons.editText as? AutoCompleteTextView)?.setAdapter(adapter)
+        (menu_task_chapters.editText as? AutoCompleteTextView)?.setAdapter(adapter)
+        (menu_task_courses.editText as? AutoCompleteTextView)?.setAdapter(adapter)
     }
 }

@@ -26,7 +26,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayout"
+            android:id="@+id/ti_create_course_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
@@ -43,23 +43,24 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
-            android:layout_marginTop="32dp"
-            android:orientation="horizontal">
+            app:layout_constraintTop_toBottomOf="@+id/ti_create_course_name">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/menu_native"
+                android:id="@+id/menu_course_native"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="8dp"
                 android:hint="Native"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_margin="8dp">
+                app:layout_constraintStart_toStartOf="parent">
 
                 <AutoCompleteTextView
                     android:layout_width="match_parent"
@@ -69,14 +70,14 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/menu_foreign"
+                android:id="@+id/menu_course_foreign"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="8dp"
                 android:hint="Foreign"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_margin="8dp">
+                app:layout_constraintStart_toStartOf="parent">
 
                 <AutoCompleteTextView
                     android:layout_width="match_parent"
@@ -87,7 +88,16 @@
 
         </LinearLayout>
 
-
+        <Button
+            android:id="@+id/button_create_course_confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Create course"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginBottom="32dp"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>
