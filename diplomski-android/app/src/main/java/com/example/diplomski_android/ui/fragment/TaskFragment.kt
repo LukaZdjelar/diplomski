@@ -24,7 +24,7 @@ class TaskFragment : Fragment() {
         taskBinding = fragmentBinding
 
 //      TODO: ???
-        mainViewModel.setTask(mainViewModel.lesson.value?.tasks!![mainViewModel.taskNumber.value!!])
+//        mainViewModel.setTask(mainViewModel.lesson.value?.tasks!![mainViewModel.taskNumber.value!!])
 
         return fragmentBinding.root
     }

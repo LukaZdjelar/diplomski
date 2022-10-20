@@ -43,6 +43,6 @@ class ChaptersFragment : Fragment() {
             adapter = chaptersAdapter
             layoutManager = LinearLayoutManager(activity)
         }
-        chaptersAdapter.differ.submitList(mainViewModel.course.value?.chapters)
+        chaptersAdapter.differ.submitList(mainViewModel.chapters.value)
     }
 }

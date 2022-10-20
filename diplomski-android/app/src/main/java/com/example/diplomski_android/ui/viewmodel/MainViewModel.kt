@@ -3,14 +3,42 @@ package com.example.diplomski_android.ui.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.diplomski_android.data.service.TaskService
-import com.example.diplomski_android.model.Course
-import com.example.diplomski_android.model.Lesson
-import com.example.diplomski_android.model.Task
-import kotlinx.coroutines.runBlocking
+import com.example.diplomski_android.data.repository.CourseRepository
+import com.example.diplomski_android.model.*
 
 class MainViewModel:ViewModel() {
-    private val taskService: TaskService = TaskService()
+
+    //TODO:svi entiteti
+    private val _courses = MutableLiveData<List<Course>>()
+    val courses : LiveData<List<Course>> = _courses
+    fun setCourses(c: List<Course>){
+        _courses.value = c
+    }
+
+    private val _chapters = MutableLiveData<List<Chapter>>()
+    val chapters : LiveData<List<Chapter>> = _chapters
+    fun setChapters(c: List<Chapter>){
+        _chapters.value = c
+    }
+
+    private val _lessons = MutableLiveData<List<Lesson>>()
+    val lessons : LiveData<List<Lesson>> = _lessons
+    fun setLessons(l: List<Lesson>){
+        _lessons.value = l
+    }
+
+    private val _tasks = MutableLiveData<List<Task>>()
+    val tasks : LiveData<List<Task>> = _tasks
+    fun setTasks(t: List<Task>){
+        _tasks.value = t
+    }
+
+    private val _languages = MutableLiveData<List<Language>>()
+    val languages : LiveData<List<Language>> = _languages
+    fun setLanguages(l: List<Language>){
+        _languages.value = l
+    }
+    ////
 
     private val _course = MutableLiveData<Course>()
     val course : LiveData<Course> = _course
@@ -53,17 +81,17 @@ class MainViewModel:ViewModel() {
     }
 
     fun onAnswerButtonClick(){
-        runBlocking {
-            taskService.checkAnswer(task.value?.id!!, answer.value!!)
-        }
-        resetAnswer()
-
-        val nextTaskNumber = taskNumber.value!! + 1
-        if (nextTaskNumber < lesson.value?.tasks!!.size){
-            setTaskNumber(nextTaskNumber)
-            setTask(lesson.value?.tasks!![taskNumber.value!!])
-        }else{
-            setCompleted(true)
-        }
+//        runBlocking {
+//            taskService.checkAnswer(task.value?.id!!, answer.value!!)
+//        }
+//        resetAnswer()
+//
+//        val nextTaskNumber = taskNumber.value!! + 1
+//        if (nextTaskNumber < lesson.value?.tasks!!.size){
+//            setTaskNumber(nextTaskNumber)
+//            setTask(lesson.value?.tasks!![taskNumber.value!!])
+//        }else{
+//            setCompleted(true)
+//        }
     }
 }

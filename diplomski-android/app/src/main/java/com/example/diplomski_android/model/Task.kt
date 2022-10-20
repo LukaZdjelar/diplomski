@@ -1,8 +1,13 @@
 package com.example.diplomski_android.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "tasks")
 data class Task(
-    val id: Long,
-    val lessonId: Long,
-    val question: String,
-    val answer: String
+    @PrimaryKey(autoGenerate = true)
+    var id: Long = 0,
+    var lessonId: Long = 0,
+    var question: String = "",
+    var answer: String = ""
 )

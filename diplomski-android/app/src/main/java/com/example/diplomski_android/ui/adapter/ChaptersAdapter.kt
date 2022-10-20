@@ -5,7 +5,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.RecycledViewPool
 import com.example.diplomski_android.R
@@ -44,21 +43,22 @@ class ChaptersAdapter(private val mainViewModel: MainViewModel): RecyclerView.Ad
             tvChapterName.text = chapter.name
         }
 
-        // Create layout manager with initial prefetch item count
-        val layoutManager = LinearLayoutManager(
-            holder.itemView.rvLessons.context,
-            LinearLayoutManager.VERTICAL,
-            false
-        )
-        layoutManager.initialPrefetchItemCount = chapter.lessons.size
-
-        // Create sub item view adapter
-        val lessonsAdapter = LessonsAdapter(mainViewModel)
-        lessonsAdapter.differ.submitList(chapter.lessons)
-
-        holder.itemView.rvLessons.layoutManager = layoutManager
-        holder.itemView.rvLessons.adapter = lessonsAdapter
-        holder.itemView.rvLessons.setRecycledViewPool(viewPool)
+        //TODO: Ucitati lekcije
+    // Create layout manager with initial prefetch item count
+//        val layoutManager = LinearLayoutManager(
+//            holder.itemView.rvLessons.context,
+//            LinearLayoutManager.VERTICAL,
+//            false
+//        )
+//        layoutManager.initialPrefetchItemCount = chapter.lessons?.size!!
+//
+//        // Create sub item view adapter
+//        val lessonsAdapter = LessonsAdapter(mainViewModel)
+//        lessonsAdapter.differ.submitList(chapter.lessons)
+//
+//        holder.itemView.rvLessons.layoutManager = layoutManager
+//        holder.itemView.rvLessons.adapter = lessonsAdapter
+//        holder.itemView.rvLessons.setRecycledViewPool(viewPool)
     }
 
     override fun getItemCount(): Int {

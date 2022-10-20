@@ -1,0 +1,11 @@
+package com.example.diplomski_android.data.dao
+
+import androidx.room.Dao
+import androidx.room.Query
+import com.example.diplomski_android.model.Course
+
+@Dao
+interface CourseDao {
+    @Query("select * from courses")
+    fun getAll(): List<Course>
+}
