@@ -5,8 +5,20 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.diplomski_android.data.repository.CourseRepository
 import com.example.diplomski_android.model.*
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class MainViewModel:ViewModel() {
+@HiltViewModel
+class MainViewModel @Inject constructor(
+    private val courseRepository: CourseRepository
+):ViewModel() {
+
+    suspend fun insertCourse(course: Course){
+        courseRepository.insert(course)
+    }
+    fun getCourses(): List<Course> {
+        return courseRepository.getAll()
+    }
 
     //TODO:svi entiteti
     private val _courses = MutableLiveData<List<Course>>()

@@ -6,8 +6,8 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "tasks")
 data class Task(
     @PrimaryKey(autoGenerate = true)
-    var id: Long = 0,
-    var lessonId: Long = 0,
-    var question: String = "",
-    var answer: String = ""
+    var id: Long,
+    var lessonId: Long,
+    var question: String,
+    var answer: String
 )

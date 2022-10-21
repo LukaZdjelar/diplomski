@@ -4,18 +4,33 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.diplomski_android.data.dao.TaskDao
+import com.example.diplomski_android.data.dao.*
 import com.example.diplomski_android.model.*
+import dagger.Binds
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 
-@Database(entities = [Course::class, Chapter::class, Lesson::class, Task::class, Language::class], version = 2, exportSchema = false)
+@Database(entities = [Course::class, Chapter::class, Lesson::class, Task::class, Language::class], version = 3, exportSchema = false)
 abstract class AppDatabase: RoomDatabase() {
 
+//    @Binds
+    abstract fun courseDao(): CourseDao
+//    @Binds
+    abstract fun chapterDao(): ChapterDao
+//    @Binds
+    abstract fun lessonDao(): LessonDao
+//    @Binds
     abstract fun taskDao(): TaskDao
+//    @Binds
+    abstract fun languageDao(): LanguageDao
 
     companion object{
         @Volatile
         private var INSTANCE: AppDatabase? = null
 
+//        @Provides
         fun getDatabase(context: Context): AppDatabase{
             val tempInstance = INSTANCE
             if (tempInstance!=null){

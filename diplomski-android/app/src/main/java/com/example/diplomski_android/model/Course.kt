@@ -6,8 +6,8 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "courses")
 data class Course(
     @PrimaryKey(autoGenerate = true)
-    var id: Long = 0,
-    var name: String = "",
-    var local_language: String? = "",
-    var foreign_language: String? = ""
+    var id: Long,
+    var name: String,
+    var local_language_id: Long,
+    var foreign_language_id: Long
 )

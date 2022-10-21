@@ -6,8 +6,8 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "lessons")
 data class Lesson(
     @PrimaryKey(autoGenerate = true)
-    var id: Long = 0,
-    var chapterId: Long? = 0,
-    var lessonStatus: String? = "",
-    var lessonType: String = ""
+    var id: Long,
+    var chapterId: Long,
+    var lessonStatus: String,
+    var lessonType: String
 )

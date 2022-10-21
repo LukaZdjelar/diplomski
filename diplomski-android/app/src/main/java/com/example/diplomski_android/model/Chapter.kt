@@ -6,9 +6,9 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "chapters")
 data class Chapter(
     @PrimaryKey(autoGenerate = true)
-    var id: Long = 0,
-    var courseId: Long = 0,
-    var name: String = "",
-//    var isLocked: Boolean = true,
-    var level: Int = 0
+    var id: Long,
+    var courseId: Long,
+    var name: String,
+//    var isLocked: Boolean,
+    var level: Int
 )
