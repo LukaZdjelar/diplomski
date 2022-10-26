@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
+import com.example.diplomski_android.MainViewModel
 import com.example.diplomski_android.R
 import com.example.diplomski_android.databinding.FragmentAdministratorPanelBinding
-import com.example.diplomski_android.ui.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.fragment_administrator_panel.*
 
 class AdministratorPanelFragment : Fragment() {

@@ -9,4 +9,8 @@ class LessonRepositoryImpl(private val lessonDao: LessonDao): LessonRepository {
     override fun getAll(): List<Lesson> {
         return lessonDao.getAll()
     }
+
+    override fun getByChapter(id: Long): List<Lesson> {
+        return lessonDao.getByChapter(id)
+    }
 }

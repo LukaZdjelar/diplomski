@@ -1,5 +1,6 @@
 package com.example.diplomski_android.ui.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,9 +8,9 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.example.diplomski_android.MainViewModel
 import com.example.diplomski_android.R
 import com.example.diplomski_android.model.Course
-import com.example.diplomski_android.ui.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.item_course.view.*
 
 class CoursesAdapter(private val mainViewModel: MainViewModel) : RecyclerView.Adapter<CoursesAdapter.CoursesViewHolder>() {
@@ -42,6 +43,7 @@ class CoursesAdapter(private val mainViewModel: MainViewModel) : RecyclerView.Ad
 
             setOnClickListener{
                 mainViewModel.setCourse(course)
+                Log.d("Course", mainViewModel.course.value.toString())
                 Navigation.findNavController(view).navigate(R.id.action_coursesFragment_to_chaptersFragment)
             }
         }

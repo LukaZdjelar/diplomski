@@ -6,12 +6,6 @@ import com.example.diplomski_android.model.Course
 import javax.inject.Inject
 
 class CourseRepositoryImpl @Inject constructor(private val courseDao: CourseDao): CourseRepository {
-//    private val instance: CourseRepositoryImpl = CourseRepositoryImpl(courseDao)
-//
-//
-//    fun getInstance(): CourseRepositoryImpl {
-//        return instance
-//    }
 
     override fun getAll(): List<Course> {
         return courseDao.getAll()

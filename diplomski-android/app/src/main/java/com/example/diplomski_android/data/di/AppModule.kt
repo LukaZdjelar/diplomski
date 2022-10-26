@@ -3,10 +3,16 @@ package com.example.diplomski_android.data.di
 import android.app.Application
 import android.content.Context
 import com.example.diplomski_android.MyApplication
+import com.example.diplomski_android.data.dao.ChapterDao
 import com.example.diplomski_android.data.dao.CourseDao
+import com.example.diplomski_android.data.dao.LessonDao
 import com.example.diplomski_android.data.database.AppDatabase
+import com.example.diplomski_android.data.repository.ChapterRepository
 import com.example.diplomski_android.data.repository.CourseRepository
+import com.example.diplomski_android.data.repository.LessonRepository
+import com.example.diplomski_android.data.repository.impl.ChapterRepositoryImpl
 import com.example.diplomski_android.data.repository.impl.CourseRepositoryImpl
+import com.example.diplomski_android.data.repository.impl.LessonRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -39,5 +45,29 @@ object AppModule {
     @Singleton
     fun provideCourseRepository(courseDao: CourseDao): CourseRepository{
         return CourseRepositoryImpl(courseDao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideChapterDao(appDatabase: AppDatabase): ChapterDao{
+        return appDatabase.chapterDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideChapterRepository(chapterDao: ChapterDao): ChapterRepository{
+        return ChapterRepositoryImpl(chapterDao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideLessonDao(appDatabase: AppDatabase): LessonDao{
+        return appDatabase.lessonDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideLessonRepository(lessonDao: LessonDao): LessonRepository{
+        return LessonRepositoryImpl(lessonDao)
     }
 }

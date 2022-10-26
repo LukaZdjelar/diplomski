@@ -6,9 +6,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.example.diplomski_android.MainViewModel
 import com.example.diplomski_android.R
 import com.example.diplomski_android.model.Lesson
-import com.example.diplomski_android.ui.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.item_lesson.view.*
 
 class LessonsAdapter(private val mainViewModel: MainViewModel): RecyclerView.Adapter<LessonsAdapter.LessonsViewHolder>() {
@@ -37,7 +37,7 @@ class LessonsAdapter(private val mainViewModel: MainViewModel): RecyclerView.Ada
     override fun onBindViewHolder(holder: LessonsViewHolder, position: Int) {
         val lesson = differ.currentList[position]
         holder.itemView.apply {
-            tvLessonName.text = lesson.lessonType
+            tvLessonName.text = lesson.lesson_type
 
             //TODO: Ucitati zadatke
 //            setOnClickListener{

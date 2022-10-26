@@ -8,9 +8,9 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.example.diplomski_android.MainViewModel
 import com.example.diplomski_android.R
 import com.example.diplomski_android.databinding.FragmentCreateLessonBinding
-import com.example.diplomski_android.ui.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.fragment_create_lesson.*
 
 class CreateLessonFragment : Fragment() {

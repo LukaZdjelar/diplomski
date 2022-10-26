@@ -8,4 +8,6 @@ import com.example.diplomski_android.model.Lesson
 interface LessonDao {
     @Query("select * from lessons")
     fun getAll(): List<Lesson>
+    @Query("select * from lessons where chapter_id=:id")
+    fun getByChapter(id: Long): List<Lesson>
 }

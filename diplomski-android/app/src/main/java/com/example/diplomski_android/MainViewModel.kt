@@ -1,16 +1,23 @@
-package com.example.diplomski_android.ui.viewmodel
+package com.example.diplomski_android
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.diplomski_android.data.repository.ChapterRepository
 import com.example.diplomski_android.data.repository.CourseRepository
+import com.example.diplomski_android.data.repository.LessonRepository
 import com.example.diplomski_android.model.*
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val courseRepository: CourseRepository
+    private val courseRepository: CourseRepository,
+    private val chapterRepository: ChapterRepository,
+    private val lessonRepository: LessonRepository
 ):ViewModel() {
 
     suspend fun insertCourse(course: Course){
@@ -18,6 +25,12 @@ class MainViewModel @Inject constructor(
     }
     fun getCourses(): List<Course> {
         return courseRepository.getAll()
+    }
+    fun getChaptersByCourse(id: Long): List<Chapter>{
+        return chapterRepository.getByCourse(id)
+    }
+    fun getLessonsByChapter(id: Long): List<Lesson>{
+        return lessonRepository.getByChapter(id)
     }
 
     //TODO:svi entiteti
@@ -56,6 +69,12 @@ class MainViewModel @Inject constructor(
     val course : LiveData<Course> = _course
 
     fun setCourse(selectedCourse: Course){
+        CoroutineScope(Dispatchers.IO).launch {
+            selectedCourse.chapters = getChaptersByCourse(selectedCourse.id)
+            for(chapter in selectedCourse.chapters!!){
+                chapter.lessons = getLessonsByChapter(chapter.id)
+            }
+        }
         _course.value = selectedCourse
     }
 

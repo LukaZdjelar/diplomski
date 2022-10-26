@@ -8,4 +8,6 @@ import com.example.diplomski_android.model.Chapter
 interface ChapterDao {
     @Query("select * from chapters")
     fun getAll(): List<Chapter>
+    @Query("select * from chapters where course_id=:id")
+    fun getByCourse(id: Long): List<Chapter>
 }

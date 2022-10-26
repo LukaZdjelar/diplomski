@@ -9,4 +9,8 @@ class ChapterRepositoryImpl(private val chapterDao: ChapterDao): ChapterReposito
     override fun getAll(): List<Chapter> {
         return chapterDao.getAll()
     }
+
+    override fun getByCourse(id: Long): List<Chapter> {
+        return chapterDao.getByCourse(id)
+    }
 }

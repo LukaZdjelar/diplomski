@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.diplomski_android.MainViewModel
 import com.example.diplomski_android.databinding.FragmentChaptersBinding
 import com.example.diplomski_android.ui.adapter.ChaptersAdapter
-import com.example.diplomski_android.ui.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.fragment_chapters.*
 
 class ChaptersFragment : Fragment() {
@@ -35,6 +35,7 @@ class ChaptersFragment : Fragment() {
             chaptersFragment = this@ChaptersFragment
         }
         setupRecyclerView()
+        chaptersAdapter.differ.submitList(mainViewModel.course.value!!.chapters)
     }
 
     private fun setupRecyclerView(){
@@ -43,6 +44,5 @@ class ChaptersFragment : Fragment() {
             adapter = chaptersAdapter
             layoutManager = LinearLayoutManager(activity)
         }
-        chaptersAdapter.differ.submitList(mainViewModel.chapters.value)
     }
 }

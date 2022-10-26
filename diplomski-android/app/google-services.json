@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "678263610346",
+    "project_id": "diplomski-e57f9",
+    "storage_bucket": "diplomski-e57f9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:678263610346:android:a6e7a9230d73d18b0db093",
+        "android_client_info": {
+          "package_name": "com.example.diplomski_android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "678263610346-m3betevhnqb7basrsuvsajt2rbusjh68.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBlBEwFFuxKngAXyFLL7o0rX_p4CntslgM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "678263610346-m3betevhnqb7basrsuvsajt2rbusjh68.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:678263610346:android:4b53387cc99591de0db093",
+        "android_client_info": {
+          "package_name": "com.example.diploski_android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "678263610346-m3betevhnqb7basrsuvsajt2rbusjh68.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBlBEwFFuxKngAXyFLL7o0rX_p4CntslgM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "678263610346-m3betevhnqb7basrsuvsajt2rbusjh68.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

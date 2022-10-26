@@ -6,13 +6,8 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.diplomski_android.data.dao.*
 import com.example.diplomski_android.model.*
-import dagger.Binds
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
 
-@Database(entities = [Course::class, Chapter::class, Lesson::class, Task::class, Language::class], version = 3, exportSchema = false)
+@Database(entities = [Course::class, Chapter::class, Lesson::class, Task::class, Language::class], version = 4, exportSchema = false)
 abstract class AppDatabase: RoomDatabase() {
 
 //    @Binds

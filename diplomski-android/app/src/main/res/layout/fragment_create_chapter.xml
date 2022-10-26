@@ -5,7 +5,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.diplomski_android.ui.viewmodel.MainViewModel" />
+            type="com.example.diplomski_android.MainViewModel" />
         <variable
             name="createChapterFragment"
             type="com.example.diplomski_android.ui.fragment.CreateChapterFragment" />

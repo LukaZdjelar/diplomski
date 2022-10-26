@@ -5,11 +5,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.RecycledViewPool
+import com.example.diplomski_android.MainViewModel
 import com.example.diplomski_android.R
 import com.example.diplomski_android.model.Chapter
-import com.example.diplomski_android.ui.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.item_chapter.view.*
 
 
@@ -43,22 +44,19 @@ class ChaptersAdapter(private val mainViewModel: MainViewModel): RecyclerView.Ad
             tvChapterName.text = chapter.name
         }
 
-        //TODO: Ucitati lekcije
-    // Create layout manager with initial prefetch item count
-//        val layoutManager = LinearLayoutManager(
-//            holder.itemView.rvLessons.context,
-//            LinearLayoutManager.VERTICAL,
-//            false
-//        )
-//        layoutManager.initialPrefetchItemCount = chapter.lessons?.size!!
-//
-//        // Create sub item view adapter
-//        val lessonsAdapter = LessonsAdapter(mainViewModel)
-//        lessonsAdapter.differ.submitList(chapter.lessons)
-//
-//        holder.itemView.rvLessons.layoutManager = layoutManager
-//        holder.itemView.rvLessons.adapter = lessonsAdapter
-//        holder.itemView.rvLessons.setRecycledViewPool(viewPool)
+        val layoutManager = LinearLayoutManager(
+            holder.itemView.rvLessons.context,
+            LinearLayoutManager.VERTICAL,
+            false
+        )
+        layoutManager.initialPrefetchItemCount = chapter.lessons?.size!!
+
+        val lessonsAdapter = LessonsAdapter(mainViewModel)
+        lessonsAdapter.differ.submitList(chapter.lessons)
+
+        holder.itemView.rvLessons.layoutManager = layoutManager
+        holder.itemView.rvLessons.adapter = lessonsAdapter
+        holder.itemView.rvLessons.setRecycledViewPool(viewPool)
     }
 
     override fun getItemCount(): Int {
