@@ -43,7 +43,6 @@ class CoursesAdapter(private val mainViewModel: MainViewModel) : RecyclerView.Ad
 
             setOnClickListener{
                 mainViewModel.setCourse(course)
-                Log.d("Course", mainViewModel.course.value.toString())
                 Navigation.findNavController(view).navigate(R.id.action_coursesFragment_to_chaptersFragment)
             }
         }
