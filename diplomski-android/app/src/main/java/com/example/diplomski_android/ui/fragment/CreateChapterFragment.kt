@@ -39,7 +39,7 @@ class CreateChapterFragment : Fragment() {
 
         //TODO: Privremeno
         val items = listOf("Course 1", "Course 2", "Course 3", "Course 4")
-        val adapter = ArrayAdapter(requireContext(), R.layout.list_item, items)
+        val adapter = ArrayAdapter(requireContext(), R.layout.spinner_item, items)
         (menu_chapter_courses.editText as? AutoCompleteTextView)?.setAdapter(adapter)
     }
 }

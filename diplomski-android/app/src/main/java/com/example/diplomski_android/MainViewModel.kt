@@ -3,10 +3,7 @@ package com.example.diplomski_android
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.diplomski_android.data.repository.ChapterRepository
-import com.example.diplomski_android.data.repository.CourseRepository
-import com.example.diplomski_android.data.repository.LessonRepository
-import com.example.diplomski_android.data.repository.TaskRepository
+import com.example.diplomski_android.data.repository.*
 import com.example.diplomski_android.model.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -19,7 +16,8 @@ class MainViewModel @Inject constructor(
     private val courseRepository: CourseRepository,
     private val chapterRepository: ChapterRepository,
     private val lessonRepository: LessonRepository,
-    private val taskRepository: TaskRepository
+    private val taskRepository: TaskRepository,
+    private val languageRepository: LanguageRepository
 ):ViewModel() {
 
     suspend fun insertCourse(course: Course){
@@ -37,13 +35,16 @@ class MainViewModel @Inject constructor(
     fun getTasksByLesson(id: Long): List<Task>{
         return taskRepository.getByLesson(id)
     }
+    fun getLanguages(): List<Language>{
+        return languageRepository.getAll()
+    }
 
     private val _course = MutableLiveData<Course>()
     val course : LiveData<Course> = _course
 
     fun setCourse(selectedCourse: Course){
         CoroutineScope(Dispatchers.IO).launch {
-            selectedCourse.chapters = getChaptersByCourse(selectedCourse.id)
+            selectedCourse.chapters = getChaptersByCourse(selectedCourse.id!!)
             selectedCourse.chapters!!.forEach { chapter ->
                 chapter.lessons = getLessonsByChapter(chapter.id)
                 chapter.lessons!!.forEach { lesson ->
@@ -62,8 +63,8 @@ class MainViewModel @Inject constructor(
 
     private val _tasks = MutableLiveData<List<Task>>()
     val tasks: LiveData<List<Task>> = _tasks
-    fun setTasks(t: List<Task>){
-        _tasks.value = t
+    fun setTasks(setTasks: List<Task>){
+        _tasks.value = setTasks
     }
 
     private val _task = MutableLiveData<Task?>()
@@ -102,5 +103,17 @@ class MainViewModel @Inject constructor(
         }else{
             setCompleted(true)
         }
+    }
+
+    private val _languages = MutableLiveData<List<Language>>()
+    val languages: LiveData<List<Language>> = _languages
+    fun setLanguages(setLanguages: List<Language>){
+        _languages.value = setLanguages
+    }
+
+    private val _createCourse = MutableLiveData<Course>()
+    val createCourse : LiveData<Course> = _createCourse
+    fun setCreateCourse(createdData: Course){
+        _createCourse.value = createdData
     }
 }

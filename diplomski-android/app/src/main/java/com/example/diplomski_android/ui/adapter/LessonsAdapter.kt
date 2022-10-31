@@ -1,5 +1,6 @@
 package com.example.diplomski_android.ui.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,9 +42,9 @@ class LessonsAdapter(private val mainViewModel: MainViewModel): RecyclerView.Ada
         holder.itemView.apply {
             tvLessonName.text = lesson.lesson_type
 
-            //TODO: Ucitati zadatke
+//          TODO: ne radi Toast
             setOnClickListener{
-                if (lesson.tasks?.isNotEmpty() == true){
+                if (lesson.tasks!!.isNotEmpty()){
                     mainViewModel.setTasks(lesson.tasks!!)
                     Navigation.findNavController(view).navigate(R.id.action_chaptersFragment_to_taskFragment)
                 }else{

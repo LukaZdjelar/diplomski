@@ -39,7 +39,7 @@ class CreateTaskFragment : Fragment() {
 
         //TODO: Privremeno
         val items = listOf("Option 1", "Option 2", "Option 3", "Option 4")
-        val adapter = ArrayAdapter(requireContext(), R.layout.list_item, items)
+        val adapter = ArrayAdapter(requireContext(), R.layout.spinner_item, items)
         (menu_task_lessons.editText as? AutoCompleteTextView)?.setAdapter(adapter)
         (menu_task_chapters.editText as? AutoCompleteTextView)?.setAdapter(adapter)
         (menu_task_courses.editText as? AutoCompleteTextView)?.setAdapter(adapter)

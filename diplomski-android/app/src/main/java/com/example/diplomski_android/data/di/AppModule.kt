@@ -3,19 +3,10 @@ package com.example.diplomski_android.data.di
 import android.app.Application
 import android.content.Context
 import com.example.diplomski_android.MyApplication
-import com.example.diplomski_android.data.dao.ChapterDao
-import com.example.diplomski_android.data.dao.CourseDao
-import com.example.diplomski_android.data.dao.LessonDao
-import com.example.diplomski_android.data.dao.TaskDao
+import com.example.diplomski_android.data.dao.*
 import com.example.diplomski_android.data.database.AppDatabase
-import com.example.diplomski_android.data.repository.ChapterRepository
-import com.example.diplomski_android.data.repository.CourseRepository
-import com.example.diplomski_android.data.repository.LessonRepository
-import com.example.diplomski_android.data.repository.TaskRepository
-import com.example.diplomski_android.data.repository.impl.ChapterRepositoryImpl
-import com.example.diplomski_android.data.repository.impl.CourseRepositoryImpl
-import com.example.diplomski_android.data.repository.impl.LessonRepositoryImpl
-import com.example.diplomski_android.data.repository.impl.TaskRepositoryImpl
+import com.example.diplomski_android.data.repository.*
+import com.example.diplomski_android.data.repository.impl.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -84,5 +75,17 @@ object AppModule {
     @Singleton
     fun provideTaskRepository(taskDao: TaskDao): TaskRepository{
         return TaskRepositoryImpl(taskDao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideLanguageDao(appDatabase: AppDatabase): LanguageDao{
+        return appDatabase.languageDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideLanguageRepository(languageDao: LanguageDao): LanguageRepository{
+        return LanguageRepositoryImpl(languageDao)
     }
 }

@@ -8,4 +8,8 @@ data class Language(
     @PrimaryKey(autoGenerate = true)
     var id: Long,
     var name: String
-)
+){
+    override fun toString(): String {
+        return name
+    }
+}

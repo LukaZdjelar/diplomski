@@ -1,6 +1,7 @@
 package com.example.diplomski_android.ui.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,12 +12,20 @@ import androidx.fragment.app.activityViewModels
 import com.example.diplomski_android.MainViewModel
 import com.example.diplomski_android.R
 import com.example.diplomski_android.databinding.FragmentCreateCourseBinding
+import com.example.diplomski_android.model.Course
+import com.example.diplomski_android.model.Language
 import kotlinx.android.synthetic.main.fragment_create_course.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+
 
 class CreateCourseFragment: Fragment() {
 
     private val mainViewModel : MainViewModel by activityViewModels()
     private var createCourseBinding: FragmentCreateCourseBinding? = null
+    var languages = listOf<Language>()
+    var createCourse: Course = Course(null,null,null,null)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -24,6 +33,10 @@ class CreateCourseFragment: Fragment() {
     ): View {
         val fragmentBinding = FragmentCreateCourseBinding.inflate(inflater, container, false)
         createCourseBinding = fragmentBinding
+
+        CoroutineScope(Dispatchers.IO).launch {
+            languages = mainViewModel.getLanguages()
+        }
 
         return fragmentBinding.root
     }
@@ -37,10 +50,28 @@ class CreateCourseFragment: Fragment() {
             createCourseFragment = this@CreateCourseFragment
         }
 
-        //TODO: Privremeno
-        val items = listOf("Language 1", "Language 2", "Language 3", "Language 4")
-        val adapter = ArrayAdapter(requireContext(), R.layout.list_item, items)
-        (menu_course_native.editText as? AutoCompleteTextView)?.setAdapter(adapter)
-        (menu_course_foreign.editText as? AutoCompleteTextView)?.setAdapter(adapter)
+
+
+        val adapter = ArrayAdapter(requireContext(), R.layout.spinner_item, languages)
+
+        //TODO: ???
+        autv_native.setAdapter(adapter)
+        autv_native.setOnItemClickListener { _, _, position, _ ->
+            val localLanguage = adapter.getItem(position)!!
+            createCourse.local_language_id = localLanguage.id
+        }
+        autv_foreign.setAdapter(adapter)
+        autv_foreign.setOnItemClickListener { _, _, position, _ ->
+            val foreignLanguage = adapter.getItem(position)!!
+            createCourse.foreign_language_id = foreignLanguage.id
+        }
+
+        button_create_course_confirm.setOnClickListener {
+            createCourse.name = ti_create_course_name.editText?.text.toString()
+
+            CoroutineScope(Dispatchers.IO).launch {
+                mainViewModel.insertCourse(createCourse)
+            }
+        }
     }
 }

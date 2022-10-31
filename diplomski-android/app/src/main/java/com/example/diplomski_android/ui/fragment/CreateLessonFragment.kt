@@ -39,7 +39,7 @@ class CreateLessonFragment : Fragment() {
 
         //TODO: Privremeno
         val items = listOf("Option 1", "Option 2", "Option 3", "Option 4")
-        val adapter = ArrayAdapter(requireContext(), R.layout.list_item, items)
+        val adapter = ArrayAdapter(requireContext(), R.layout.spinner_item, items)
         (menu_lesson_courses.editText as? AutoCompleteTextView)?.setAdapter(adapter)
         (menu_lesson_chapters.editText as? AutoCompleteTextView)?.setAdapter(adapter)
         (menu_lesson_type.editText as? AutoCompleteTextView)?.setAdapter(adapter)
