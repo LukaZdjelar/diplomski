@@ -6,10 +6,10 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "languages")
 data class Language(
     @PrimaryKey(autoGenerate = true)
-    var id: Long,
-    var name: String
+    var id: Long? = null,
+    var name: String? = ""
 ){
     override fun toString(): String {
-        return name
+        return name!!
     }
 }

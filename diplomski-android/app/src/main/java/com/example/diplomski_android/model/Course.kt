@@ -7,10 +7,10 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "courses")
 data class Course(
     @PrimaryKey(autoGenerate = true)
-    var id: Long?,
-    var name: String?,
-    var local_language_id: Long?,
-    var foreign_language_id: Long?
+    var id: Long? = null,
+    var name: String? = "",
+    var local_language_id: Long? = null,
+    var foreign_language_id: Long? = null
 ){
     @Ignore
     var chapters: List<Chapter>? = null

@@ -7,11 +7,10 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "chapters")
 data class Chapter(
     @PrimaryKey(autoGenerate = true)
-    var id: Long,
-    var course_id: Long,
-    var name: String,
-//    var isLocked: Boolean,
-    var level: Int
+    var id: Long? = null,
+    var course_id: Long? = null,
+    var name: String? = "",
+    var level: Int? = null
 ){
     @Ignore
     var lessons: List<Lesson>? = null

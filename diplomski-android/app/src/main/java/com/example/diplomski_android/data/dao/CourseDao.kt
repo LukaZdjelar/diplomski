@@ -10,7 +10,6 @@ import com.example.diplomski_android.model.Course
 interface CourseDao {
     @Query("select * from courses")
     fun getAll(): List<Course>
-
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(course: Course)
 }

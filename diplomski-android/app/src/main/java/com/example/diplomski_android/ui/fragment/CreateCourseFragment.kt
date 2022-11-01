@@ -19,13 +19,12 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-
 class CreateCourseFragment: Fragment() {
 
     private val mainViewModel : MainViewModel by activityViewModels()
     private var createCourseBinding: FragmentCreateCourseBinding? = null
     var languages = listOf<Language>()
-    var createCourse: Course = Course(null,null,null,null)
+    var createCourse = Course()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,9 +48,6 @@ class CreateCourseFragment: Fragment() {
             viewModel = mainViewModel
             createCourseFragment = this@CreateCourseFragment
         }
-
-
-
         val adapter = ArrayAdapter(requireContext(), R.layout.spinner_item, languages)
 
         //TODO: ???

@@ -20,14 +20,17 @@ class MainViewModel @Inject constructor(
     private val languageRepository: LanguageRepository
 ):ViewModel() {
 
-    suspend fun insertCourse(course: Course){
-        courseRepository.insert(course)
-    }
     fun getCourses(): List<Course> {
         return courseRepository.getAll()
     }
+    suspend fun insertCourse(course: Course){
+        courseRepository.insert(course)
+    }
     fun getChaptersByCourse(id: Long): List<Chapter>{
         return chapterRepository.getByCourse(id)
+    }
+    suspend fun insertChapter(chapter: Chapter){
+        chapterRepository.insert(chapter)
     }
     fun getLessonsByChapter(id: Long): List<Lesson>{
         return lessonRepository.getByChapter(id)
@@ -46,9 +49,9 @@ class MainViewModel @Inject constructor(
         CoroutineScope(Dispatchers.IO).launch {
             selectedCourse.chapters = getChaptersByCourse(selectedCourse.id!!)
             selectedCourse.chapters!!.forEach { chapter ->
-                chapter.lessons = getLessonsByChapter(chapter.id)
+                chapter.lessons = getLessonsByChapter(chapter.id!!)
                 chapter.lessons!!.forEach { lesson ->
-                    lesson.tasks = getTasksByLesson(lesson.id)
+                    lesson.tasks = getTasksByLesson(lesson.id!!)
                 }
             }
 //            for(chapter in selectedCourse.chapters!!){

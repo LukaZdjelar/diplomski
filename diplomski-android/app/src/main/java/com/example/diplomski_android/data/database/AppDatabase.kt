@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import com.example.diplomski_android.data.dao.*
 import com.example.diplomski_android.model.*
 
-@Database(entities = [Course::class, Chapter::class, Lesson::class, Task::class, Language::class], version = 5, exportSchema = false)
+@Database(entities = [Course::class, Chapter::class, Lesson::class, Task::class, Language::class], version = 6, exportSchema = false)
 abstract class AppDatabase: RoomDatabase() {
 
 //    @Binds

@@ -11,12 +11,19 @@ import androidx.fragment.app.activityViewModels
 import com.example.diplomski_android.MainViewModel
 import com.example.diplomski_android.R
 import com.example.diplomski_android.databinding.FragmentCreateChapterBinding
+import com.example.diplomski_android.model.Chapter
+import com.example.diplomski_android.model.Course
 import kotlinx.android.synthetic.main.fragment_create_chapter.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class CreateChapterFragment : Fragment() {
 
     private val mainViewModel : MainViewModel by activityViewModels()
     private var createChapterBinding: FragmentCreateChapterBinding? = null
+    var courses = listOf<Course>()
+    var createChapter = Chapter()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -24,6 +31,10 @@ class CreateChapterFragment : Fragment() {
     ): View {
         val fragmentBinding = FragmentCreateChapterBinding.inflate(inflater, container, false)
         createChapterBinding = fragmentBinding
+
+        CoroutineScope(Dispatchers.IO).launch {
+            courses = mainViewModel.getCourses()
+        }
 
         return fragmentBinding.root
     }
@@ -38,8 +49,21 @@ class CreateChapterFragment : Fragment() {
         }
 
         //TODO: Privremeno
-        val items = listOf("Course 1", "Course 2", "Course 3", "Course 4")
-        val adapter = ArrayAdapter(requireContext(), R.layout.spinner_item, items)
-        (menu_chapter_courses.editText as? AutoCompleteTextView)?.setAdapter(adapter)
+        val adapter = ArrayAdapter(requireContext(), R.layout.spinner_item, courses)
+
+        autv_course.setAdapter(adapter)
+        autv_course.setOnItemClickListener { _, _, position, _ ->
+            val course = adapter.getItem(position)
+            createChapter.course_id = course!!.id
+        }
+
+        button_create_chapter_confirm.setOnClickListener {
+            createChapter.name = ti_create_chapter_name.editText?.text.toString()
+            createChapter.level = ti_create_chapter_level.editText?.text.toString().toInt()
+
+            CoroutineScope(Dispatchers.IO).launch {
+                mainViewModel.insertChapter(createChapter)
+            }
+        }
     }
 }
