@@ -48,11 +48,11 @@ class CreateChapterFragment : Fragment() {
             createChapterFragment = this@CreateChapterFragment
         }
 
-        //TODO: Privremeno
+        //TODO: ???
         val adapter = ArrayAdapter(requireContext(), R.layout.spinner_item, courses)
 
-        autv_course.setAdapter(adapter)
-        autv_course.setOnItemClickListener { _, _, position, _ ->
+        actv_chapter_course.setAdapter(adapter)
+        actv_chapter_course.setOnItemClickListener { _, _, position, _ ->
             val course = adapter.getItem(position)
             createChapter.course_id = course!!.id
         }

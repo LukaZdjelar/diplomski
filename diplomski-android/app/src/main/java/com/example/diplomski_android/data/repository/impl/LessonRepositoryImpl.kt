@@ -13,4 +13,8 @@ class LessonRepositoryImpl(private val lessonDao: LessonDao): LessonRepository {
     override fun getByChapter(id: Long): List<Lesson> {
         return lessonDao.getByChapter(id)
     }
+
+    override suspend fun insert(lesson: Lesson) {
+        return lessonDao.insert(lesson)
+    }
 }

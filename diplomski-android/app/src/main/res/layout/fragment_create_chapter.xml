@@ -38,7 +38,7 @@
             android:layout_margin="32dp">
 
             <AutoCompleteTextView
-                android:id="@+id/autv_course"
+                android:id="@+id/actv_chapter_course"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="none" />

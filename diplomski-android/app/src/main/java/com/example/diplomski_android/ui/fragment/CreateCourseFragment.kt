@@ -51,13 +51,13 @@ class CreateCourseFragment: Fragment() {
         val adapter = ArrayAdapter(requireContext(), R.layout.spinner_item, languages)
 
         //TODO: ???
-        autv_native.setAdapter(adapter)
-        autv_native.setOnItemClickListener { _, _, position, _ ->
+        actv_native.setAdapter(adapter)
+        actv_native.setOnItemClickListener { _, _, position, _ ->
             val localLanguage = adapter.getItem(position)!!
             createCourse.local_language_id = localLanguage.id
         }
-        autv_foreign.setAdapter(adapter)
-        autv_foreign.setOnItemClickListener { _, _, position, _ ->
+        actv_foreign.setAdapter(adapter)
+        actv_foreign.setOnItemClickListener { _, _, position, _ ->
             val foreignLanguage = adapter.getItem(position)!!
             createCourse.foreign_language_id = foreignLanguage.id
         }

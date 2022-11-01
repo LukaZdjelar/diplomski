@@ -35,6 +35,9 @@ class MainViewModel @Inject constructor(
     fun getLessonsByChapter(id: Long): List<Lesson>{
         return lessonRepository.getByChapter(id)
     }
+    suspend fun insertLesson(lesson: Lesson){
+        lessonRepository.insert(lesson)
+    }
     fun getTasksByLesson(id: Long): List<Task>{
         return taskRepository.getByLesson(id)
     }
@@ -54,12 +57,6 @@ class MainViewModel @Inject constructor(
                     lesson.tasks = getTasksByLesson(lesson.id!!)
                 }
             }
-//            for(chapter in selectedCourse.chapters!!){
-//                chapter.lessons = getLessonsByChapter(chapter.id)
-//                for (lesson in chapter.lessons!!){
-//                    lesson.tasks = getTasksByLesson(lesson.id)
-//                }
-//            }
         }
         _course.value = selectedCourse
     }
