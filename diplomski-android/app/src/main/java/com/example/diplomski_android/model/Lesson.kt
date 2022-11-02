@@ -14,4 +14,8 @@ data class Lesson(
 ){
     @Ignore
     var tasks: List<Task>? = null
+
+    override fun toString(): String {
+        return lesson_type!!
+    }
 }

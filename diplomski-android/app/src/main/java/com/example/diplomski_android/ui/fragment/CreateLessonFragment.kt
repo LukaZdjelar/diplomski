@@ -29,7 +29,6 @@ class CreateLessonFragment : Fragment() {
     private var createLessonBinding: FragmentCreateLessonBinding? = null
     var courses = listOf<Course>()
     var chapters = listOf<Chapter>()
-    var chapters_live = MutableLiveData<List<Chapter>>(chapters)
     var createLesson = Lesson()
 
     override fun onCreateView(
@@ -59,16 +58,13 @@ class CreateLessonFragment : Fragment() {
         val courseAdapter = ArrayAdapter(requireContext(), R.layout.spinner_item, courses)
         lateinit var chapterAdapter: ArrayAdapter<Chapter>
 
-
         actv_lesson_course.setAdapter(courseAdapter)
         actv_lesson_course.setOnItemClickListener { _, _, position, _ ->
             val course = courseAdapter.getItem(position)
-
+            actv_lesson_chapter.setText("")
             val jobChapters = CoroutineScope(Dispatchers.IO).launch {
                 chapters = mainViewModel.getChaptersByCourse(course?.id!!)
                 chapterAdapter = ArrayAdapter(requireContext(), R.layout.spinner_item, chapters)
-
-                Log.d("Chapters", chapters.toString())
             }
             runBlocking {
                 jobChapters.join()

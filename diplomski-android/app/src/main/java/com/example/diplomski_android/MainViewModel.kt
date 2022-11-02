@@ -41,6 +41,9 @@ class MainViewModel @Inject constructor(
     fun getTasksByLesson(id: Long): List<Task>{
         return taskRepository.getByLesson(id)
     }
+    suspend fun insertTask(task: Task){
+        taskRepository.insert(task)
+    }
     fun getLanguages(): List<Language>{
         return languageRepository.getAll()
     }
