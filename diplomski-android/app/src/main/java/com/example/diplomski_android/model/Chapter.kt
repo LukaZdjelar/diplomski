@@ -10,7 +10,7 @@ data class Chapter(
     var id: Long? = null,
     var course_id: Long? = null,
     var name: String? = "",
-    var level: Int? = null
+    var level: Int? = 0
 ){
     @Ignore
     var lessons: List<Lesson>? = null

@@ -7,38 +7,38 @@
             name="viewModel"
             type="com.example.diplomski_android.MainViewModel" />
         <variable
-            name="createChapterFragment"
-            type="com.example.diplomski_android.ui.fragment.CreateChapterFragment" />
+            name="insertLessonFragment"
+            type="com.example.diplomski_android.ui.fragment.InsertLessonFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.fragment.CreateChapterFragment">
+        tools:context=".ui.fragment.InsertLessonFragment">
 
         <TextView
-            android:id="@+id/tv_create_chapter"
+            android:id="@+id/tv_insert_lesson"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:text="Create chapter"
+            android:text="Create lesson"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="32dp"/>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/menu_chapter_courses"
+            android:id="@+id/menu_insert_lesson_courses"
             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Course"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_create_chapter"
+            app:layout_constraintTop_toBottomOf="@+id/tv_insert_lesson"
             android:layout_margin="32dp">
 
             <AutoCompleteTextView
-                android:id="@+id/actv_chapter_course"
+                android:id="@+id/actv_lesson_course"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="none" />
@@ -46,48 +46,54 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/ti_create_chapter_name"
+            android:id="@+id/menu_insert_lesson_chapters"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="32dp"
+            android:hint="Chapter"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/menu_chapter_courses">
+            app:layout_constraintTop_toBottomOf="@+id/menu_insert_lesson_courses"
+            android:layout_margin="32dp">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <AutoCompleteTextView
+                android:id="@+id/actv_lesson_chapter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Chapter name" />
+                android:inputType="none" />
+
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/ti_create_chapter_level"
+            android:id="@+id/menu_insert_lesson_type"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="32dp"
+            android:hint="Lesson type"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ti_create_chapter_name">
+            app:layout_constraintTop_toBottomOf="@+id/menu_insert_lesson_chapters"
+            android:layout_margin="32dp">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <AutoCompleteTextView
+                android:id="@+id/actv_lesson_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Level" />
+                android:inputType="none"
+                android:text="@={viewModel.newLesson.lesson_type}"/>
+
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:id="@+id/button_create_chapter_confirm"
+            android:id="@+id/button_insert_lesson_confirm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Create chapter"
+            android:text="Create lesson"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginBottom="32dp"/>
+            android:layout_marginBottom="32dp"
+            android:onClick="@{() -> viewModel.onInsertLessonButtonClick()}"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

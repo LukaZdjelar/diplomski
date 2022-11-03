@@ -7,17 +7,17 @@
             name="viewModel"
             type="com.example.diplomski_android.MainViewModel" />
         <variable
-            name="createTaskFragment"
-            type="com.example.diplomski_android.ui.fragment.CreateTaskFragment" />
+            name="insertTaskFragment"
+            type="com.example.diplomski_android.ui.fragment.InsertTaskFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.fragment.CreateTaskFragment">
+        tools:context=".ui.fragment.InsertTaskFragment">
 
         <TextView
-            android:id="@+id/tv_create_lesson"
+            android:id="@+id/tv_insert_task"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Create task"
@@ -27,14 +27,14 @@
             android:layout_marginTop="32dp"/>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/menu_task_courses"
+            android:id="@+id/menu_insert_task_courses"
             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Course"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_create_lesson"
+            app:layout_constraintTop_toBottomOf="@+id/tv_insert_task"
             android:layout_margin="32dp">
 
             <AutoCompleteTextView
@@ -46,14 +46,14 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/menu_task_chapters"
+            android:id="@+id/menu_insert_task_chapters"
             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Chapter"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/menu_task_courses"
+            app:layout_constraintTop_toBottomOf="@+id/menu_insert_task_courses"
             android:layout_margin="32dp">
 
             <AutoCompleteTextView
@@ -65,14 +65,14 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/menu_task_lessons"
+            android:id="@+id/menu_insert_task_lessons"
             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Lesson"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/menu_task_chapters"
+            app:layout_constraintTop_toBottomOf="@+id/menu_insert_task_chapters"
             android:layout_margin="32dp">
 
             <AutoCompleteTextView
@@ -84,44 +84,47 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/ti_create_task_question"
+            android:id="@+id/ti_insert_task_question"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="32dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/menu_task_lessons">
+            app:layout_constraintTop_toBottomOf="@+id/menu_insert_task_lessons">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:text="@={viewModel.newTask.question}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Question" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/ti_create_task_answer"
+            android:id="@+id/ti_insert_task_answer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="32dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ti_create_task_question">
+            app:layout_constraintTop_toBottomOf="@+id/ti_insert_task_question">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:text="@={viewModel.newTask.answer}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Answer" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:id="@+id/button_create_task_confirm"
+            android:id="@+id/button_insert_task_confirm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Create task"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginBottom="32dp"/>
+            android:layout_marginBottom="32dp"
+            android:onClick="@{() -> viewModel.onInsertTaskButtonClick()}"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

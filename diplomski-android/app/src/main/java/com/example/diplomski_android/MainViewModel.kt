@@ -1,5 +1,6 @@
 package com.example.diplomski_android
 
+import android.widget.ArrayAdapter
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -97,8 +98,8 @@ class MainViewModel @Inject constructor(
 //        runBlocking {
 //            taskService.checkAnswer(task.value?.id!!, answer.value!!)
 //        }
-//        resetAnswer()
-//
+
+        resetAnswer()
         val nextTaskNumber = taskNumber.value!! + 1
         if (nextTaskNumber < tasks.value!!.size){
             setTaskNumber(nextTaskNumber)
@@ -108,15 +109,75 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    private val _languages = MutableLiveData<List<Language>>()
-    val languages: LiveData<List<Language>> = _languages
-    fun setLanguages(setLanguages: List<Language>){
-        _languages.value = setLanguages
+    //INSERT COURSE
+    private val _newCourse = MutableLiveData(Course())
+    val newCourse : LiveData<Course> = _newCourse
+    fun setNewCourse(nc: Course){
+        _newCourse.value = nc
     }
 
-    private val _createCourse = MutableLiveData<Course>()
-    val createCourse : LiveData<Course> = _createCourse
-    fun setCreateCourse(createdData: Course){
-        _createCourse.value = createdData
+    fun onLocalLanguageItemSelected(adapter: ArrayAdapter<Language>, position: Int){
+        val localLanguage = adapter.getItem(position)!!
+        newCourse.value?.local_language_id = localLanguage.id
+    }
+    fun onForeignLanguageItemSelected(adapter: ArrayAdapter<Language>, position: Int){
+        val foreignLanguage = adapter.getItem(position)!!
+        newCourse.value?.foreign_language_id = foreignLanguage.id
+    }
+    fun onInsertCourseButtonClick(){
+        CoroutineScope(Dispatchers.IO).launch {
+            insertCourse(newCourse.value!!)
+        }
+    }
+
+    //INSERT CHAPTER
+    private val _newChapter = MutableLiveData(Chapter())
+    val newChapter : LiveData<Chapter> = _newChapter
+    fun setNewChapter(nc: Chapter){
+        _newChapter.value = nc
+    }
+
+    fun onChapterCourseItemSelected(adapter: ArrayAdapter<Course>, position: Int){
+        val course = adapter.getItem(position)!!
+        newChapter.value?.course_id = course.id
+    }
+    fun onInsertChapterButtonClick(){
+        CoroutineScope(Dispatchers.IO).launch {
+            insertChapter(newChapter.value!!)
+        }
+    }
+
+    //INSERT CHAPTER
+    private val _newLesson = MutableLiveData(Lesson())
+    val newLesson : LiveData<Lesson> = _newLesson
+    fun setNewLesson(nl: Lesson){
+        _newLesson.value = nl
+    }
+
+    fun onLessonChapterItemSelected(adapter: ArrayAdapter<Chapter>, position: Int){
+        val chapter = adapter.getItem(position)!!
+        newLesson.value?.chapter_id = chapter.id
+    }
+    fun onInsertLessonButtonClick(){
+        CoroutineScope(Dispatchers.IO).launch {
+            insertLesson(newLesson.value!!)
+        }
+    }
+
+    //INSERT TASK
+    private val _newTask = MutableLiveData(Task())
+    val newTask : LiveData<Task> = _newTask
+    fun setNewTask(nt: Task){
+        _newTask.value = nt
+    }
+
+    fun onTaskLessonItemSelected(adapter: ArrayAdapter<Lesson>, position: Int){
+        val lesson = adapter.getItem(position)!!
+        newTask.value?.lesson_id = lesson.id
+    }
+    fun onInsertTaskButtonClick(){
+        CoroutineScope(Dispatchers.IO).launch {
+            insertTask(newTask.value!!)
+        }
     }
 }

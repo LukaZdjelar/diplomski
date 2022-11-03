@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
@@ -8,8 +7,14 @@
             name="viewModel"
             type="com.example.diplomski_android.MainViewModel" />
         <variable
-            name="createCourseFragment"
-            type="com.example.diplomski_android.ui.fragment.CreateCourseFragment" />
+            name="insertCourseFragment"
+            type="com.example.diplomski_android.ui.fragment.InsertCourseFragment" />
+        <variable
+            name="localAdapterVar"
+            type="android.widget.ArrayAdapter" />
+        <variable
+            name="foreignAdapterVar"
+            type="android.widget.ArrayAdapter" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,7 +22,7 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/tv_create_course"
+            android:id="@+id/tv_insert_course"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
@@ -27,22 +32,23 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/ti_create_course_name"
+            android:id="@+id/ti_insert_course_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="32dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_create_course">
+            app:layout_constraintTop_toBottomOf="@+id/tv_insert_course">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:text="@={viewModel.newCourse.name}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Course name" />
         </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/menu_course_local"
+                android:id="@+id/menu_insert_course_local"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -50,18 +56,18 @@
                 android:hint="Local"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/ti_create_course_name">
+                app:layout_constraintTop_toBottomOf="@id/ti_insert_course_name">
 
                 <AutoCompleteTextView
                     android:id="@+id/actv_native"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="none" />
+                    android:inputType="none"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/menu_course_foreign"
+                android:id="@+id/menu_insert_course_foreign"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -69,7 +75,7 @@
                 android:hint="Foreign"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/menu_course_local">
+                app:layout_constraintTop_toBottomOf="@id/menu_insert_course_local">
 
                 <AutoCompleteTextView
                     android:id="@+id/actv_foreign"
@@ -80,16 +86,15 @@
             </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:id="@+id/button_create_course_confirm"
+            android:id="@+id/button_insert_course_confirm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Create course"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginBottom="32dp"/>
-
-
+            android:layout_marginBottom="32dp"
+            android:onClick="@{() -> viewModel.onInsertCourseButtonClick()}"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

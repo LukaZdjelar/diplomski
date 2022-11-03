@@ -51,22 +51,22 @@
     </fragment>
     <fragment
         android:id="@+id/createCourseFragment"
-        android:name="com.example.diplomski_android.ui.fragment.CreateCourseFragment"
+        android:name="com.example.diplomski_android.ui.fragment.InsertCourseFragment"
         android:label="fragment_create_course"
-        tools:layout="@layout/fragment_create_course"/>
+        tools:layout="@layout/fragment_insert_course"/>
     <fragment
         android:id="@+id/createChapterFragment"
-        android:name="com.example.diplomski_android.ui.fragment.CreateChapterFragment"
+        android:name="com.example.diplomski_android.ui.fragment.InsertChapterFragment"
         android:label="fragment_create_chapter"
-        tools:layout="@layout/fragment_create_chapter"/>
+        tools:layout="@layout/fragment_insert_chapter"/>
     <fragment
         android:id="@+id/createLessonFragment"
-        android:name="com.example.diplomski_android.ui.fragment.CreateLessonFragment"
+        android:name="com.example.diplomski_android.ui.fragment.InsertLessonFragment"
         android:label="fragment_create_lesson"
-        tools:layout="@layout/fragment_create_lesson"/>
+        tools:layout="@layout/fragment_insert_lesson"/>
     <fragment
         android:id="@+id/createTaskFragment"
-        android:name="com.example.diplomski_android.ui.fragment.CreateTaskFragment"
+        android:name="com.example.diplomski_android.ui.fragment.InsertTaskFragment"
         android:label="fragment_create_task"
-        tools:layout="@layout/fragment_create_task"/>
+        tools:layout="@layout/fragment_insert_task"/>
 </navigation>

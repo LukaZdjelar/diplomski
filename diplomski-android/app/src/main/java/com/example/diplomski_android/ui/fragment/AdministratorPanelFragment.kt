@@ -10,6 +10,10 @@ import androidx.navigation.Navigation
 import com.example.diplomski_android.MainViewModel
 import com.example.diplomski_android.R
 import com.example.diplomski_android.databinding.FragmentAdministratorPanelBinding
+import com.example.diplomski_android.model.Chapter
+import com.example.diplomski_android.model.Course
+import com.example.diplomski_android.model.Lesson
+import com.example.diplomski_android.model.Task
 import kotlinx.android.synthetic.main.fragment_administrator_panel.*
 
 class AdministratorPanelFragment : Fragment() {
@@ -36,15 +40,19 @@ class AdministratorPanelFragment : Fragment() {
         }
 
         button_create_course.setOnClickListener {
+            mainViewModel.setNewCourse(Course())
             Navigation.findNavController(view).navigate(R.id.action_administratorPanelFragment_to_createCourseFragment)
         }
         button_create_chapter.setOnClickListener {
+            mainViewModel.setNewChapter(Chapter())
             Navigation.findNavController(view).navigate(R.id.action_administratorPanelFragment_to_createChapterFragment)
         }
         button_create_lesson.setOnClickListener {
+            mainViewModel.setNewLesson(Lesson())
             Navigation.findNavController(view).navigate(R.id.action_administratorPanelFragment_to_createLessonFragment)
         }
         button_create_task.setOnClickListener {
+            mainViewModel.setNewTask(Task())
             Navigation.findNavController(view).navigate(R.id.action_administratorPanelFragment_to_createTaskFragment)
         }
     }
