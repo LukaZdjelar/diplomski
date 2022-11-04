@@ -41,6 +41,11 @@ class LessonsAdapter(private val mainViewModel: MainViewModel): RecyclerView.Ada
         holder.itemView.apply {
             tvLessonName.text = lesson.lesson_type
 
+            button_edit_lesson.setOnClickListener {
+                mainViewModel.setNewLesson(lesson)
+                Navigation.findNavController(view).navigate(R.id.action_chaptersFragment_to_insertLessonFragment)
+            }
+
 //          TODO: ne radi Toast
             setOnClickListener{
                 if (lesson.tasks!!.isNotEmpty()){

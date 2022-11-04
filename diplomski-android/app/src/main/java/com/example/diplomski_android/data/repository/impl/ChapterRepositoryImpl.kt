@@ -14,6 +14,10 @@ class ChapterRepositoryImpl(private val chapterDao: ChapterDao): ChapterReposito
         return chapterDao.getByCourse(id)
     }
 
+    override fun getById(id: Long): Chapter {
+        return chapterDao.getById(id)
+    }
+
     override suspend fun insert(chapter: Chapter) {
         return chapterDao.insert(chapter)
     }

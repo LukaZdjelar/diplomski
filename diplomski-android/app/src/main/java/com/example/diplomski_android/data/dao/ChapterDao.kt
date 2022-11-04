@@ -12,6 +12,8 @@ interface ChapterDao {
     fun getAll(): List<Chapter>
     @Query("select * from chapters where course_id=:id")
     fun getByCourse(id: Long): List<Chapter>
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Query("select * from chapters where id=:id")
+    fun getById(id: Long): Chapter
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(chapter: Chapter)
 }

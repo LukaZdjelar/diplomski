@@ -35,6 +35,9 @@ class MainViewModel @Inject constructor(
     fun getChaptersByCourse(id: Long): List<Chapter>{
         return chapterRepository.getByCourse(id)
     }
+    fun getChapterById(id: Long): Chapter{
+        return chapterRepository.getById(id)
+    }
     suspend fun insertChapter(chapter: Chapter){
         chapterRepository.insert(chapter)
     }
@@ -154,7 +157,6 @@ class MainViewModel @Inject constructor(
         if (nc.id != null){
             CoroutineScope(Dispatchers.IO).launch{
                 newChapter.value?.course = getCourseById(nc.course_id!!)
-                Log.d("TESTINGG", newChapter.value?.course.toString())
             }
         }
     }
@@ -174,6 +176,12 @@ class MainViewModel @Inject constructor(
     val newLesson : LiveData<Lesson> = _newLesson
     fun setNewLesson(nl: Lesson){
         _newLesson.value = nl
+        if (nl.id != null){
+            CoroutineScope(Dispatchers.IO).launch{
+                newLesson.value?.chapter = getChapterById(nl.chapter_id!!)
+                newLesson.value?.course = getCourseById(newLesson.value?.chapter!!.course_id!!)
+            }
+        }
     }
 
     fun onLessonChapterItemSelected(adapter: ArrayAdapter<Chapter>, position: Int){

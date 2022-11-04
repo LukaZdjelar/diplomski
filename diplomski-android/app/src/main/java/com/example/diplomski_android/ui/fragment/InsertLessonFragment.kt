@@ -13,6 +13,7 @@ import com.example.diplomski_android.databinding.FragmentInsertLessonBinding
 import com.example.diplomski_android.model.Chapter
 import com.example.diplomski_android.model.Course
 import com.example.diplomski_android.model.Lesson
+import kotlinx.android.synthetic.main.fragment_insert_chapter.*
 import kotlinx.android.synthetic.main.fragment_insert_lesson.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -52,6 +53,16 @@ class InsertLessonFragment : Fragment() {
 
         val typeAdapter = ArrayAdapter(requireContext(), R.layout.spinner_item, lessonTypes)
         actv_lesson_type.setAdapter(typeAdapter)
+
+        if (mainViewModel.newLesson.value?.id == null){
+            actv_lesson_course.setText("",false)
+            actv_lesson_chapter.setText("",false)
+            actv_lesson_type.setText("",false)
+        }else{
+            actv_lesson_course.setText(mainViewModel.newLesson.value?.course!!.name,false)
+            actv_lesson_chapter.setText(mainViewModel.newLesson.value?.chapter!!.name,false)
+            actv_lesson_type.setText(mainViewModel.newLesson.value?.lesson_type!!,false)
+        }
 
         insertLessonBinding?.apply {
             lifecycleOwner = viewLifecycleOwner

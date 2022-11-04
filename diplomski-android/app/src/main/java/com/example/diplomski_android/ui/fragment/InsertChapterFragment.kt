@@ -42,8 +42,6 @@ class InsertChapterFragment : Fragment() {
 
         setAdapters()
 
-
-
         insertChapterBinding?.apply {
             lifecycleOwner = viewLifecycleOwner
             viewModel = mainViewModel
