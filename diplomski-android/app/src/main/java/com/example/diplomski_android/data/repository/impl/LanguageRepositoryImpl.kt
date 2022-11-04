@@ -12,4 +12,8 @@ class LanguageRepositoryImpl(private val languageDao: LanguageDao): LanguageRepo
     override suspend fun insert(language: Language){
         return languageDao.insert(language)
     }
+
+    override fun getById(id: Long): Language {
+        return languageDao.getById(id)
+    }
 }

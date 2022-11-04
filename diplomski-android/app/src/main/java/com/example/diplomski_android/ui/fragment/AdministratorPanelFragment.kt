@@ -41,19 +41,19 @@ class AdministratorPanelFragment : Fragment() {
 
         button_create_course.setOnClickListener {
             mainViewModel.setNewCourse(Course())
-            Navigation.findNavController(view).navigate(R.id.action_administratorPanelFragment_to_createCourseFragment)
+            Navigation.findNavController(view).navigate(R.id.action_administratorPanelFragment_to_insertCourseFragment)
         }
         button_create_chapter.setOnClickListener {
             mainViewModel.setNewChapter(Chapter())
-            Navigation.findNavController(view).navigate(R.id.action_administratorPanelFragment_to_createChapterFragment)
+            Navigation.findNavController(view).navigate(R.id.action_administratorPanelFragment_to_insertChapterFragment)
         }
         button_create_lesson.setOnClickListener {
             mainViewModel.setNewLesson(Lesson())
-            Navigation.findNavController(view).navigate(R.id.action_administratorPanelFragment_to_createLessonFragment)
+            Navigation.findNavController(view).navigate(R.id.action_administratorPanelFragment_to_insertLessonFragment)
         }
         button_create_task.setOnClickListener {
             mainViewModel.setNewTask(Task())
-            Navigation.findNavController(view).navigate(R.id.action_administratorPanelFragment_to_createTaskFragment)
+            Navigation.findNavController(view).navigate(R.id.action_administratorPanelFragment_to_insertTaskFragment)
         }
     }
 }

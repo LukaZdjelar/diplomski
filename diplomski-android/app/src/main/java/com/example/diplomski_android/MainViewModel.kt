@@ -1,5 +1,6 @@
 package com.example.diplomski_android
 
+import android.util.Log
 import android.widget.ArrayAdapter
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -47,6 +48,9 @@ class MainViewModel @Inject constructor(
     }
     fun getLanguages(): List<Language>{
         return languageRepository.getAll()
+    }
+    fun getLanguageById(id: Long): Language{
+        return languageRepository.getById(id)
     }
 
     private val _course = MutableLiveData<Course>()
@@ -114,15 +118,29 @@ class MainViewModel @Inject constructor(
     val newCourse : LiveData<Course> = _newCourse
     fun setNewCourse(nc: Course){
         _newCourse.value = nc
+        if (nc.id != null){
+            CoroutineScope(Dispatchers.IO).launch {
+                newCourse.value?.local_language = getLanguageById(nc.local_language_id!!)
+                newCourse.value?.foreign_language = getLanguageById(nc.foreign_language_id!!)
+            }
+        }
     }
 
     fun onLocalLanguageItemSelected(adapter: ArrayAdapter<Language>, position: Int){
         val localLanguage = adapter.getItem(position)!!
         newCourse.value?.local_language_id = localLanguage.id
+//      TODO: Da li je potrebno?
+        CoroutineScope(Dispatchers.IO).launch {
+            newCourse.value?.local_language = getLanguageById(localLanguage.id!!)
+        }
     }
     fun onForeignLanguageItemSelected(adapter: ArrayAdapter<Language>, position: Int){
         val foreignLanguage = adapter.getItem(position)!!
         newCourse.value?.foreign_language_id = foreignLanguage.id
+//      TODO: Da li je potrebno?
+        CoroutineScope(Dispatchers.IO).launch {
+            newCourse.value?.foreign_language = getLanguageById(foreignLanguage.id!!)
+        }
     }
     fun onInsertCourseButtonClick(){
         CoroutineScope(Dispatchers.IO).launch {

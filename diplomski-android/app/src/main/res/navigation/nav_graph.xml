@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_coursesFragment_to_administratorPanelFragment"
             app:destination="@id/administratorPanelFragment" />
+        <action
+            android:id="@+id/action_coursesFragment_to_insertCourseFragment"
+            app:destination="@id/insertCourseFragment" />
     </fragment>
     <fragment
         android:id="@+id/chaptersFragment"
@@ -37,36 +40,36 @@
         android:label="fragment_administrator_panel"
         tools:layout="@layout/fragment_administrator_panel">
         <action
-            android:id="@+id/action_administratorPanelFragment_to_createCourseFragment"
-            app:destination="@id/createCourseFragment" />
+            android:id="@+id/action_administratorPanelFragment_to_insertCourseFragment"
+            app:destination="@id/insertCourseFragment" />
         <action
-            android:id="@+id/action_administratorPanelFragment_to_createChapterFragment"
-            app:destination="@id/createChapterFragment" />
+            android:id="@+id/action_administratorPanelFragment_to_insertChapterFragment"
+            app:destination="@id/insertChapterFragment" />
         <action
-            android:id="@+id/action_administratorPanelFragment_to_createLessonFragment"
-            app:destination="@id/createLessonFragment" />
+            android:id="@+id/action_administratorPanelFragment_to_insertLessonFragment"
+            app:destination="@id/insertLessonFragment" />
         <action
-            android:id="@+id/action_administratorPanelFragment_to_createTaskFragment"
-            app:destination="@id/createTaskFragment" />
+            android:id="@+id/action_administratorPanelFragment_to_insertTaskFragment"
+            app:destination="@id/insertTaskFragment" />
     </fragment>
     <fragment
-        android:id="@+id/createCourseFragment"
+        android:id="@+id/insertCourseFragment"
         android:name="com.example.diplomski_android.ui.fragment.InsertCourseFragment"
-        android:label="fragment_create_course"
-        tools:layout="@layout/fragment_insert_course"/>
+        android:label="fragment_insert_course"
+        tools:layout="@layout/fragment_insert_course" />
     <fragment
-        android:id="@+id/createChapterFragment"
+        android:id="@+id/insertChapterFragment"
         android:name="com.example.diplomski_android.ui.fragment.InsertChapterFragment"
-        android:label="fragment_create_chapter"
-        tools:layout="@layout/fragment_insert_chapter"/>
+        android:label="fragment_insert_chapter"
+        tools:layout="@layout/fragment_insert_chapter" />
     <fragment
-        android:id="@+id/createLessonFragment"
+        android:id="@+id/insertLessonFragment"
         android:name="com.example.diplomski_android.ui.fragment.InsertLessonFragment"
-        android:label="fragment_create_lesson"
-        tools:layout="@layout/fragment_insert_lesson"/>
+        android:label="fragment_insert_lesson"
+        tools:layout="@layout/fragment_insert_lesson" />
     <fragment
-        android:id="@+id/createTaskFragment"
+        android:id="@+id/insertTaskFragment"
         android:name="com.example.diplomski_android.ui.fragment.InsertTaskFragment"
-        android:label="fragment_create_task"
-        tools:layout="@layout/fragment_insert_task"/>
+        android:label="fragment_insert_task"
+        tools:layout="@layout/fragment_insert_task" />
 </navigation>

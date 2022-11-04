@@ -12,6 +12,6 @@ interface LessonDao {
     fun getAll(): List<Lesson>
     @Query("select * from lessons where chapter_id=:id")
     fun getByChapter(id: Long): List<Lesson>
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(lesson: Lesson)
 }

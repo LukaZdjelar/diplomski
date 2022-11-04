@@ -11,7 +11,7 @@ interface TaskDao {
 
     @Query("select * from tasks")
     fun getAll(): List<Task>
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(task: Task)
     @Query("select * from tasks where lesson_id=:id")
     fun getByLesson(id: Long): List<Task>

@@ -14,6 +14,10 @@ data class Course(
 ){
     @Ignore
     var chapters: List<Chapter>? = null
+    @Ignore
+    var local_language: Language? = null
+    @Ignore
+    var foreign_language: Language? = null
 
     override fun toString(): String {
         return name!!
