@@ -12,4 +12,6 @@ interface CourseDao {
     fun getAll(): List<Course>
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(course: Course)
+    @Query("select * from courses where id=:id")
+    fun getById(id: Long): Course
 }

@@ -28,24 +28,31 @@ class MainViewModel @Inject constructor(
     suspend fun insertCourse(course: Course){
         courseRepository.insert(course)
     }
+    fun getCourseById(id: Long): Course {
+        return courseRepository.getById(id)
+    }
+
     fun getChaptersByCourse(id: Long): List<Chapter>{
         return chapterRepository.getByCourse(id)
     }
     suspend fun insertChapter(chapter: Chapter){
         chapterRepository.insert(chapter)
     }
+
     fun getLessonsByChapter(id: Long): List<Lesson>{
         return lessonRepository.getByChapter(id)
     }
     suspend fun insertLesson(lesson: Lesson){
         lessonRepository.insert(lesson)
     }
+
     fun getTasksByLesson(id: Long): List<Task>{
         return taskRepository.getByLesson(id)
     }
     suspend fun insertTask(task: Task){
         taskRepository.insert(task)
     }
+
     fun getLanguages(): List<Language>{
         return languageRepository.getAll()
     }
@@ -55,7 +62,6 @@ class MainViewModel @Inject constructor(
 
     private val _course = MutableLiveData<Course>()
     val course : LiveData<Course> = _course
-
     fun setCourse(selectedCourse: Course){
         CoroutineScope(Dispatchers.IO).launch {
             selectedCourse.chapters = getChaptersByCourse(selectedCourse.id!!)
@@ -129,18 +135,10 @@ class MainViewModel @Inject constructor(
     fun onLocalLanguageItemSelected(adapter: ArrayAdapter<Language>, position: Int){
         val localLanguage = adapter.getItem(position)!!
         newCourse.value?.local_language_id = localLanguage.id
-//      TODO: Da li je potrebno?
-        CoroutineScope(Dispatchers.IO).launch {
-            newCourse.value?.local_language = getLanguageById(localLanguage.id!!)
-        }
     }
     fun onForeignLanguageItemSelected(adapter: ArrayAdapter<Language>, position: Int){
         val foreignLanguage = adapter.getItem(position)!!
         newCourse.value?.foreign_language_id = foreignLanguage.id
-//      TODO: Da li je potrebno?
-        CoroutineScope(Dispatchers.IO).launch {
-            newCourse.value?.foreign_language = getLanguageById(foreignLanguage.id!!)
-        }
     }
     fun onInsertCourseButtonClick(){
         CoroutineScope(Dispatchers.IO).launch {
@@ -153,6 +151,12 @@ class MainViewModel @Inject constructor(
     val newChapter : LiveData<Chapter> = _newChapter
     fun setNewChapter(nc: Chapter){
         _newChapter.value = nc
+        if (nc.id != null){
+            CoroutineScope(Dispatchers.IO).launch{
+                newChapter.value?.course = getCourseById(nc.course_id!!)
+                Log.d("TESTINGG", newChapter.value?.course.toString())
+            }
+        }
     }
 
     fun onChapterCourseItemSelected(adapter: ArrayAdapter<Course>, position: Int){

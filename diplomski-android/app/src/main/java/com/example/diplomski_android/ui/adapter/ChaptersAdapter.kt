@@ -3,6 +3,7 @@ package com.example.diplomski_android.ui.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -42,6 +43,11 @@ class ChaptersAdapter(private val mainViewModel: MainViewModel): RecyclerView.Ad
         val chapter = differ.currentList[position]
         holder.itemView.apply {
             tvChapterName.text = chapter.name
+
+            button_edit_chapter.setOnClickListener{
+                mainViewModel.setNewChapter(chapter)
+                Navigation.findNavController(view).navigate(R.id.action_chaptersFragment_to_insertChapterFragment)
+            }
         }
 
         val layoutManager = LinearLayoutManager(

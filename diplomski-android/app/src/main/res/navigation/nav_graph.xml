@@ -28,6 +28,12 @@
         <action
             android:id="@+id/action_chaptersFragment_to_taskFragment"
             app:destination="@id/taskFragment" />
+        <action
+            android:id="@+id/action_chaptersFragment_to_insertChapterFragment"
+            app:destination="@id/insertChapterFragment" />
+        <action
+            android:id="@+id/action_chaptersFragment_to_insertLessonFragment"
+            app:destination="@id/insertLessonFragment" />
     </fragment>
     <fragment
         android:id="@+id/taskFragment"

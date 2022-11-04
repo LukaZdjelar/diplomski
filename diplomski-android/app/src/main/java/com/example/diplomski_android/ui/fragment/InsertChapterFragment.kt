@@ -12,6 +12,7 @@ import com.example.diplomski_android.R
 import com.example.diplomski_android.databinding.FragmentInsertChapterBinding
 import com.example.diplomski_android.model.Course
 import kotlinx.android.synthetic.main.fragment_insert_chapter.*
+import kotlinx.android.synthetic.main.fragment_insert_course.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -39,13 +40,25 @@ class InsertChapterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val courseAdapter = ArrayAdapter(requireContext(), R.layout.spinner_item, courses)
-        actv_chapter_course.setAdapter(courseAdapter)
+        setAdapters()
+
+
 
         insertChapterBinding?.apply {
             lifecycleOwner = viewLifecycleOwner
             viewModel = mainViewModel
             insertChapterFragment = this@InsertChapterFragment
+        }
+    }
+
+    fun setAdapters(){
+        val courseAdapter = ArrayAdapter(requireContext(), R.layout.spinner_item, courses)
+        actv_chapter_course.setAdapter(courseAdapter)
+
+        if (mainViewModel.newChapter.value?.id == null){
+            actv_chapter_course.setText("",false)
+        }else{
+            actv_chapter_course.setText(mainViewModel.newChapter.value?.course!!.name,false)
         }
 
         actv_chapter_course.setOnItemClickListener { _, _, position, _ ->
