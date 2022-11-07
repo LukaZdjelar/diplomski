@@ -8,7 +8,10 @@ import javax.inject.Inject
 
 class CourseRepositoryImpl @Inject constructor(private val courseDao: CourseDao): CourseRepository {
 
-    override fun getAll(): Flow<List<Course>> {
+    override fun getAllFlow(): Flow<List<Course>> {
+        return courseDao.getAllFlow()
+    }
+    override fun getAll(): List<Course> {
         return courseDao.getAll()
     }
     override suspend fun insert(course: Course){

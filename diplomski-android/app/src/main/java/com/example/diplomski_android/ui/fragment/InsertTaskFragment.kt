@@ -1,6 +1,7 @@
 package com.example.diplomski_android.ui.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import com.example.diplomski_android.databinding.FragmentInsertTaskBinding
 import com.example.diplomski_android.model.Chapter
 import com.example.diplomski_android.model.Course
 import com.example.diplomski_android.model.Lesson
+import kotlinx.android.synthetic.main.fragment_insert_lesson.*
 import kotlinx.android.synthetic.main.fragment_insert_task.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -43,6 +45,13 @@ class InsertTaskFragment : Fragment() {
             }
         }
 
+        if (mainViewModel.newTask.value?.id != null){
+            CoroutineScope(Dispatchers.IO).launch {
+                chapters = mainViewModel.getChaptersByCourse(mainViewModel.newTask.value?.course!!.id!!)
+                lessons = mainViewModel.getLessonsByChapters(mainViewModel.newTask.value?.chapter!!.id!!)
+            }
+        }
+
         return fragmentBinding.root
     }
 
@@ -55,6 +64,16 @@ class InsertTaskFragment : Fragment() {
         lateinit var chapterAdapter: ArrayAdapter<Chapter>
 
         lateinit var lessonAdapter: ArrayAdapter<Lesson>
+
+        if (mainViewModel.newTask.value?.id == null){
+            actv_task_course.setText("",false)
+            actv_task_chapter.setText("",false)
+            actv_task_lesson.setText("",false)
+        }else{
+            actv_task_course.setText(mainViewModel.newTask.value?.course!!.name,false)
+            actv_task_chapter.setText(mainViewModel.newTask.value?.chapter!!.name,false)
+            actv_task_lesson.setText(mainViewModel.newTask.value?.lesson!!.lesson_type,false)
+        }
 
         insertTaskBinding?.apply {
             lifecycleOwner = viewLifecycleOwner
@@ -70,13 +89,13 @@ class InsertTaskFragment : Fragment() {
             actv_task_lesson.setText("")
             mainViewModel.newTask.value?.lesson_id = null
 
-            mainViewModel.getChaptersByCourse(course?.id!!)
-            lifecycleScope.launchWhenCreated {
-                mainViewModel.chaptersStateFlow.collectLatest {
-                    chapters = it
-                    chapterAdapter = ArrayAdapter(requireContext(), R.layout.spinner_item, chapters)
-                }
+            val job = CoroutineScope(Dispatchers.IO).launch {
+                chapters = mainViewModel.getChaptersByCourse(course?.id!!)
             }
+
+            runBlocking { job.join() }
+
+            chapterAdapter = ArrayAdapter(requireContext(), R.layout.spinner_item, chapters)
             actv_task_chapter.setAdapter(chapterAdapter)
         }
 
@@ -86,13 +105,13 @@ class InsertTaskFragment : Fragment() {
             actv_task_lesson.setText("")
             mainViewModel.newTask.value?.lesson_id = null
 
-            mainViewModel.getLessonsByChapter(chapter?.id!!)
-            lifecycleScope.launchWhenCreated {
-                mainViewModel.lessonsStateFlow.collectLatest {
-                    lessons = it
-                    lessonAdapter = ArrayAdapter(requireContext(), R.layout.spinner_item, lessons)
-                }
+            val job = CoroutineScope(Dispatchers.IO).launch {
+                lessons = mainViewModel.getLessonsByChapters(chapter?.id!!)
             }
+
+            runBlocking { job.join() }
+
+            lessonAdapter = ArrayAdapter(requireContext(), R.layout.spinner_item, lessons)
             actv_task_lesson.setAdapter(lessonAdapter)
         }
 

@@ -7,9 +7,14 @@ import kotlinx.coroutines.flow.Flow
 
 class LanguageRepositoryImpl(private val languageDao: LanguageDao): LanguageRepository {
 
-    override fun getAll(): Flow<List<Language>> {
+    override fun getAllFlow(): Flow<List<Language>> {
+        return languageDao.getAllFlow()
+    }
+
+    override fun getAll(): List<Language> {
         return languageDao.getAll()
     }
+
     override suspend fun insert(language: Language){
         return languageDao.insert(language)
     }

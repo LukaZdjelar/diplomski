@@ -7,7 +7,10 @@ import kotlinx.coroutines.flow.Flow
 
 class TaskRepositoryImpl(private val taskDao: TaskDao): TaskRepository {
 
-    override fun getAll(): Flow<List<Task>> {
+    override fun getAllFlow(): Flow<List<Task>> {
+        return taskDao.getAllFlow()
+    }
+    override fun getAll(): List<Task> {
         return taskDao.getAll()
     }
     override suspend fun insert(task: Task){

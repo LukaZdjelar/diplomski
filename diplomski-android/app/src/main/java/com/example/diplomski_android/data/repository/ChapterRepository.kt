@@ -4,8 +4,10 @@ import com.example.diplomski_android.model.Chapter
 import kotlinx.coroutines.flow.Flow
 
 interface ChapterRepository {
-    fun getAll(): Flow<List<Chapter>>
-    fun getByCourse(id: Long): Flow<List<Chapter>>
+    fun getAllFlow(): Flow<List<Chapter>>
+    fun getAll(): List<Chapter>
+    fun getByCourseFlow(id: Long): Flow<List<Chapter>>
+    fun getByCourse(id: Long): List<Chapter>
     fun getById(id: Long): Chapter
     suspend fun insert(chapter: Chapter)
 }

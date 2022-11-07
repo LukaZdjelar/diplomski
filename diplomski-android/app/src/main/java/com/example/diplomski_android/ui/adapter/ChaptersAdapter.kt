@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.RecycledViewPool
 import com.example.diplomski_android.MainViewModel
@@ -45,7 +44,7 @@ class ChaptersAdapter(private val mainViewModel: MainViewModel): RecyclerView.Ad
             tvChapterName.text = chapter.name
 
             setOnClickListener{
-                mainViewModel.getLessonsByChapter(chapter.id!!)
+                mainViewModel.getLessonsByChapterFlow(chapter.id!!)
                 Navigation.findNavController(view).navigate(R.id.action_chaptersFragment_to_lessonsFragment)
             }
 

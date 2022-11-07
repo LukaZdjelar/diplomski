@@ -7,11 +7,19 @@ import kotlinx.coroutines.flow.Flow
 
 class ChapterRepositoryImpl(private val chapterDao: ChapterDao): ChapterRepository {
 
-    override fun getAll(): Flow<List<Chapter>> {
+    override fun getAllFlow(): Flow<List<Chapter>> {
+        return chapterDao.getAllFlow()
+    }
+
+    override fun getAll(): List<Chapter> {
         return chapterDao.getAll()
     }
 
-    override fun getByCourse(id: Long): Flow<List<Chapter>> {
+    override fun getByCourseFlow(id: Long): Flow<List<Chapter>> {
+        return chapterDao.getByCourseFlow(id)
+    }
+
+    override fun getByCourse(id: Long): List<Chapter> {
         return chapterDao.getByCourse(id)
     }
 

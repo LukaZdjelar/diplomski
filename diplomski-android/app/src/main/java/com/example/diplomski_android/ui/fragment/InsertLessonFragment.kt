@@ -13,8 +13,6 @@ import com.example.diplomski_android.R
 import com.example.diplomski_android.databinding.FragmentInsertLessonBinding
 import com.example.diplomski_android.model.Chapter
 import com.example.diplomski_android.model.Course
-import com.example.diplomski_android.model.Lesson
-import kotlinx.android.synthetic.main.fragment_insert_chapter.*
 import kotlinx.android.synthetic.main.fragment_insert_lesson.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -28,7 +26,6 @@ class InsertLessonFragment : Fragment() {
     private var insertLessonBinding: FragmentInsertLessonBinding? = null
     var courses = listOf<Course>()
     var chapters = listOf<Chapter>()
-    var insertLesson = Lesson()
     val lessonTypes = listOf("Translating","Vocabulary","Speaking","Listening")
 
     override fun onCreateView(
@@ -42,6 +39,12 @@ class InsertLessonFragment : Fragment() {
         lifecycleScope.launchWhenCreated {
             mainViewModel.coursesStateFlow.collectLatest {
                 courses = it
+            }
+        }
+
+        if (mainViewModel.newLesson.value?.id != null){
+            CoroutineScope(Dispatchers.IO).launch {
+                chapters = mainViewModel.getChaptersByCourse(mainViewModel.newLesson.value?.course!!.id!!)
             }
         }
 
@@ -67,6 +70,9 @@ class InsertLessonFragment : Fragment() {
             actv_lesson_course.setText(mainViewModel.newLesson.value?.course!!.name,false)
             actv_lesson_chapter.setText(mainViewModel.newLesson.value?.chapter!!.name,false)
             actv_lesson_type.setText(mainViewModel.newLesson.value?.lesson_type!!,false)
+
+            chapterAdapter = ArrayAdapter(requireContext(), R.layout.spinner_item, chapters)
+            actv_lesson_chapter.setAdapter(chapterAdapter)
         }
 
         insertLessonBinding?.apply {
@@ -81,14 +87,13 @@ class InsertLessonFragment : Fragment() {
             actv_lesson_chapter.setText("")
             mainViewModel.newLesson.value?.chapter_id = null
 
-            mainViewModel.getChaptersByCourse(course?.id!!)
-            lifecycleScope.launchWhenCreated {
-                mainViewModel.chaptersStateFlow.collectLatest {
-                    chapters = it
-                    chapterAdapter = ArrayAdapter(requireContext(), R.layout.spinner_item, chapters)
-                }
+            val job = CoroutineScope(Dispatchers.IO).launch {
+                chapters = mainViewModel.getChaptersByCourse(course?.id!!)
             }
 
+            runBlocking { job.join() }
+
+            chapterAdapter = ArrayAdapter(requireContext(), R.layout.spinner_item, chapters)
             actv_lesson_chapter.setAdapter(chapterAdapter)
         }
 

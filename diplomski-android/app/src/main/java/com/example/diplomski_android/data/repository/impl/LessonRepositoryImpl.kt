@@ -7,12 +7,24 @@ import kotlinx.coroutines.flow.Flow
 
 class LessonRepositoryImpl(private val lessonDao: LessonDao): LessonRepository {
 
-    override fun getAll(): Flow<List<Lesson>> {
+    override fun getAllFlow(): Flow<List<Lesson>> {
+        return lessonDao.getAllFlow()
+    }
+
+    override fun getAll(): List<Lesson> {
         return lessonDao.getAll()
     }
 
-    override fun getByChapter(id: Long): Flow<List<Lesson>> {
+    override fun getByChapterFlow(id: Long): Flow<List<Lesson>> {
+        return lessonDao.getByChapterFlow(id)
+    }
+
+    override fun getByChapter(id: Long): List<Lesson> {
         return lessonDao.getByChapter(id)
+    }
+
+    override fun getById(id: Long): Lesson {
+        return lessonDao.getById(id)
     }
 
     override suspend fun insert(lesson: Lesson) {

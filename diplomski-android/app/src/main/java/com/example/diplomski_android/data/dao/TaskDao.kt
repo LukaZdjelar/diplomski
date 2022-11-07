@@ -1,6 +1,7 @@
 package com.example.diplomski_android.data.dao
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -11,9 +12,17 @@ import kotlinx.coroutines.flow.Flow
 interface TaskDao {
 
     @Query("select * from tasks")
-    fun getAll(): Flow<List<Task>>
+    fun getAllFlow(): Flow<List<Task>>
+
+    @Query("select * from tasks")
+    fun getAll(): List<Task>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(task: Task)
+
     @Query("select * from tasks where lesson_id=:id")
     fun getByLesson(id: Long): Flow<List<Task>>
+
+    @Delete
+    suspend fun delete(task: Task)
 }

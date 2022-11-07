@@ -12,9 +12,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.forEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -35,7 +32,7 @@ class MainViewModel @Inject constructor(
 
     fun getCourses(){
         viewModelScope.launch {
-            courseRepository.getAll().collect {
+            courseRepository.getAllFlow().collect {
                 coursesStateFlow.value = it
             }
         }
@@ -47,12 +44,15 @@ class MainViewModel @Inject constructor(
         return courseRepository.getById(id)
     }
 
-    fun getChaptersByCourse(id: Long){
+    fun getChaptersByCourseFlow(id: Long){
         viewModelScope.launch {
-            chapterRepository.getByCourse(id).collect {
+            chapterRepository.getByCourseFlow(id).collect {
                 chaptersStateFlow.value = it
             }
         }
+    }
+    fun getChaptersByCourse(id: Long): List<Chapter>{
+        return chapterRepository.getByCourse(id)
     }
     fun getChapterById(id: Long): Chapter{
         return chapterRepository.getById(id)
@@ -61,12 +61,18 @@ class MainViewModel @Inject constructor(
         chapterRepository.insert(chapter)
     }
 
-    fun getLessonsByChapter(id: Long){
+    fun getLessonsByChapterFlow(id: Long){
         viewModelScope.launch {
-            lessonRepository.getByChapter(id).collect {
+            lessonRepository.getByChapterFlow(id).collect {
                 lessonsStateFlow.value = it
             }
         }
+    }
+    fun getLessonsByChapters(id: Long): List<Lesson>{
+        return lessonRepository.getByChapter(id)
+    }
+    fun getLessonsById(id: Long): Lesson{
+        return lessonRepository.getById(id)
     }
     suspend fun insertLesson(lesson: Lesson){
         lessonRepository.insert(lesson)
@@ -85,7 +91,7 @@ class MainViewModel @Inject constructor(
 
     fun getLanguages() {
         viewModelScope.launch {
-            languageRepository.getAll().collect {
+            languageRepository.getAllFlow().collect {
                 languagesStateFlow.value = it
             }
         }
@@ -228,6 +234,13 @@ class MainViewModel @Inject constructor(
     val newTask : LiveData<Task> = _newTask
     fun setNewTask(nt: Task){
         _newTask.value = nt
+        if (nt.id != null){
+            CoroutineScope(Dispatchers.IO).launch{
+                newTask.value?.lesson = getLessonsById(nt.lesson_id!!)
+                newTask.value?.chapter = getChapterById(newTask.value?.lesson!!.chapter_id!!)
+                newTask.value?.course = getCourseById(newLesson.value?.chapter!!.course_id!!)
+            }
+        }
     }
 
     fun onTaskLessonItemSelected(adapter: ArrayAdapter<Lesson>, position: Int){
