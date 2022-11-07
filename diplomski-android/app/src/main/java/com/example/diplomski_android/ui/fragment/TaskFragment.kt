@@ -24,7 +24,7 @@ class TaskFragment : Fragment() {
         taskBinding = fragmentBinding
 
 //      TODO: ???
-        mainViewModel.setTask(mainViewModel.tasks.value!![mainViewModel.taskNumber.value!!])
+        mainViewModel.setTask(mainViewModel.tasksStateFlow.value[mainViewModel.taskNumber.value!!])
 
         return fragmentBinding.root
     }
@@ -48,7 +48,7 @@ class TaskFragment : Fragment() {
 
     private fun goBackOnComplete(){
         mainViewModel.completed.observe(viewLifecycleOwner) {
-            if (mainViewModel.completed.value == true){
+            if (it){
                 activity?.onBackPressed()
             }
         }

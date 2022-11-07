@@ -5,14 +5,15 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.diplomski_android.model.Task
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface TaskDao {
 
     @Query("select * from tasks")
-    fun getAll(): List<Task>
+    fun getAll(): Flow<List<Task>>
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(task: Task)
     @Query("select * from tasks where lesson_id=:id")
-    fun getByLesson(id: Long): List<Task>
+    fun getByLesson(id: Long): Flow<List<Task>>
 }

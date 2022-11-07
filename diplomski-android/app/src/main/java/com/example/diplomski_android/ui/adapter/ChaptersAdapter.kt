@@ -44,25 +44,16 @@ class ChaptersAdapter(private val mainViewModel: MainViewModel): RecyclerView.Ad
         holder.itemView.apply {
             tvChapterName.text = chapter.name
 
+            setOnClickListener{
+                mainViewModel.getLessonsByChapter(chapter.id!!)
+                Navigation.findNavController(view).navigate(R.id.action_chaptersFragment_to_lessonsFragment)
+            }
+
             button_edit_chapter.setOnClickListener{
                 mainViewModel.setNewChapter(chapter)
                 Navigation.findNavController(view).navigate(R.id.action_chaptersFragment_to_insertChapterFragment)
             }
         }
-
-        val layoutManager = LinearLayoutManager(
-            holder.itemView.rvLessons.context,
-            LinearLayoutManager.VERTICAL,
-            false
-        )
-        layoutManager.initialPrefetchItemCount = chapter.lessons?.size!!
-
-        val lessonsAdapter = LessonsAdapter(mainViewModel)
-        lessonsAdapter.differ.submitList(chapter.lessons)
-
-        holder.itemView.rvLessons.layoutManager = layoutManager
-        holder.itemView.rvLessons.adapter = lessonsAdapter
-        holder.itemView.rvLessons.setRecycledViewPool(viewPool)
     }
 
     override fun getItemCount(): Int {

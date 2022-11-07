@@ -16,17 +16,6 @@
         android:layout_height="match_parent"
         tools:context=".ui.fragment.CoursesFragment">
 
-        <TextView
-            android:id="@+id/courses_textview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:text="@{viewModel.course.name}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:textAlignment="center"/>
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvCourses"
             android:layout_width="match_parent"
@@ -37,7 +26,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/courses_textview" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/button_admin"

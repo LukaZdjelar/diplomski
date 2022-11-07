@@ -43,18 +43,19 @@ class LessonsAdapter(private val mainViewModel: MainViewModel): RecyclerView.Ada
 
             button_edit_lesson.setOnClickListener {
                 mainViewModel.setNewLesson(lesson)
-                Navigation.findNavController(view).navigate(R.id.action_chaptersFragment_to_insertLessonFragment)
+                Navigation.findNavController(view).navigate(R.id.action_lessonsFragment_to_insertLessonFragment)
             }
 
 //          TODO: ne radi Toast
-            setOnClickListener{
-                if (lesson.tasks!!.isNotEmpty()){
-                    mainViewModel.setTasks(lesson.tasks!!)
-                    Navigation.findNavController(view).navigate(R.id.action_chaptersFragment_to_taskFragment)
-                }else{
-                    Toast.makeText(context,"There are no tasks", Toast.LENGTH_SHORT).show()
-                }
-            }
+
+//            setOnClickListener{
+//                if (lesson.tasks!!.isNotEmpty()){
+//                    mainViewModel.setTasks(lesson.tasks!!)
+//                    Navigation.findNavController(view).navigate(R.id.action_chaptersFragment_to_taskFragment)
+//                }else{
+//                    Toast.makeText(context,"There are no tasks", Toast.LENGTH_SHORT).show()
+//                }
+//            }
         }
     }
 

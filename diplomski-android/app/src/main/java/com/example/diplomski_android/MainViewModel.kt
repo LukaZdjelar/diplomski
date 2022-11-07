@@ -5,11 +5,16 @@ import android.widget.ArrayAdapter
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.diplomski_android.data.repository.*
 import com.example.diplomski_android.model.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.forEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,8 +27,18 @@ class MainViewModel @Inject constructor(
     private val languageRepository: LanguageRepository
 ):ViewModel() {
 
-    fun getCourses(): List<Course> {
-        return courseRepository.getAll()
+    val coursesStateFlow = MutableStateFlow(listOf(Course()))
+    val chaptersStateFlow = MutableStateFlow(listOf(Chapter()))
+    val lessonsStateFlow = MutableStateFlow(listOf(Lesson()))
+    val tasksStateFlow = MutableStateFlow(listOf(Task()))
+    val languagesStateFlow = MutableStateFlow(listOf(Language()))
+
+    fun getCourses(){
+        viewModelScope.launch {
+            courseRepository.getAll().collect {
+                coursesStateFlow.value = it
+            }
+        }
     }
     suspend fun insertCourse(course: Course){
         courseRepository.insert(course)
@@ -32,8 +47,12 @@ class MainViewModel @Inject constructor(
         return courseRepository.getById(id)
     }
 
-    fun getChaptersByCourse(id: Long): List<Chapter>{
-        return chapterRepository.getByCourse(id)
+    fun getChaptersByCourse(id: Long){
+        viewModelScope.launch {
+            chapterRepository.getByCourse(id).collect {
+                chaptersStateFlow.value = it
+            }
+        }
     }
     fun getChapterById(id: Long): Chapter{
         return chapterRepository.getById(id)
@@ -42,47 +61,53 @@ class MainViewModel @Inject constructor(
         chapterRepository.insert(chapter)
     }
 
-    fun getLessonsByChapter(id: Long): List<Lesson>{
-        return lessonRepository.getByChapter(id)
+    fun getLessonsByChapter(id: Long){
+        viewModelScope.launch {
+            lessonRepository.getByChapter(id).collect {
+                lessonsStateFlow.value = it
+            }
+        }
     }
     suspend fun insertLesson(lesson: Lesson){
         lessonRepository.insert(lesson)
     }
 
-    fun getTasksByLesson(id: Long): List<Task>{
-        return taskRepository.getByLesson(id)
+    fun getTasksByLesson(id: Long){
+        viewModelScope.launch {
+            taskRepository.getByLesson(id).collect {
+                tasksStateFlow.value = it
+            }
+        }
     }
     suspend fun insertTask(task: Task){
         taskRepository.insert(task)
     }
 
-    fun getLanguages(): List<Language>{
-        return languageRepository.getAll()
+    fun getLanguages() {
+        viewModelScope.launch {
+            languageRepository.getAll().collect {
+                languagesStateFlow.value = it
+            }
+        }
     }
     fun getLanguageById(id: Long): Language{
         return languageRepository.getById(id)
     }
 
-    private val _course = MutableLiveData<Course>()
-    val course : LiveData<Course> = _course
-    fun setCourse(selectedCourse: Course){
-        CoroutineScope(Dispatchers.IO).launch {
-            selectedCourse.chapters = getChaptersByCourse(selectedCourse.id!!)
-            selectedCourse.chapters!!.forEach { chapter ->
-                chapter.lessons = getLessonsByChapter(chapter.id!!)
-                chapter.lessons!!.forEach { lesson ->
-                    lesson.tasks = getTasksByLesson(lesson.id!!)
-                }
-            }
-        }
-        _course.value = selectedCourse
-    }
-
-    private val _tasks = MutableLiveData<List<Task>>()
-    val tasks: LiveData<List<Task>> = _tasks
-    fun setTasks(setTasks: List<Task>){
-        _tasks.value = setTasks
-    }
+//    private val _course = MutableStateFlow(Course())
+//    val course : StateFlow<Course> = _course
+//    fun setCourse(selectedCourse: Course){
+//        viewModelScope.launch {
+//            selectedCourse.chapters = getChaptersByCourse(selectedCourse.id!!)
+//            selectedCourse.chapters!!.forEach { chapter ->
+//                chapter.lessons = getLessonsByChapter(chapter.id!!)
+//                chapter.lessons!!.forEach { lesson ->
+//                    lesson.tasks = getTasksByLesson(lesson.id!!)
+//                }
+//            }
+//        }
+//        _course.value = selectedCourse
+//    }
 
     private val _task = MutableLiveData<Task?>()
     val task : LiveData<Task?> = _task
@@ -114,9 +139,9 @@ class MainViewModel @Inject constructor(
 
         resetAnswer()
         val nextTaskNumber = taskNumber.value!! + 1
-        if (nextTaskNumber < tasks.value!!.size){
+        if (nextTaskNumber < tasksStateFlow.value.size){
             setTaskNumber(nextTaskNumber)
-            setTask(tasks.value!![taskNumber.value!!])
+            setTask(tasksStateFlow.value[taskNumber.value!!])
         }else{
             setCompleted(true)
         }
@@ -171,7 +196,7 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    //INSERT CHAPTER
+    //INSERT LESSON
     private val _newLesson = MutableLiveData(Lesson())
     val newLesson : LiveData<Lesson> = _newLesson
     fun setNewLesson(nl: Lesson){
@@ -187,6 +212,10 @@ class MainViewModel @Inject constructor(
     fun onLessonChapterItemSelected(adapter: ArrayAdapter<Chapter>, position: Int){
         val chapter = adapter.getItem(position)!!
         newLesson.value?.chapter_id = chapter.id
+    }
+    fun onLessonTypeItemSelected(adapter: ArrayAdapter<String>, position: Int){
+        val type = adapter.getItem(position)!!
+        newLesson.value?.lesson_type = type
     }
     fun onInsertLessonButtonClick(){
         CoroutineScope(Dispatchers.IO).launch {

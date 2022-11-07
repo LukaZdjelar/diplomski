@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import com.example.diplomski_android.MainViewModel
 import com.example.diplomski_android.R
 import com.example.diplomski_android.databinding.FragmentInsertChapterBinding
@@ -15,6 +16,7 @@ import kotlinx.android.synthetic.main.fragment_insert_chapter.*
 import kotlinx.android.synthetic.main.fragment_insert_course.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class InsertChapterFragment : Fragment() {
@@ -30,8 +32,11 @@ class InsertChapterFragment : Fragment() {
         val fragmentBinding = FragmentInsertChapterBinding.inflate(inflater, container, false)
         insertChapterBinding = fragmentBinding
 
-        CoroutineScope(Dispatchers.IO).launch {
-            courses = mainViewModel.getCourses()
+        mainViewModel.getCourses()
+        lifecycleScope.launchWhenCreated {
+            mainViewModel.coursesStateFlow.collectLatest {
+                courses = it
+            }
         }
 
         return fragmentBinding.root

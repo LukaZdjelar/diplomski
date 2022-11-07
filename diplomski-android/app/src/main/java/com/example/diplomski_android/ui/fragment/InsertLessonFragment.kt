@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import com.example.diplomski_android.MainViewModel
 import com.example.diplomski_android.R
 import com.example.diplomski_android.databinding.FragmentInsertLessonBinding
@@ -17,6 +18,7 @@ import kotlinx.android.synthetic.main.fragment_insert_chapter.*
 import kotlinx.android.synthetic.main.fragment_insert_lesson.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
@@ -36,8 +38,11 @@ class InsertLessonFragment : Fragment() {
         val fragmentBinding = FragmentInsertLessonBinding.inflate(inflater, container, false)
         insertLessonBinding = fragmentBinding
 
-        CoroutineScope(Dispatchers.IO).launch {
-            courses = mainViewModel.getCourses()
+        mainViewModel.getCourses()
+        lifecycleScope.launchWhenCreated {
+            mainViewModel.coursesStateFlow.collectLatest {
+                courses = it
+            }
         }
 
         return fragmentBinding.root
@@ -75,18 +80,24 @@ class InsertLessonFragment : Fragment() {
             val course = courseAdapter.getItem(position)
             actv_lesson_chapter.setText("")
             mainViewModel.newLesson.value?.chapter_id = null
-            val jobChapters = CoroutineScope(Dispatchers.IO).launch {
-                chapters = mainViewModel.getChaptersByCourse(course?.id!!)
-                chapterAdapter = ArrayAdapter(requireContext(), R.layout.spinner_item, chapters)
+
+            mainViewModel.getChaptersByCourse(course?.id!!)
+            lifecycleScope.launchWhenCreated {
+                mainViewModel.chaptersStateFlow.collectLatest {
+                    chapters = it
+                    chapterAdapter = ArrayAdapter(requireContext(), R.layout.spinner_item, chapters)
+                }
             }
-            runBlocking {
-                jobChapters.join()
-            }
+
             actv_lesson_chapter.setAdapter(chapterAdapter)
         }
 
         actv_lesson_chapter.setOnItemClickListener { _, _, position, _ ->
             mainViewModel.onLessonChapterItemSelected(chapterAdapter, position)
+        }
+
+        actv_lesson_type.setOnItemClickListener{_, _, position, _ ->
+            mainViewModel.onLessonTypeItemSelected(typeAdapter, position)
         }
     }
 }

@@ -26,14 +26,11 @@
         android:label="fragment_chapters"
         tools:layout="@layout/fragment_chapters">
         <action
-            android:id="@+id/action_chaptersFragment_to_taskFragment"
-            app:destination="@id/taskFragment" />
-        <action
             android:id="@+id/action_chaptersFragment_to_insertChapterFragment"
             app:destination="@id/insertChapterFragment" />
         <action
-            android:id="@+id/action_chaptersFragment_to_insertLessonFragment"
-            app:destination="@id/insertLessonFragment" />
+            android:id="@+id/action_chaptersFragment_to_lessonsFragment"
+            app:destination="@id/lessonsFragment" />
     </fragment>
     <fragment
         android:id="@+id/taskFragment"
@@ -78,4 +75,16 @@
         android:name="com.example.diplomski_android.ui.fragment.InsertTaskFragment"
         android:label="fragment_insert_task"
         tools:layout="@layout/fragment_insert_task" />
+    <fragment
+        android:id="@+id/lessonsFragment"
+        android:name="com.example.diplomski_android.ui.fragment.LessonsFragment"
+        android:label="fragment_lessons"
+        tools:layout="@layout/fragment_lessons" >
+        <action
+            android:id="@+id/action_lessonsFragment_to_taskFragment"
+            app:destination="@id/taskFragment" />
+        <action
+            android:id="@+id/action_lessonsFragment_to_insertLessonFragment"
+            app:destination="@id/insertLessonFragment" />
+    </fragment>
 </navigation>

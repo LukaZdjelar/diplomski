@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import com.example.diplomski_android.MainViewModel
 import com.example.diplomski_android.R
 import com.example.diplomski_android.databinding.FragmentInsertCourseBinding
@@ -14,6 +15,7 @@ import com.example.diplomski_android.model.Language
 import kotlinx.android.synthetic.main.fragment_insert_course.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class InsertCourseFragment: Fragment() {
@@ -29,8 +31,11 @@ class InsertCourseFragment: Fragment() {
         val fragmentBinding = FragmentInsertCourseBinding.inflate(inflater, container, false)
         insertCourseBinding = fragmentBinding
 
-        CoroutineScope(Dispatchers.IO).launch {
-            languages = mainViewModel.getLanguages()
+        mainViewModel.getLanguages()
+        lifecycleScope.launchWhenCreated {
+            mainViewModel.languagesStateFlow.collectLatest {
+                languages = it
+            }
         }
 
         return fragmentBinding.root

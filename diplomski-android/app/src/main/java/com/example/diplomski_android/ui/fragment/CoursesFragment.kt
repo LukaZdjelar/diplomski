@@ -1,11 +1,13 @@
 package com.example.diplomski_android.ui.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.diplomski_android.MainViewModel
@@ -15,6 +17,7 @@ import com.example.diplomski_android.ui.adapter.CoursesAdapter
 import kotlinx.android.synthetic.main.fragment_courses.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class CoursesFragment : Fragment() {
@@ -29,6 +32,8 @@ class CoursesFragment : Fragment() {
         val fragmentBinding = FragmentCoursesBinding.inflate(inflater, container, false)
         coursesBinding = fragmentBinding
 
+        mainViewModel.getCourses()
+        mainViewModel.getLanguages()
         return fragmentBinding.root
     }
 
@@ -43,10 +48,12 @@ class CoursesFragment : Fragment() {
         button_admin.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.action_coursesFragment_to_administratorPanelFragment)
         }
+
         setupRecyclerView()
-        CoroutineScope(Dispatchers.IO).launch {
-            val courses = mainViewModel.getCourses()
-            coursesAdapter.differ.submitList(courses)
+        lifecycleScope.launchWhenCreated {
+            mainViewModel.coursesStateFlow.collectLatest {
+                coursesAdapter.differ.submitList(it)
+            }
         }
     }
 

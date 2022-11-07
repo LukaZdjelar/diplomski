@@ -5,15 +5,16 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.diplomski_android.model.Chapter
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ChapterDao {
     @Query("select * from chapters")
-    fun getAll(): List<Chapter>
+    fun getAll(): Flow<List<Chapter>>
     @Query("select * from chapters where course_id=:id")
-    fun getByCourse(id: Long): List<Chapter>
+    fun getByCourse(id: Long): Flow<List<Chapter>>
     @Query("select * from chapters where id=:id")
     fun getById(id: Long): Chapter
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(chapter: Chapter)
 }
