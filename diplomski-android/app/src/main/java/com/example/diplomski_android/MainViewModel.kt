@@ -1,6 +1,5 @@
 package com.example.diplomski_android
 
-import android.util.Log
 import android.widget.ArrayAdapter
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -78,7 +77,7 @@ class MainViewModel @Inject constructor(
         lessonRepository.insert(lesson)
     }
 
-    fun getTasksByLesson(id: Long){
+    fun getTasksByLessonFlow(id: Long){
         viewModelScope.launch {
             taskRepository.getByLesson(id).collect {
                 tasksStateFlow.value = it
@@ -238,7 +237,7 @@ class MainViewModel @Inject constructor(
             CoroutineScope(Dispatchers.IO).launch{
                 newTask.value?.lesson = getLessonsById(nt.lesson_id!!)
                 newTask.value?.chapter = getChapterById(newTask.value?.lesson!!.chapter_id!!)
-                newTask.value?.course = getCourseById(newLesson.value?.chapter!!.course_id!!)
+                newTask.value?.course = getCourseById(newTask.value?.chapter!!.course_id!!)
             }
         }
     }

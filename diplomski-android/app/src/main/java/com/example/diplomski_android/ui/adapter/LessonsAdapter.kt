@@ -3,7 +3,6 @@ package com.example.diplomski_android.ui.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
@@ -44,6 +43,12 @@ class LessonsAdapter(private val mainViewModel: MainViewModel): RecyclerView.Ada
             button_edit_lesson.setOnClickListener {
                 mainViewModel.setNewLesson(lesson)
                 Navigation.findNavController(view).navigate(R.id.action_lessonsFragment_to_insertLessonFragment)
+            }
+            button_delete_lesson.setOnClickListener {  }
+
+            button_manage_tasks.setOnClickListener {
+                mainViewModel.getTasksByLessonFlow(lesson.id!!)
+                Navigation.findNavController(view).navigate(R.id.action_lessonsFragment_to_tasksFragment)
             }
 
 //          TODO: ne radi Toast

@@ -86,5 +86,17 @@
         <action
             android:id="@+id/action_lessonsFragment_to_insertLessonFragment"
             app:destination="@id/insertLessonFragment" />
+        <action
+            android:id="@+id/action_lessonsFragment_to_tasksFragment"
+            app:destination="@id/tasksFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/tasksFragment"
+        android:name="com.example.diplomski_android.ui.fragment.TasksFragment"
+        android:label="fragment_tasks"
+        tools:layout="@layout/fragment_tasks" >
+        <action
+            android:id="@+id/action_tasksFragment_to_insertTaskFragment"
+            app:destination="@id/insertTaskFragment" />
     </fragment>
 </navigation>

@@ -6,10 +6,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
-        android:id="@+id/tvLessonName"
+        android:id="@+id/tvTaskQuestion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="LESSON NR."
+        android:text="TASK QUESTION"
         android:textColor="@android:color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,20 +23,14 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <Button
-            android:id="@+id/button_manage_tasks"
-            android:layout_width="64dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="4dp"
-            android:text="T" />
-        <Button
-            android:id="@+id/button_edit_lesson"
+            android:id="@+id/button_edit_task"
             android:layout_width="64dp"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:text="U" />
 
         <Button
-            android:id="@+id/button_delete_lesson"
+            android:id="@+id/button_delete_task"
             android:layout_width="64dp"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"

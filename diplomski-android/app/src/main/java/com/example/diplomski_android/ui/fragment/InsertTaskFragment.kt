@@ -1,7 +1,6 @@
 package com.example.diplomski_android.ui.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +14,6 @@ import com.example.diplomski_android.databinding.FragmentInsertTaskBinding
 import com.example.diplomski_android.model.Chapter
 import com.example.diplomski_android.model.Course
 import com.example.diplomski_android.model.Lesson
-import kotlinx.android.synthetic.main.fragment_insert_lesson.*
 import kotlinx.android.synthetic.main.fragment_insert_task.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -73,6 +71,11 @@ class InsertTaskFragment : Fragment() {
             actv_task_course.setText(mainViewModel.newTask.value?.course!!.name,false)
             actv_task_chapter.setText(mainViewModel.newTask.value?.chapter!!.name,false)
             actv_task_lesson.setText(mainViewModel.newTask.value?.lesson!!.lesson_type,false)
+
+            chapterAdapter = ArrayAdapter(requireContext(), R.layout.spinner_item, chapters)
+            actv_task_chapter.setAdapter(chapterAdapter)
+            lessonAdapter = ArrayAdapter(requireContext(), R.layout.spinner_item, lessons)
+            actv_task_lesson.setAdapter(lessonAdapter)
         }
 
         insertTaskBinding?.apply {

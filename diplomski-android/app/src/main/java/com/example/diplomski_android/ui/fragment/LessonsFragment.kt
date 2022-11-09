@@ -1,20 +1,16 @@
 package com.example.diplomski_android.ui.fragment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.diplomski_android.MainViewModel
-import com.example.diplomski_android.R
 import com.example.diplomski_android.databinding.FragmentLessonsBinding
-import com.example.diplomski_android.databinding.FragmentTaskBinding
-import com.example.diplomski_android.ui.adapter.ChaptersAdapter
 import com.example.diplomski_android.ui.adapter.LessonsAdapter
-import kotlinx.android.synthetic.main.fragment_chapters.*
 import kotlinx.android.synthetic.main.fragment_lessons.*
 import kotlinx.coroutines.flow.collectLatest
 

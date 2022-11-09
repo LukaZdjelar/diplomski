@@ -13,10 +13,7 @@ import com.example.diplomski_android.R
 import com.example.diplomski_android.databinding.FragmentInsertCourseBinding
 import com.example.diplomski_android.model.Language
 import kotlinx.android.synthetic.main.fragment_insert_course.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 class InsertCourseFragment: Fragment() {
 
