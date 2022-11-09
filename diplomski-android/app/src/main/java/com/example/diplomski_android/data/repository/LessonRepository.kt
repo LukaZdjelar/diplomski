@@ -10,4 +10,6 @@ interface LessonRepository {
     fun getByChapter(id: Long): List<Lesson>
     fun getById(id: Long): Lesson
     suspend fun insert(lesson: Lesson)
+    suspend fun delete(lesson: Lesson)
+    suspend fun deleteByChapter(chapterId: Long)
 }

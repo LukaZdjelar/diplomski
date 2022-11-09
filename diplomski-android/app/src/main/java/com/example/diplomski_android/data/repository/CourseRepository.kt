@@ -8,4 +8,5 @@ interface CourseRepository {
     fun getAll(): List<Course>
     suspend fun insert(course: Course)
     fun getById(id: Long): Course
+    suspend fun delete(course: Course)
 }

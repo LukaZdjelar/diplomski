@@ -11,6 +11,9 @@ import com.example.diplomski_android.MainViewModel
 import com.example.diplomski_android.R
 import com.example.diplomski_android.model.Course
 import kotlinx.android.synthetic.main.item_course.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class CoursesAdapter(private val mainViewModel: MainViewModel) : RecyclerView.Adapter<CoursesAdapter.CoursesViewHolder>() {
     private lateinit var view: View
@@ -47,6 +50,11 @@ class CoursesAdapter(private val mainViewModel: MainViewModel) : RecyclerView.Ad
             button_edit_course.setOnClickListener{
                 mainViewModel.setNewCourse(course)
                 Navigation.findNavController(view).navigate(R.id.action_coursesFragment_to_insertCourseFragment)
+            }
+            button_delete_course.setOnClickListener {
+                CoroutineScope(Dispatchers.IO).launch {
+                    mainViewModel.deleteCourseComplete(course)
+                }
             }
         }
     }

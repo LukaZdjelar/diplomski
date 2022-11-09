@@ -20,4 +20,8 @@ class CourseRepositoryImpl @Inject constructor(private val courseDao: CourseDao)
     override fun getById(id: Long): Course {
         return courseDao.getById(id)
     }
+
+    override suspend fun delete(course: Course) {
+        return courseDao.delete(course)
+    }
 }

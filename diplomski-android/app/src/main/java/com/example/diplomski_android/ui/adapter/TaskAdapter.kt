@@ -11,6 +11,9 @@ import com.example.diplomski_android.MainViewModel
 import com.example.diplomski_android.R
 import com.example.diplomski_android.model.Task
 import kotlinx.android.synthetic.main.item_task.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class TaskAdapter(private val mainViewModel: MainViewModel): RecyclerView.Adapter<TaskAdapter.TasksViewHolder>() {
 
@@ -43,6 +46,11 @@ class TaskAdapter(private val mainViewModel: MainViewModel): RecyclerView.Adapte
             button_edit_task.setOnClickListener {
                 mainViewModel.setNewTask(task)
                 Navigation.findNavController(view).navigate(R.id.action_tasksFragment_to_insertTaskFragment)
+            }
+            button_delete_task.setOnClickListener {
+                CoroutineScope(Dispatchers.IO).launch {
+                    mainViewModel.deleteTask(task)
+                }
             }
         }
     }

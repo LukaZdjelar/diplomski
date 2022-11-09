@@ -30,4 +30,12 @@ class LessonRepositoryImpl(private val lessonDao: LessonDao): LessonRepository {
     override suspend fun insert(lesson: Lesson) {
         return lessonDao.insert(lesson)
     }
+
+    override suspend fun delete(lesson: Lesson) {
+        return lessonDao.delete(lesson)
+    }
+
+    override suspend fun deleteByChapter(chapterId: Long) {
+        return lessonDao.deleteByChapter(chapterId)
+    }
 }

@@ -1,5 +1,6 @@
 package com.example.diplomski_android.ui.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,9 @@ import com.example.diplomski_android.MainViewModel
 import com.example.diplomski_android.R
 import com.example.diplomski_android.model.Lesson
 import kotlinx.android.synthetic.main.item_lesson.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class LessonsAdapter(private val mainViewModel: MainViewModel): RecyclerView.Adapter<LessonsAdapter.LessonsViewHolder>() {
 
@@ -44,7 +48,11 @@ class LessonsAdapter(private val mainViewModel: MainViewModel): RecyclerView.Ada
                 mainViewModel.setNewLesson(lesson)
                 Navigation.findNavController(view).navigate(R.id.action_lessonsFragment_to_insertLessonFragment)
             }
-            button_delete_lesson.setOnClickListener {  }
+            button_delete_lesson.setOnClickListener {
+                CoroutineScope(Dispatchers.IO).launch {
+                    mainViewModel.deleteLessonComplete(lesson)
+                }
+            }
 
             button_manage_tasks.setOnClickListener {
                 mainViewModel.getTasksByLessonFlow(lesson.id!!)

@@ -12,6 +12,9 @@ import com.example.diplomski_android.MainViewModel
 import com.example.diplomski_android.R
 import com.example.diplomski_android.model.Chapter
 import kotlinx.android.synthetic.main.item_chapter.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class ChaptersAdapter(private val mainViewModel: MainViewModel): RecyclerView.Adapter<ChaptersAdapter.ChaptersViewHolder>() {
@@ -51,6 +54,12 @@ class ChaptersAdapter(private val mainViewModel: MainViewModel): RecyclerView.Ad
             button_edit_chapter.setOnClickListener{
                 mainViewModel.setNewChapter(chapter)
                 Navigation.findNavController(view).navigate(R.id.action_chaptersFragment_to_insertChapterFragment)
+            }
+
+            button_delete_chapter.setOnClickListener {
+                CoroutineScope(Dispatchers.IO).launch {
+                    mainViewModel.deleteChapterComplete(chapter)
+                }
             }
         }
     }

@@ -42,6 +42,19 @@ class MainViewModel @Inject constructor(
     fun getCourseById(id: Long): Course {
         return courseRepository.getById(id)
     }
+    suspend fun deleteCourse(course: Course){
+        courseRepository.delete(course)
+    }
+    suspend fun deleteCourseComplete(course: Course){
+        getChaptersByCourse(course.id!!).forEach { chapter ->
+            getLessonsByChapters(chapter.id!!).forEach { lesson ->
+                deleteTasksByLesson(lesson.id!!)
+            }
+            deleteLesonsByChapter(chapter.id!!)
+        }
+        deleteChaptersByCourse(course.id!!)
+        deleteCourse(course)
+    }
 
     fun getChaptersByCourseFlow(id: Long){
         viewModelScope.launch {
@@ -58,6 +71,19 @@ class MainViewModel @Inject constructor(
     }
     suspend fun insertChapter(chapter: Chapter){
         chapterRepository.insert(chapter)
+    }
+    suspend fun deleteChapter(chapter: Chapter){
+        chapterRepository.delete(chapter)
+    }
+    suspend fun deleteChaptersByCourse(courseId: Long){
+        chapterRepository.deleteByCourse(courseId)
+    }
+    suspend fun deleteChapterComplete(chapter: Chapter){
+        getLessonsByChapters(chapter.id!!).forEach { lesson ->
+            deleteTasksByLesson(lesson.id!!)
+        }
+        deleteLesonsByChapter(chapter.id!!)
+        deleteChapter(chapter)
     }
 
     fun getLessonsByChapterFlow(id: Long){
@@ -76,6 +102,16 @@ class MainViewModel @Inject constructor(
     suspend fun insertLesson(lesson: Lesson){
         lessonRepository.insert(lesson)
     }
+    suspend fun deleteLesson(lesson: Lesson){
+        lessonRepository.delete(lesson)
+    }
+    suspend fun deleteLesonsByChapter(chapterId: Long){
+        lessonRepository.deleteByChapter(chapterId)
+    }
+    suspend fun deleteLessonComplete(lesson: Lesson){
+        deleteTasksByLesson(lesson.id!!)
+        deleteLesson(lesson)
+    }
 
     fun getTasksByLessonFlow(id: Long){
         viewModelScope.launch {
@@ -86,6 +122,12 @@ class MainViewModel @Inject constructor(
     }
     suspend fun insertTask(task: Task){
         taskRepository.insert(task)
+    }
+    suspend fun deleteTask(task: Task){
+        taskRepository.delete(task)
+    }
+    suspend fun deleteTasksByLesson(lessonId: Long){
+        taskRepository.deleteByLesson(lessonId)
     }
 
     fun getLanguages() {

@@ -26,4 +26,7 @@ interface LessonDao {
 
     @Delete
     suspend fun delete(lesson: Lesson)
+
+    @Query("delete from lessons where chapter_id=:chapterId")
+    suspend fun deleteByChapter(chapterId: Long)
 }

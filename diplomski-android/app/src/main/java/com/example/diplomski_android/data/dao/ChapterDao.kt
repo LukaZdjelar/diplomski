@@ -26,4 +26,7 @@ interface ChapterDao {
 
     @Delete
     suspend fun delete(chapter: Chapter)
+
+    @Query("delete from chapters where course_id=:courseId")
+    suspend fun deleteByCourse(courseId: Long)
 }

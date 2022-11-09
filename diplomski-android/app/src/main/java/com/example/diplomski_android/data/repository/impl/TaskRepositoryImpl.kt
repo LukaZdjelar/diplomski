@@ -19,4 +19,12 @@ class TaskRepositoryImpl(private val taskDao: TaskDao): TaskRepository {
     override fun getByLesson(id: Long): Flow<List<Task>> {
         return taskDao.getByLesson(id)
     }
+
+    override suspend fun delete(task: Task) {
+        return taskDao.delete(task)
+    }
+
+    override suspend fun deleteByLesson(lessonId: Long) {
+        return taskDao.deleteByLesson(lessonId)
+    }
 }
