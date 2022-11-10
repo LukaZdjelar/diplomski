@@ -14,9 +14,6 @@
             android:id="@+id/action_coursesFragment_to_chaptersFragment"
             app:destination="@id/chaptersFragment" />
         <action
-            android:id="@+id/action_coursesFragment_to_administratorPanelFragment"
-            app:destination="@id/administratorPanelFragment" />
-        <action
             android:id="@+id/action_coursesFragment_to_insertCourseFragment"
             app:destination="@id/insertCourseFragment" />
     </fragment>
@@ -37,24 +34,6 @@
         android:name="com.example.diplomski_android.ui.fragment.TaskFragment"
         android:label="fragment_task"
         tools:layout="@layout/fragment_task" />
-    <fragment
-        android:id="@+id/administratorPanelFragment"
-        android:name="com.example.diplomski_android.ui.fragment.AdministratorPanelFragment"
-        android:label="fragment_administrator_panel"
-        tools:layout="@layout/fragment_administrator_panel">
-        <action
-            android:id="@+id/action_administratorPanelFragment_to_insertCourseFragment"
-            app:destination="@id/insertCourseFragment" />
-        <action
-            android:id="@+id/action_administratorPanelFragment_to_insertChapterFragment"
-            app:destination="@id/insertChapterFragment" />
-        <action
-            android:id="@+id/action_administratorPanelFragment_to_insertLessonFragment"
-            app:destination="@id/insertLessonFragment" />
-        <action
-            android:id="@+id/action_administratorPanelFragment_to_insertTaskFragment"
-            app:destination="@id/insertTaskFragment" />
-    </fragment>
     <fragment
         android:id="@+id/insertCourseFragment"
         android:name="com.example.diplomski_android.ui.fragment.InsertCourseFragment"

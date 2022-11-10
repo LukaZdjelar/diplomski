@@ -41,15 +41,16 @@ class CoursesFragment : Fragment() {
             viewModel = mainViewModel
             coursesFragment = this@CoursesFragment
         }
-        button_admin.setOnClickListener {
-            Navigation.findNavController(view).navigate(R.id.action_coursesFragment_to_administratorPanelFragment)
-        }
 
         setupRecyclerView()
         lifecycleScope.launchWhenCreated {
             mainViewModel.coursesStateFlow.collectLatest {
                 coursesAdapter.differ.submitList(it)
             }
+        }
+
+        button_create_course.setOnClickListener {
+            Navigation.findNavController(view).navigate(R.id.action_coursesFragment_to_insertCourseFragment)
         }
     }
 

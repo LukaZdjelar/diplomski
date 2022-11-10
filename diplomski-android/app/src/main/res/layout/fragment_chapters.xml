@@ -16,16 +16,35 @@
         android:layout_height="match_parent"
         tools:context=".ui.fragment.ChaptersFragment">
 
-        <TextView
-            android:id="@+id/tvChaptersCourseName"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_chapters"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:text="Course name"
-            android:textAlignment="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Course name"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginStart="32dp"/>
+
+            <Button
+                android:id="@+id/button_create_chapter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:text="add new chapter"
+                android:layout_marginEnd="32dp"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvChapters"
@@ -35,7 +54,7 @@
             android:layout_marginEnd="24dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvChaptersCourseName" />
+            app:layout_constraintTop_toBottomOf="@+id/cl_chapters" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

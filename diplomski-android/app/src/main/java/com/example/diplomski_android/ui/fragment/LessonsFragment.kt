@@ -7,10 +7,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.diplomski_android.MainViewModel
+import com.example.diplomski_android.R
 import com.example.diplomski_android.databinding.FragmentLessonsBinding
 import com.example.diplomski_android.ui.adapter.LessonsAdapter
+import kotlinx.android.synthetic.main.fragment_courses.*
 import kotlinx.android.synthetic.main.fragment_lessons.*
 import kotlinx.coroutines.flow.collectLatest
 
@@ -36,6 +39,10 @@ class LessonsFragment : Fragment() {
             lifecycleOwner = viewLifecycleOwner
             viewModel = mainViewModel
             lessonsFragment = this@LessonsFragment
+        }
+
+        button_create_lesson.setOnClickListener {
+            Navigation.findNavController(view).navigate(R.id.action_lessonsFragment_to_insertLessonFragment)
         }
 
         setupRecyclerView()

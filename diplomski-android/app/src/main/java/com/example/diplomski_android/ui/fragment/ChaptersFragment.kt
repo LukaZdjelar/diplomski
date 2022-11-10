@@ -7,11 +7,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.diplomski_android.MainViewModel
+import com.example.diplomski_android.R
 import com.example.diplomski_android.databinding.FragmentChaptersBinding
 import com.example.diplomski_android.ui.adapter.ChaptersAdapter
 import kotlinx.android.synthetic.main.fragment_chapters.*
+import kotlinx.android.synthetic.main.fragment_courses.*
 import kotlinx.coroutines.flow.collectLatest
 
 class ChaptersFragment : Fragment() {
@@ -35,6 +38,10 @@ class ChaptersFragment : Fragment() {
             lifecycleOwner = viewLifecycleOwner
             viewModel = mainViewModel
             chaptersFragment = this@ChaptersFragment
+        }
+
+        button_create_chapter.setOnClickListener {
+            Navigation.findNavController(view).navigate(R.id.action_chaptersFragment_to_insertChapterFragment)
         }
 
         setupRecyclerView()

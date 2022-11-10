@@ -16,21 +16,42 @@
         android:layout_height="match_parent"
         tools:context=".ui.fragment.TasksFragment">
 
-        <TextView
-            android:id="@+id/tvTasksLessonName"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_tasks"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Lesson name"
-            android:textAlignment="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lesson name"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginStart="32dp"/>
+
+            <Button
+                android:id="@+id/button_create_task"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:text="add new task"
+                android:layout_marginEnd="32dp"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvTasks"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/tvTasksLessonName" />
+            app:layout_constraintTop_toBottomOf="@+id/cl_tasks" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
