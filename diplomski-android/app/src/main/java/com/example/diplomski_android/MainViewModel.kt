@@ -115,10 +115,13 @@ class MainViewModel @Inject constructor(
 
     fun getTasksByLessonFlow(id: Long){
         viewModelScope.launch {
-            taskRepository.getByLesson(id).collect {
+            taskRepository.getByLessonFlow(id).collect {
                 tasksStateFlow.value = it
             }
         }
+    }
+    fun getTasksByLesson(id: Long): List<Task> {
+        return taskRepository.getByLesson(id)
     }
     suspend fun insertTask(task: Task){
         taskRepository.insert(task)
@@ -141,25 +144,16 @@ class MainViewModel @Inject constructor(
         return languageRepository.getById(id)
     }
 
-//    private val _course = MutableStateFlow(Course())
-//    val course : StateFlow<Course> = _course
-//    fun setCourse(selectedCourse: Course){
-//        viewModelScope.launch {
-//            selectedCourse.chapters = getChaptersByCourse(selectedCourse.id!!)
-//            selectedCourse.chapters!!.forEach { chapter ->
-//                chapter.lessons = getLessonsByChapter(chapter.id!!)
-//                chapter.lessons!!.forEach { lesson ->
-//                    lesson.tasks = getTasksByLesson(lesson.id!!)
-//                }
-//            }
-//        }
-//        _course.value = selectedCourse
-//    }
-
     private val _task = MutableLiveData<Task?>()
     val task : LiveData<Task?> = _task
     fun setTask(nextTask: Task?){
         _task.value = nextTask
+    }
+
+    private val _tasks = MutableLiveData<List<Task?>>()
+    val tasks : LiveData<List<Task?>> = _tasks
+    fun setTasks(tasks: List<Task?>){
+        _tasks.value = tasks
     }
 
     val answer = MutableLiveData("")
@@ -179,16 +173,31 @@ class MainViewModel @Inject constructor(
         _completed.value = isCompleted
     }
 
+    private val _corect = MutableLiveData("Incorrect")
+    val corect : LiveData<String> = _corect
+    fun setCorect(isCorrect: String){
+        _corect.value = isCorrect
+    }
+
     fun onAnswerButtonClick(){
 //        runBlocking {
 //            taskService.checkAnswer(task.value?.id!!, answer.value!!)
 //        }
+        if (task.value?.answer!! == answer.value){
+            setCorect("Correct")
+        }else{
+            setCorect("Incorrect")
+        }
 
+
+    }
+
+    fun onDialogNextButtonClick(){
         resetAnswer()
         val nextTaskNumber = taskNumber.value!! + 1
-        if (nextTaskNumber < tasksStateFlow.value.size){
+        if (nextTaskNumber < tasks.value?.size!!){
             setTaskNumber(nextTaskNumber)
-            setTask(tasksStateFlow.value[taskNumber.value!!])
+            setTask(tasks.value!![taskNumber.value!!])
         }else{
             setCompleted(true)
         }

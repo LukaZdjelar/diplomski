@@ -1,9 +1,9 @@
 package com.example.diplomski_android.ui.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
@@ -11,10 +11,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.diplomski_android.MainViewModel
 import com.example.diplomski_android.R
 import com.example.diplomski_android.model.Lesson
+import com.example.diplomski_android.model.Task
 import kotlinx.android.synthetic.main.item_lesson.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class LessonsAdapter(private val mainViewModel: MainViewModel): RecyclerView.Adapter<LessonsAdapter.LessonsViewHolder>() {
 
@@ -61,14 +63,19 @@ class LessonsAdapter(private val mainViewModel: MainViewModel): RecyclerView.Ada
 
 //          TODO: ne radi Toast
 
-//            setOnClickListener{
-//                if (lesson.tasks!!.isNotEmpty()){
-//                    mainViewModel.setTasks(lesson.tasks!!)
-//                    Navigation.findNavController(view).navigate(R.id.action_chaptersFragment_to_taskFragment)
-//                }else{
-//                    Toast.makeText(context,"There are no tasks", Toast.LENGTH_SHORT).show()
-//                }
-//            }
+            setOnClickListener{
+                lateinit var tasks: List<Task>
+                val job = CoroutineScope(Dispatchers.IO).launch {
+                    tasks = mainViewModel.getTasksByLesson(lesson.id!!)
+                }
+                runBlocking { job.join() }
+                if (tasks.isEmpty()){
+                    Toast.makeText(context,"There are no tasks", Toast.LENGTH_SHORT).show()
+                }else{
+                    mainViewModel.setTasks(tasks)
+                    Navigation.findNavController(view).navigate(R.id.action_lessonsFragment_to_taskFragment)
+                }
+            }
         }
     }
 

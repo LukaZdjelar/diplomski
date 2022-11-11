@@ -16,7 +16,11 @@ class TaskRepositoryImpl(private val taskDao: TaskDao): TaskRepository {
     override suspend fun insert(task: Task){
         return taskDao.insert(task)
     }
-    override fun getByLesson(id: Long): Flow<List<Task>> {
+    override fun getByLessonFlow(id: Long): Flow<List<Task>> {
+        return taskDao.getByLessonFlow(id)
+    }
+
+    override fun getByLesson(id: Long): List<Task> {
         return taskDao.getByLesson(id)
     }
 

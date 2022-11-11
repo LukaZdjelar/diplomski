@@ -13,7 +13,6 @@ import com.example.diplomski_android.MainViewModel
 import com.example.diplomski_android.R
 import com.example.diplomski_android.databinding.FragmentLessonsBinding
 import com.example.diplomski_android.ui.adapter.LessonsAdapter
-import kotlinx.android.synthetic.main.fragment_courses.*
 import kotlinx.android.synthetic.main.fragment_lessons.*
 import kotlinx.coroutines.flow.collectLatest
 

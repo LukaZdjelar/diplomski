@@ -7,7 +7,8 @@ interface TaskRepository {
     fun getAllFlow(): Flow<List<Task>>
     fun getAll(): List<Task>
     suspend fun insert(task: Task)
-    fun getByLesson(id: Long): Flow<List<Task>>
+    fun getByLessonFlow(id: Long): Flow<List<Task>>
+    fun getByLesson(id: Long): List<Task>
     suspend fun delete(task: Task)
     suspend fun deleteByLesson(lessonId: Long)
 }

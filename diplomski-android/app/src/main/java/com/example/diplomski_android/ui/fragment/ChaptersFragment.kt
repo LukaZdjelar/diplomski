@@ -14,7 +14,6 @@ import com.example.diplomski_android.R
 import com.example.diplomski_android.databinding.FragmentChaptersBinding
 import com.example.diplomski_android.ui.adapter.ChaptersAdapter
 import kotlinx.android.synthetic.main.fragment_chapters.*
-import kotlinx.android.synthetic.main.fragment_courses.*
 import kotlinx.coroutines.flow.collectLatest
 
 class ChaptersFragment : Fragment() {

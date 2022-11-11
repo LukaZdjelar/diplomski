@@ -24,7 +24,7 @@ class TaskFragment : Fragment() {
         taskBinding = fragmentBinding
 
 //      TODO: ???
-        mainViewModel.setTask(mainViewModel.tasksStateFlow.value[mainViewModel.taskNumber.value!!])
+        mainViewModel.setTask(mainViewModel.tasks.value?.get(mainViewModel.taskNumber.value!!))
 
         return fragmentBinding.root
     }
@@ -40,8 +40,10 @@ class TaskFragment : Fragment() {
 
 //      TODO: ???
         buttonAnswer.setOnClickListener {
-            hideKeyboard()
             mainViewModel.onAnswerButtonClick()
+            hideKeyboard()
+            val dialog = AnswerDialogFragment()
+            dialog.show(parentFragmentManager, "answerDialog")
         }
         goBackOnComplete()
     }

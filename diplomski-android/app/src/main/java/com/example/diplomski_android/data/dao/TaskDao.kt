@@ -17,7 +17,10 @@ interface TaskDao {
     suspend fun insert(task: Task)
 
     @Query("select * from tasks where lesson_id=:id")
-    fun getByLesson(id: Long): Flow<List<Task>>
+    fun getByLessonFlow(id: Long): Flow<List<Task>>
+
+    @Query("select * from tasks where lesson_id=:id")
+    fun getByLesson(id: Long): List<Task>
 
     @Delete
     suspend fun delete(task: Task)
