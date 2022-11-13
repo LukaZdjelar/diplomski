@@ -64,22 +64,22 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/ti_insert_chapter_level"
+            android:id="@+id/menu_insert_chapter_difficulty"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="32dp"
+            android:hint="Difficulty"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ti_insert_chapter_name">
+            app:layout_constraintTop_toBottomOf="@+id/ti_insert_chapter_name"
+            android:layout_margin="32dp">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:text="@={``+viewModel.newChapter.level}"
+            <AutoCompleteTextView
+                android:id="@+id/actv_chapter_difficulty"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number"
-                android:hint="Level" />
+                android:inputType="none"/>
+
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button

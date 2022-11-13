@@ -188,8 +188,6 @@ class MainViewModel @Inject constructor(
         }else{
             setCorect("Incorrect")
         }
-
-
     }
 
     fun onDialogNextButtonClick(){
@@ -245,6 +243,10 @@ class MainViewModel @Inject constructor(
     fun onChapterCourseItemSelected(adapter: ArrayAdapter<Course>, position: Int){
         val course = adapter.getItem(position)!!
         newChapter.value?.course_id = course.id
+    }
+    fun onChapterDifficultyItemSelected(adapter: ArrayAdapter<String>, position: Int){
+        val difficulty = adapter.getItem(position)!!
+        newChapter.value?.difficulty = difficulty
     }
     fun onInsertChapterButtonClick(){
         CoroutineScope(Dispatchers.IO).launch {

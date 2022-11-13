@@ -13,6 +13,7 @@ import com.example.diplomski_android.R
 import com.example.diplomski_android.databinding.FragmentInsertChapterBinding
 import com.example.diplomski_android.model.Course
 import kotlinx.android.synthetic.main.fragment_insert_chapter.*
+import kotlinx.android.synthetic.main.fragment_insert_lesson.*
 import kotlinx.coroutines.flow.collectLatest
 
 class InsertChapterFragment : Fragment() {
@@ -20,6 +21,7 @@ class InsertChapterFragment : Fragment() {
     private val mainViewModel : MainViewModel by activityViewModels()
     private var insertChapterBinding: FragmentInsertChapterBinding? = null
     var courses = listOf<Course>()
+    val difficultyList = listOf("Basic","Intermediate","Advanced")
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,14 +56,23 @@ class InsertChapterFragment : Fragment() {
         val courseAdapter = ArrayAdapter(requireContext(), R.layout.spinner_item, courses)
         actv_chapter_course.setAdapter(courseAdapter)
 
+        val difficultyAdapter = ArrayAdapter(requireContext(), R.layout.spinner_item, difficultyList)
+        actv_chapter_difficulty.setAdapter(difficultyAdapter)
+
         if (mainViewModel.newChapter.value?.id == null){
             actv_chapter_course.setText("",false)
+            actv_chapter_difficulty.setText("",false)
         }else{
             actv_chapter_course.setText(mainViewModel.newChapter.value?.course!!.name,false)
+            actv_chapter_difficulty.setText(mainViewModel.newChapter.value?.difficulty!!,false)
         }
 
         actv_chapter_course.setOnItemClickListener { _, _, position, _ ->
             mainViewModel.onChapterCourseItemSelected(courseAdapter, position)
+        }
+
+        actv_chapter_difficulty.setOnItemClickListener{_, _, position, _ ->
+            mainViewModel.onChapterDifficultyItemSelected(difficultyAdapter, position)
         }
     }
 }

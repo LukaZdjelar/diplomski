@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.diplomski_android.MainViewModel
 import com.example.diplomski_android.R
 import com.example.diplomski_android.databinding.FragmentLessonsBinding
+import com.example.diplomski_android.model.Lesson
 import com.example.diplomski_android.ui.adapter.LessonsAdapter
 import kotlinx.android.synthetic.main.fragment_lessons.*
 import kotlinx.coroutines.flow.collectLatest
@@ -41,6 +42,7 @@ class LessonsFragment : Fragment() {
         }
 
         button_create_lesson.setOnClickListener {
+            mainViewModel.setNewLesson(Lesson())
             Navigation.findNavController(view).navigate(R.id.action_lessonsFragment_to_insertLessonFragment)
         }
 

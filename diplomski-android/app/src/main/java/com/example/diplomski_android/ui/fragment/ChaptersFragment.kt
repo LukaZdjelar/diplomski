@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.diplomski_android.MainViewModel
 import com.example.diplomski_android.R
 import com.example.diplomski_android.databinding.FragmentChaptersBinding
+import com.example.diplomski_android.model.Chapter
 import com.example.diplomski_android.ui.adapter.ChaptersAdapter
 import kotlinx.android.synthetic.main.fragment_chapters.*
 import kotlinx.coroutines.flow.collectLatest
@@ -40,6 +41,7 @@ class ChaptersFragment : Fragment() {
         }
 
         button_create_chapter.setOnClickListener {
+            mainViewModel.setNewChapter(Chapter())
             Navigation.findNavController(view).navigate(R.id.action_chaptersFragment_to_insertChapterFragment)
         }
 

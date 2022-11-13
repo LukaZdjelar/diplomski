@@ -7,25 +7,19 @@ import androidx.room.RoomDatabase
 import com.example.diplomski_android.data.dao.*
 import com.example.diplomski_android.model.*
 
-@Database(entities = [Course::class, Chapter::class, Lesson::class, Task::class, Language::class], version = 6, exportSchema = false)
+@Database(entities = [Course::class, Chapter::class, Lesson::class, Task::class, Language::class], version = 7, exportSchema = false)
 abstract class AppDatabase: RoomDatabase() {
 
-//    @Binds
     abstract fun courseDao(): CourseDao
-//    @Binds
     abstract fun chapterDao(): ChapterDao
-//    @Binds
     abstract fun lessonDao(): LessonDao
-//    @Binds
     abstract fun taskDao(): TaskDao
-//    @Binds
     abstract fun languageDao(): LanguageDao
 
     companion object{
         @Volatile
         private var INSTANCE: AppDatabase? = null
 
-//        @Provides
         fun getDatabase(context: Context): AppDatabase{
             val tempInstance = INSTANCE
             if (tempInstance!=null){
