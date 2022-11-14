@@ -29,4 +29,7 @@ interface LessonDao {
 
     @Query("delete from lessons where chapter_id=:chapterId")
     suspend fun deleteByChapter(chapterId: Long)
+
+    @Query("select * from progress where lesson_id=:lessonId and user_id=:userId")
+    fun getLessonStatus(lessonId: Long, userId: Long): Boolean
 }

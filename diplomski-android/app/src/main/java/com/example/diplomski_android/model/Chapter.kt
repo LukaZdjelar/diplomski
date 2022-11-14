@@ -16,6 +16,10 @@ data class Chapter(
     var lessons: List<Lesson>? = null
     @Ignore
     var course: Course? = null
+    @Ignore
+    var totalLessons: Int? = 0
+    @Ignore
+    var completedLessons: Int? = 0
 
     override fun toString(): String {
         return name!!

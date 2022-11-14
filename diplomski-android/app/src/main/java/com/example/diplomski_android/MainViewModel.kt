@@ -59,6 +59,13 @@ class MainViewModel @Inject constructor(
     fun getChaptersByCourseFlow(id: Long){
         viewModelScope.launch {
             chapterRepository.getByCourseFlow(id).collect {
+                it.forEach { chapter ->
+                    CoroutineScope(Dispatchers.IO).launch {
+                        chapter.totalLessons = countTotalLessons(chapter.id!!)
+                        //TODO: userId=1
+                        chapter.completedLessons = countCompletedLessons(chapter.id!!, 1)
+                    }
+                }
                 chaptersStateFlow.value = it
             }
         }
@@ -85,10 +92,22 @@ class MainViewModel @Inject constructor(
         deleteLesonsByChapter(chapter.id!!)
         deleteChapter(chapter)
     }
+    fun countTotalLessons(chapterId: Long): Int {
+        return chapterRepository.countTotalLessons(chapterId)
+    }
+    fun countCompletedLessons(chapterId: Long, userId: Long): Int {
+        return chapterRepository.countCompletedLessons(chapterId, userId)
+    }
 
     fun getLessonsByChapterFlow(id: Long){
         viewModelScope.launch {
             lessonRepository.getByChapterFlow(id).collect {
+                it.forEach { lesson ->
+                    CoroutineScope(Dispatchers.IO).launch {
+                        //TODO: userId=1
+                        lesson.isCompleted = getLessonStatus(lesson.id!!, 1)
+                    }
+                }
                 lessonsStateFlow.value = it
             }
         }
@@ -111,6 +130,9 @@ class MainViewModel @Inject constructor(
     suspend fun deleteLessonComplete(lesson: Lesson){
         deleteTasksByLesson(lesson.id!!)
         deleteLesson(lesson)
+    }
+    fun getLessonStatus(lessonId: Long, userId: Long): Boolean{
+        return lessonRepository.getLessonStatus(lessonId, userId)
     }
 
     fun getTasksByLessonFlow(id: Long){
@@ -180,9 +202,6 @@ class MainViewModel @Inject constructor(
     }
 
     fun onAnswerButtonClick(){
-//        runBlocking {
-//            taskService.checkAnswer(task.value?.id!!, answer.value!!)
-//        }
         if (task.value?.answer!! == answer.value){
             setCorect("Correct")
         }else{

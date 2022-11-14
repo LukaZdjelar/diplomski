@@ -29,4 +29,12 @@ interface ChapterDao {
 
     @Query("delete from chapters where course_id=:courseId")
     suspend fun deleteByCourse(courseId: Long)
+
+    @Query("select count(id) from lessons where chapter_id=:chapterId")
+    fun countTotalLessons(chapterId: Long): Int
+
+    @Query("select count(l.id)\n" +
+            "from progress p inner join lessons l on p.lesson_id=l.id\n" +
+            "where l.chapter_id=:chapterId and p.user_id=:userId")
+    fun countCompletedLessons(chapterId: Long, userId: Long): Int
 }

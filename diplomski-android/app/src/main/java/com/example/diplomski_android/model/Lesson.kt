@@ -18,6 +18,8 @@ data class Lesson(
     var course: Course? = null
     @Ignore
     var chapter: Chapter? = null
+    @Ignore
+    var isCompleted: Boolean? = null
 
     override fun toString(): String {
         return lesson_type!!

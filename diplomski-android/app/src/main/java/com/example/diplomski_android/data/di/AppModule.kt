@@ -88,4 +88,28 @@ object AppModule {
     fun provideLanguageRepository(languageDao: LanguageDao): LanguageRepository{
         return LanguageRepositoryImpl(languageDao)
     }
+
+    @Provides
+    @Singleton
+    fun provideUserDao(appDatabase: AppDatabase): UserDao{
+        return appDatabase.userDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideUserRepository(userDao: UserDao): UserRepository{
+        return UserRepositoryImpl(userDao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideProgressDao(appDatabase: AppDatabase): ProgressDao{
+        return appDatabase.progressDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideProgressRepository(progressDao: ProgressDao): ProgressRepository{
+        return ProgressRepositoryImpl(progressDao)
+    }
 }

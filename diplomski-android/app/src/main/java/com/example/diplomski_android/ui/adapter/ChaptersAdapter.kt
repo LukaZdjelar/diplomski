@@ -1,5 +1,6 @@
 package com.example.diplomski_android.ui.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,8 +44,12 @@ class ChaptersAdapter(private val mainViewModel: MainViewModel): RecyclerView.Ad
 
     override fun onBindViewHolder(holder: ChaptersViewHolder, position: Int) {
         val chapter = differ.currentList[position]
+
         holder.itemView.apply {
+            val progressString = "${chapter.completedLessons}/${chapter.totalLessons}"
+
             tvChapterName.text = chapter.name
+            tvChapterProgress.text = progressString
 
             setOnClickListener{
                 mainViewModel.getLessonsByChapterFlow(chapter.id!!)

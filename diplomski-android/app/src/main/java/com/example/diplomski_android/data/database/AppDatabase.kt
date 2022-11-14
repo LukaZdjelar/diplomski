@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import com.example.diplomski_android.data.dao.*
 import com.example.diplomski_android.model.*
 
-@Database(entities = [Course::class, Chapter::class, Lesson::class, Task::class, Language::class], version = 7, exportSchema = false)
+@Database(entities = [Course::class, Chapter::class, Lesson::class, Task::class, Language::class, User::class, Progress::class], version = 8, exportSchema = false)
 abstract class AppDatabase: RoomDatabase() {
 
     abstract fun courseDao(): CourseDao
@@ -15,6 +15,8 @@ abstract class AppDatabase: RoomDatabase() {
     abstract fun lessonDao(): LessonDao
     abstract fun taskDao(): TaskDao
     abstract fun languageDao(): LanguageDao
+    abstract fun userDao(): UserDao
+    abstract fun progressDao(): ProgressDao
 
     companion object{
         @Volatile

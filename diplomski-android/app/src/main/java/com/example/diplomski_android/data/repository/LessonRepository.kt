@@ -12,4 +12,5 @@ interface LessonRepository {
     suspend fun insert(lesson: Lesson)
     suspend fun delete(lesson: Lesson)
     suspend fun deleteByChapter(chapterId: Long)
+    fun getLessonStatus(lessonId: Long, userId: Long): Boolean
 }

@@ -38,4 +38,8 @@ class LessonRepositoryImpl(private val lessonDao: LessonDao): LessonRepository {
     override suspend fun deleteByChapter(chapterId: Long) {
         return lessonDao.deleteByChapter(chapterId)
     }
+
+    override fun getLessonStatus(lessonId: Long, userId: Long): Boolean {
+        return lessonDao.getLessonStatus(lessonId, userId)
+    }
 }

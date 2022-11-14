@@ -38,4 +38,12 @@ class ChapterRepositoryImpl(private val chapterDao: ChapterDao): ChapterReposito
     override suspend fun deleteByCourse(courseId: Long) {
         return chapterDao.deleteByCourse(courseId)
     }
+
+    override fun countTotalLessons(chapterId: Long): Int {
+        return chapterDao.countTotalLessons(chapterId)
+    }
+
+    override fun countCompletedLessons(chapterId: Long, userId: Long): Int {
+        return chapterDao.countCompletedLessons(chapterId, userId)
+    }
 }
