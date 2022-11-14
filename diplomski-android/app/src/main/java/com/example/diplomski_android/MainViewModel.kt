@@ -1,5 +1,6 @@
 package com.example.diplomski_android
 
+import android.util.Log
 import android.widget.ArrayAdapter
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -12,6 +13,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 @HiltViewModel
@@ -20,7 +22,9 @@ class MainViewModel @Inject constructor(
     private val chapterRepository: ChapterRepository,
     private val lessonRepository: LessonRepository,
     private val taskRepository: TaskRepository,
-    private val languageRepository: LanguageRepository
+    private val languageRepository: LanguageRepository,
+    private val progressRepository: ProgressRepository,
+    private val userRepository: UserRepository
 ):ViewModel() {
 
     val coursesStateFlow = MutableStateFlow(listOf(Course()))
@@ -154,6 +158,9 @@ class MainViewModel @Inject constructor(
     suspend fun deleteTasksByLesson(lessonId: Long){
         taskRepository.deleteByLesson(lessonId)
     }
+    fun countTasksByLesson(lessonId: Long): Int{
+        return taskRepository.countByLesson(lessonId)
+    }
 
     fun getLanguages() {
         viewModelScope.launch {
@@ -164,6 +171,10 @@ class MainViewModel @Inject constructor(
     }
     fun getLanguageById(id: Long): Language{
         return languageRepository.getById(id)
+    }
+
+    suspend fun insertProgress(progress: Progress){
+        progressRepository.insert(progress)
     }
 
     private val _task = MutableLiveData<Task?>()
@@ -201,9 +212,16 @@ class MainViewModel @Inject constructor(
         _corect.value = isCorrect
     }
 
+    private val _corectCounter = MutableLiveData(0)
+    val corectCounter : LiveData<Int> = _corectCounter
+    fun setCorectCounter(counter: Int){
+        _corectCounter.value = counter
+    }
+
     fun onAnswerButtonClick(){
         if (task.value?.answer!! == answer.value){
             setCorect("Correct")
+            setCorectCounter(corectCounter.value!!.inc())
         }else{
             setCorect("Incorrect")
         }
@@ -218,6 +236,26 @@ class MainViewModel @Inject constructor(
         }else{
             setCompleted(true)
         }
+    }
+
+    private val _grade = MutableLiveData(0.0)
+    val grade : LiveData<Double> = _grade
+    fun setGrade(newGrade: Double){
+        _grade.value = newGrade
+    }
+
+    fun onLessonComplete(){
+        var grade: Double = 0.0
+        val job = CoroutineScope(Dispatchers.IO).launch {
+            val numberOfTasks = countTasksByLesson(task.value?.lesson_id!!)
+            grade = corectCounter.value!!*1.0 / numberOfTasks
+        }
+        runBlocking { job.join() }
+        setGrade(grade)
+    }
+
+    fun onResultNextButtonClick(){
+        setCorectCounter(0)
     }
 
     //INSERT COURSE

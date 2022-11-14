@@ -31,4 +31,8 @@ class TaskRepositoryImpl(private val taskDao: TaskDao): TaskRepository {
     override suspend fun deleteByLesson(lessonId: Long) {
         return taskDao.deleteByLesson(lessonId)
     }
+
+    override fun countByLesson(lessonId: Long): Int {
+        return taskDao.countByLesson(lessonId)
+    }
 }

@@ -27,4 +27,7 @@ interface TaskDao {
 
     @Query("delete from tasks where lesson_id=:lessonId")
     suspend fun deleteByLesson(lessonId: Long)
+
+    @Query("select count(id) from tasks where lesson_id=:lessonId")
+    fun countByLesson(lessonId: Long): Int
 }

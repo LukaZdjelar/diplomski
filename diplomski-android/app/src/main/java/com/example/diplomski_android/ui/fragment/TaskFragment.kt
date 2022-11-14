@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.diplomski_android.MainViewModel
 import com.example.diplomski_android.databinding.FragmentTaskBinding
+import kotlinx.android.synthetic.main.dialog_result.*
 import kotlinx.android.synthetic.main.fragment_task.*
 
 class TaskFragment : Fragment() {
@@ -45,13 +46,15 @@ class TaskFragment : Fragment() {
             val dialog = AnswerDialogFragment()
             dialog.show(parentFragmentManager, "answerDialog")
         }
-        goBackOnComplete()
+        showResultsOnComplete()
     }
 
-    private fun goBackOnComplete(){
+    private fun showResultsOnComplete(){
         mainViewModel.completed.observe(viewLifecycleOwner) {
             if (it){
-                activity?.onBackPressed()
+                mainViewModel.onLessonComplete()
+                val dialog = ResultDialogFragment()
+                dialog.show(parentFragmentManager, "resultDialog")
             }
         }
     }

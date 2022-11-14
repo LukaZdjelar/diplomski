@@ -11,4 +11,5 @@ interface TaskRepository {
     fun getByLesson(id: Long): List<Task>
     suspend fun delete(task: Task)
     suspend fun deleteByLesson(lessonId: Long)
+    fun countByLesson(lessonId: Long): Int
 }
