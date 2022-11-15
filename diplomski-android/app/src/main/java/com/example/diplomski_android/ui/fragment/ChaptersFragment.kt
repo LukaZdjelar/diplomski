@@ -44,13 +44,7 @@ class ChaptersFragment : Fragment() {
             mainViewModel.setNewChapter(Chapter())
             Navigation.findNavController(view).navigate(R.id.action_chaptersFragment_to_insertChapterFragment)
         }
-
         setupRecyclerView()
-        lifecycleScope.launchWhenCreated {
-            mainViewModel.chaptersStateFlow.collectLatest {
-                chaptersAdapter.differ.submitList(it)
-            }
-        }
     }
 
     private fun setupRecyclerView(){
@@ -58,6 +52,16 @@ class ChaptersFragment : Fragment() {
         rvChapters.apply {
             adapter = chaptersAdapter
             layoutManager = LinearLayoutManager(activity)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mainViewModel.getChaptersByCourseFlow(mainViewModel.currentCourse.value?.id!!)
+        lifecycleScope.launchWhenCreated {
+            mainViewModel.chaptersStateFlow.collectLatest {
+                chaptersAdapter.differ.submitList(it)
+            }
         }
     }
 }

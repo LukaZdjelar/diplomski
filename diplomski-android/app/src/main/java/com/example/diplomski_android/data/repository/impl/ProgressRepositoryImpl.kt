@@ -9,4 +9,8 @@ class ProgressRepositoryImpl(private val progressDao: ProgressDao): ProgressRepo
     override suspend fun insert(progress: Progress) {
         return progressDao.insert(progress)
     }
+
+    override fun findByUserAndLessonBoolean(userId: Long, lessonId: Long): Boolean {
+        return progressDao.findByUserAndLessonBoolean(userId, lessonId)
+    }
 }

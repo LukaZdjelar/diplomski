@@ -70,5 +70,6 @@ class TaskFragment : Fragment() {
         mainViewModel.setTask(null)
         mainViewModel.setTaskNumber(0)
         mainViewModel.setCompleted(false)
+        mainViewModel.setCorectCounter(0)
     }
 }

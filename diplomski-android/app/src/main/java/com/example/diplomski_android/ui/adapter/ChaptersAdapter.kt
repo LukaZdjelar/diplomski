@@ -49,10 +49,11 @@ class ChaptersAdapter(private val mainViewModel: MainViewModel): RecyclerView.Ad
             val progressString = "${chapter.completedLessons}/${chapter.totalLessons}"
 
             tvChapterName.text = chapter.name
+            tvChapterDifficulty.text = chapter.difficulty
             tvChapterProgress.text = progressString
 
             setOnClickListener{
-                mainViewModel.getLessonsByChapterFlow(chapter.id!!)
+                mainViewModel.setCurrentChapter(chapter)
                 Navigation.findNavController(view).navigate(R.id.action_chaptersFragment_to_lessonsFragment)
             }
 

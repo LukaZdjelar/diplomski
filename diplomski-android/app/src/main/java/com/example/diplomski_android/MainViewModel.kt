@@ -12,6 +12,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.updateAndGet
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
@@ -32,6 +34,24 @@ class MainViewModel @Inject constructor(
     val lessonsStateFlow = MutableStateFlow(listOf(Lesson()))
     val tasksStateFlow = MutableStateFlow(listOf(Task()))
     val languagesStateFlow = MutableStateFlow(listOf(Language()))
+
+    private val _currentCourse = MutableLiveData<Course?>()
+    val currentCourse : LiveData<Course?> = _currentCourse
+    fun setCurrentCourse(cc: Course?){
+        _currentCourse.value = cc
+    }
+
+    private val _currentChapter = MutableLiveData<Chapter?>()
+    val currentChapter : LiveData<Chapter?> = _currentChapter
+    fun setCurrentChapter(cc: Chapter?){
+        _currentChapter.value = cc
+    }
+
+    private val _currentLesson = MutableLiveData<Lesson?>()
+    val currentLesson : LiveData<Lesson?> = _currentLesson
+    fun setCurrentLesson(cl: Lesson?){
+        _currentLesson.value = cl
+    }
 
     fun getCourses(){
         viewModelScope.launch {
@@ -61,14 +81,16 @@ class MainViewModel @Inject constructor(
     }
 
     fun getChaptersByCourseFlow(id: Long){
+        chaptersStateFlow.value = emptyList()
         viewModelScope.launch {
             chapterRepository.getByCourseFlow(id).collect {
                 it.forEach { chapter ->
-                    CoroutineScope(Dispatchers.IO).launch {
+                    val job = CoroutineScope(Dispatchers.IO).launch {
                         chapter.totalLessons = countTotalLessons(chapter.id!!)
                         //TODO: userId=1
                         chapter.completedLessons = countCompletedLessons(chapter.id!!, 1)
                     }
+                    runBlocking { job.join() }
                 }
                 chaptersStateFlow.value = it
             }
@@ -104,13 +126,16 @@ class MainViewModel @Inject constructor(
     }
 
     fun getLessonsByChapterFlow(id: Long){
+        //TODO: nece da promeni isCompleted na postojecem flow
+        lessonsStateFlow.value = emptyList()
         viewModelScope.launch {
             lessonRepository.getByChapterFlow(id).collect {
                 it.forEach { lesson ->
-                    CoroutineScope(Dispatchers.IO).launch {
+                    val job = CoroutineScope(Dispatchers.IO).launch {
                         //TODO: userId=1
                         lesson.isCompleted = getLessonStatus(lesson.id!!, 1)
                     }
+                    runBlocking { job.join() }
                 }
                 lessonsStateFlow.value = it
             }
@@ -176,6 +201,9 @@ class MainViewModel @Inject constructor(
     suspend fun insertProgress(progress: Progress){
         progressRepository.insert(progress)
     }
+    fun findProgressByUserAndLessonBoolean(userId: Long, lessonId: Long): Boolean{
+        return progressRepository.findByUserAndLessonBoolean(userId, lessonId)
+    }
 
     private val _task = MutableLiveData<Task?>()
     val task : LiveData<Task?> = _task
@@ -238,24 +266,47 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    private val _grade = MutableLiveData(0.0)
-    val grade : LiveData<Double> = _grade
-    fun setGrade(newGrade: Double){
+    private val _grade = MutableLiveData("")
+    val grade : LiveData<String> = _grade
+    fun setGrade(newGrade: String){
         _grade.value = newGrade
     }
 
+    private val _passed = MutableLiveData("")
+    val passed : LiveData<String> = _passed
+    fun setPassed(p: String){
+        _passed.value = p
+    }
+
     fun onLessonComplete(){
-        var grade: Double = 0.0
-        val job = CoroutineScope(Dispatchers.IO).launch {
-            val numberOfTasks = countTasksByLesson(task.value?.lesson_id!!)
+        val lessonId = currentLesson.value?.id!!
+        var grade = 0.0
+
+        val job1 = CoroutineScope(Dispatchers.IO).launch {
+            val numberOfTasks = countTasksByLesson(lessonId)
             grade = corectCounter.value!!*1.0 / numberOfTasks
         }
-        runBlocking { job.join() }
-        setGrade(grade)
+        runBlocking { job1.join() }
+
+        val gradeString = "${(grade*100).toInt()}%"
+        setGrade(gradeString)
+        if(grade > 0.85){
+            val job2 = CoroutineScope(Dispatchers.IO).launch {
+                //TODO: userId=1
+                if (!findProgressByUserAndLessonBoolean(1, lessonId)){
+                    insertProgress(Progress(null, 1, lessonId))
+                }
+            }
+            runBlocking { job2.join() }
+            setPassed("Passed")
+        }else{
+            setPassed("Failed")
+        }
     }
 
     fun onResultNextButtonClick(){
         setCorectCounter(0)
+        setPassed("")
     }
 
     //INSERT COURSE

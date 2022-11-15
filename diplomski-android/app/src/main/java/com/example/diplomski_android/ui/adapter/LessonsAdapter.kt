@@ -1,5 +1,6 @@
 package com.example.diplomski_android.ui.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,6 +44,7 @@ class LessonsAdapter(private val mainViewModel: MainViewModel): RecyclerView.Ada
 
     override fun onBindViewHolder(holder: LessonsViewHolder, position: Int) {
         val lesson = differ.currentList[position]
+        Log.d("TESTINGG","onBindViewHolder ${lesson.id}")
         var lessonsStatus = ""
         //TODO: userId=1
         if (lesson.isCompleted == true) {
@@ -51,23 +53,6 @@ class LessonsAdapter(private val mainViewModel: MainViewModel): RecyclerView.Ada
         holder.itemView.apply {
             tvLessonName.text = lesson.lesson_type
             tvLessonStatus.text = lessonsStatus
-
-            button_edit_lesson.setOnClickListener {
-                mainViewModel.setNewLesson(lesson)
-                Navigation.findNavController(view).navigate(R.id.action_lessonsFragment_to_insertLessonFragment)
-            }
-            button_delete_lesson.setOnClickListener {
-                CoroutineScope(Dispatchers.IO).launch {
-                    mainViewModel.deleteLessonComplete(lesson)
-                }
-            }
-
-            button_manage_tasks.setOnClickListener {
-                mainViewModel.getTasksByLessonFlow(lesson.id!!)
-                Navigation.findNavController(view).navigate(R.id.action_lessonsFragment_to_tasksFragment)
-            }
-
-//          TODO: ne radi Toast
 
             setOnClickListener{
                 lateinit var tasks: List<Task>
@@ -78,9 +63,29 @@ class LessonsAdapter(private val mainViewModel: MainViewModel): RecyclerView.Ada
                 if (tasks.isEmpty()){
                     Toast.makeText(context,"There are no tasks", Toast.LENGTH_SHORT).show()
                 }else{
+                    mainViewModel.setCurrentLesson(lesson)
                     mainViewModel.setTasks(tasks)
+                    //TODO: "... does not have a NavController set" nakon brisanja lekcije
                     Navigation.findNavController(view).navigate(R.id.action_lessonsFragment_to_taskFragment)
                 }
+            }
+
+            button_edit_lesson.setOnClickListener {
+                mainViewModel.setNewLesson(lesson)
+                Navigation.findNavController(view).navigate(R.id.action_lessonsFragment_to_insertLessonFragment)
+            }
+
+            button_delete_lesson.setOnClickListener {
+                val job = CoroutineScope(Dispatchers.IO).launch {
+                    mainViewModel.deleteLessonComplete(lesson)
+                }
+                runBlocking { job.join() }
+                notifyDataSetChanged()
+            }
+
+            button_manage_tasks.setOnClickListener {
+                mainViewModel.getTasksByLessonFlow(lesson.id!!)
+                Navigation.findNavController(view).navigate(R.id.action_lessonsFragment_to_tasksFragment)
             }
         }
     }

@@ -5,4 +5,5 @@ import com.example.diplomski_android.model.Progress
 interface ProgressRepository {
 
     suspend fun insert(progress: Progress)
+    fun findByUserAndLessonBoolean(userId: Long, lessonId: Long): Boolean
 }

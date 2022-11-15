@@ -44,7 +44,7 @@ class CoursesAdapter(private val mainViewModel: MainViewModel) : RecyclerView.Ad
             tvCourseName.text = course.name
 
             setOnClickListener{
-                mainViewModel.getChaptersByCourseFlow(course.id!!)
+                mainViewModel.setCurrentCourse(course)
                 Navigation.findNavController(view).navigate(R.id.action_coursesFragment_to_chaptersFragment)
             }
             button_edit_course.setOnClickListener{

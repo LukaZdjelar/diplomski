@@ -1,6 +1,7 @@
 package com.example.diplomski_android.ui.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +17,7 @@ import com.example.diplomski_android.model.Lesson
 import com.example.diplomski_android.ui.adapter.LessonsAdapter
 import kotlinx.android.synthetic.main.fragment_lessons.*
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.runBlocking
 
 class LessonsFragment : Fragment() {
     private val mainViewModel : MainViewModel by activityViewModels()
@@ -47,11 +49,7 @@ class LessonsFragment : Fragment() {
         }
 
         setupRecyclerView()
-        lifecycleScope.launchWhenCreated {
-            mainViewModel.lessonsStateFlow.collectLatest {
-                lessonsAdapter.differ.submitList(it)
-            }
-        }
+
     }
 
     private fun setupRecyclerView(){
@@ -59,6 +57,16 @@ class LessonsFragment : Fragment() {
         rvLessons.apply {
             adapter = lessonsAdapter
             layoutManager = LinearLayoutManager(activity)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mainViewModel.getLessonsByChapterFlow(mainViewModel.currentChapter.value?.id!!)
+        lifecycleScope.launchWhenResumed {
+            mainViewModel.lessonsStateFlow.collectLatest {
+                lessonsAdapter.differ.submitList(it)
+            }
         }
     }
 }
