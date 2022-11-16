@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.diplomski_android.MainViewModel
 import com.example.diplomski_android.R
 import com.example.diplomski_android.databinding.FragmentTasksBinding
+import com.example.diplomski_android.model.Chapter
 import com.example.diplomski_android.model.Task
 import com.example.diplomski_android.ui.adapter.TaskAdapter
 import kotlinx.android.synthetic.main.fragment_tasks.*
@@ -43,7 +44,11 @@ class TasksFragment : Fragment() {
         }
 
         button_create_task.setOnClickListener {
-            mainViewModel.setNewTask(Task())
+            val task = Task()
+            task.course = mainViewModel.currentCourse.value
+            task.chapter = mainViewModel.currentChapter.value
+            task.lesson = mainViewModel.currentLesson.value
+            mainViewModel.setNewTask(task)
             Navigation.findNavController(view).navigate(R.id.action_tasksFragment_to_insertTaskFragment)
         }
 

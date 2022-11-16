@@ -64,9 +64,10 @@ class InsertTaskFragment : Fragment() {
         lateinit var lessonAdapter: ArrayAdapter<Lesson>
 
         if (mainViewModel.newTask.value?.id == null){
-            actv_task_course.setText("",false)
-            actv_task_chapter.setText("",false)
-            actv_task_lesson.setText("",false)
+            actv_task_course.setText(mainViewModel.newTask.value?.course!!.name,false)
+            actv_task_chapter.setText(mainViewModel.newTask.value?.chapter!!.name,false)
+            actv_task_lesson.setText(mainViewModel.newTask.value?.lesson!!.lesson_type,false)
+            mainViewModel.newTask.value?.lesson_id = mainViewModel.currentLesson.value?.id
         }else{
             actv_task_course.setText(mainViewModel.newTask.value?.course!!.name,false)
             actv_task_chapter.setText(mainViewModel.newTask.value?.chapter!!.name,false)

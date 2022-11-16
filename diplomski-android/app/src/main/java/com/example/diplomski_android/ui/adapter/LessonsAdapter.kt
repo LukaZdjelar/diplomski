@@ -84,6 +84,7 @@ class LessonsAdapter(private val mainViewModel: MainViewModel): RecyclerView.Ada
             }
 
             button_manage_tasks.setOnClickListener {
+                mainViewModel.setCurrentLesson(lesson)
                 mainViewModel.getTasksByLessonFlow(lesson.id!!)
                 Navigation.findNavController(view).navigate(R.id.action_lessonsFragment_to_tasksFragment)
             }

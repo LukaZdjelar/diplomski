@@ -44,7 +44,10 @@ class LessonsFragment : Fragment() {
         }
 
         button_create_lesson.setOnClickListener {
-            mainViewModel.setNewLesson(Lesson())
+            val lesson = Lesson()
+            lesson.course = mainViewModel.currentCourse.value
+            lesson.chapter = mainViewModel.currentChapter.value
+            mainViewModel.setNewLesson(lesson)
             Navigation.findNavController(view).navigate(R.id.action_lessonsFragment_to_insertLessonFragment)
         }
 

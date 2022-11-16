@@ -44,6 +44,7 @@ class TaskFragment : Fragment() {
             mainViewModel.onAnswerButtonClick()
             hideKeyboard()
             val dialog = AnswerDialogFragment()
+            dialog.isCancelable = false
             dialog.show(parentFragmentManager, "answerDialog")
         }
         showResultsOnComplete()
@@ -54,6 +55,7 @@ class TaskFragment : Fragment() {
             if (it){
                 mainViewModel.onLessonComplete()
                 val dialog = ResultDialogFragment()
+                dialog.isCancelable = false
                 dialog.show(parentFragmentManager, "resultDialog")
             }
         }

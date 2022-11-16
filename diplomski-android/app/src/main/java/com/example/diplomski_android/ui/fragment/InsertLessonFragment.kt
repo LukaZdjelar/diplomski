@@ -63,8 +63,9 @@ class InsertLessonFragment : Fragment() {
         actv_lesson_type.setAdapter(typeAdapter)
 
         if (mainViewModel.newLesson.value?.id == null){
-            actv_lesson_course.setText("",false)
-            actv_lesson_chapter.setText("",false)
+            actv_lesson_course.setText(mainViewModel.newLesson.value?.course!!.name,false)
+            actv_lesson_chapter.setText(mainViewModel.newLesson.value?.chapter!!.name,false)
+            mainViewModel.newLesson.value?.chapter_id = mainViewModel.newLesson.value?.chapter?.id
             actv_lesson_type.setText("",false)
         }else{
             actv_lesson_course.setText(mainViewModel.newLesson.value?.course!!.name,false)

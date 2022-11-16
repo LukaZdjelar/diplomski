@@ -1,6 +1,7 @@
 package com.example.diplomski_android.ui.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -60,7 +61,8 @@ class InsertChapterFragment : Fragment() {
         actv_chapter_difficulty.setAdapter(difficultyAdapter)
 
         if (mainViewModel.newChapter.value?.id == null){
-            actv_chapter_course.setText("",false)
+            actv_chapter_course.setText(mainViewModel.newChapter.value?.course!!.name,false)
+            mainViewModel.newChapter.value?.course_id = mainViewModel.newChapter.value?.course?.id
             actv_chapter_difficulty.setText("",false)
         }else{
             actv_chapter_course.setText(mainViewModel.newChapter.value?.course!!.name,false)

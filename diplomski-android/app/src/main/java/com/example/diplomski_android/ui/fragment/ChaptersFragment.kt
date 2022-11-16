@@ -1,6 +1,7 @@
 package com.example.diplomski_android.ui.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,7 +42,9 @@ class ChaptersFragment : Fragment() {
         }
 
         button_create_chapter.setOnClickListener {
-            mainViewModel.setNewChapter(Chapter())
+            val chapter = Chapter()
+            chapter.course = mainViewModel.currentCourse.value
+            mainViewModel.setNewChapter(chapter)
             Navigation.findNavController(view).navigate(R.id.action_chaptersFragment_to_insertChapterFragment)
         }
         setupRecyclerView()
