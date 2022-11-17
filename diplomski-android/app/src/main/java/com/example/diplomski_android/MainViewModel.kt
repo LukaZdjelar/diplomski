@@ -205,6 +205,9 @@ class MainViewModel @Inject constructor(
     suspend fun insertUser(user: User){
         userRepository.insert(user)
     }
+    fun getUserByEmail(email: String): User{
+        return userRepository.getByEmail(email)
+    }
 
     private val _task = MutableLiveData<Task?>()
     val task : LiveData<Task?> = _task
@@ -415,7 +418,7 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    //INSERT TASK
+    //INSERT USER
     private val _newUser = MutableLiveData(User())
     val newUser : LiveData<User> = _newUser
     fun setNewUser(nu: User){

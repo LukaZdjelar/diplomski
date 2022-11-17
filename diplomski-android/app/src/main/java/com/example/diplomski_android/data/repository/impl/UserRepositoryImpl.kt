@@ -8,4 +8,12 @@ class UserRepositoryImpl(private val userDao: UserDao): UserRepository {
     override suspend fun insert(user: User) {
         userDao.insert(user)
     }
+
+    override fun getById(id: Long): User {
+        return userDao.getById(id)
+    }
+
+    override fun getByEmail(email: String): User {
+        return userDao.getByEmail(email)
+    }
 }
