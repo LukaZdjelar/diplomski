@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/coursesFragment">
+    app:startDestination="@id/loginFragment">
 
     <fragment
         android:id="@+id/coursesFragment"
@@ -78,4 +78,23 @@
             android:id="@+id/action_tasksFragment_to_insertTaskFragment"
             app:destination="@id/insertTaskFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.diplomski_android.ui.fragment.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_coursesFragment"
+            app:destination="@id/coursesFragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/loginFragment"/>
+        <action
+            android:id="@+id/action_loginFragment_to_registrationFragment"
+            app:destination="@id/registrationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registrationFragment"
+        android:name="com.example.diplomski_android.ui.fragment.RegistrationFragment"
+        android:label="fragment_registration"
+        tools:layout="@layout/fragment_registration" />
 </navigation>

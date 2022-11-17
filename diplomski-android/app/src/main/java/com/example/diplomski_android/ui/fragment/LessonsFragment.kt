@@ -1,7 +1,6 @@
 package com.example.diplomski_android.ui.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +16,6 @@ import com.example.diplomski_android.model.Lesson
 import com.example.diplomski_android.ui.adapter.LessonsAdapter
 import kotlinx.android.synthetic.main.fragment_lessons.*
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.runBlocking
 
 class LessonsFragment : Fragment() {
     private val mainViewModel : MainViewModel by activityViewModels()

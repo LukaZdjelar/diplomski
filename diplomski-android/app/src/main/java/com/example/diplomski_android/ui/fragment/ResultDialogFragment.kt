@@ -7,9 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.example.diplomski_android.MainViewModel
-import com.example.diplomski_android.databinding.DialogAnswerBinding
 import com.example.diplomski_android.databinding.DialogResultBinding
-import kotlinx.android.synthetic.main.dialog_answer.*
 import kotlinx.android.synthetic.main.dialog_result.*
 
 class ResultDialogFragment: DialogFragment() {

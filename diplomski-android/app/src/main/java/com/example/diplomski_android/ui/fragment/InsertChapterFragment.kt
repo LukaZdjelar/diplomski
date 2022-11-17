@@ -1,7 +1,6 @@
 package com.example.diplomski_android.ui.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +13,6 @@ import com.example.diplomski_android.R
 import com.example.diplomski_android.databinding.FragmentInsertChapterBinding
 import com.example.diplomski_android.model.Course
 import kotlinx.android.synthetic.main.fragment_insert_chapter.*
-import kotlinx.android.synthetic.main.fragment_insert_lesson.*
 import kotlinx.coroutines.flow.collectLatest
 
 class InsertChapterFragment : Fragment() {

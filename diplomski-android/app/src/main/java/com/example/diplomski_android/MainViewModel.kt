@@ -1,6 +1,5 @@
 package com.example.diplomski_android
 
-import android.util.Log
 import android.widget.ArrayAdapter
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -12,8 +11,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.flow.updateAndGet
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
@@ -205,6 +202,10 @@ class MainViewModel @Inject constructor(
         return progressRepository.findByUserAndLessonBoolean(userId, lessonId)
     }
 
+    suspend fun insertUser(user: User){
+        userRepository.insert(user)
+    }
+
     private val _task = MutableLiveData<Task?>()
     val task : LiveData<Task?> = _task
     fun setTask(nextTask: Task?){
@@ -278,6 +279,7 @@ class MainViewModel @Inject constructor(
         _passed.value = p
     }
 
+    //INSERT PROGRESS
     fun onLessonComplete(){
         val lessonId = currentLesson.value?.id!!
         var grade = 0.0
@@ -411,5 +413,12 @@ class MainViewModel @Inject constructor(
         CoroutineScope(Dispatchers.IO).launch {
             insertTask(newTask.value!!)
         }
+    }
+
+    //INSERT TASK
+    private val _newUser = MutableLiveData(User())
+    val newUser : LiveData<User> = _newUser
+    fun setNewUser(nu: User){
+        _newUser.value = nu
     }
 }
