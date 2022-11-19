@@ -16,6 +16,11 @@
         <action
             android:id="@+id/action_coursesFragment_to_insertCourseFragment"
             app:destination="@id/insertCourseFragment" />
+        <action
+            android:id="@+id/action_coursesFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/coursesFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/chaptersFragment"
@@ -28,6 +33,11 @@
         <action
             android:id="@+id/action_chaptersFragment_to_lessonsFragment"
             app:destination="@id/lessonsFragment" />
+        <action
+            android:id="@+id/action_chaptersFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/coursesFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/taskFragment"
@@ -68,6 +78,11 @@
         <action
             android:id="@+id/action_lessonsFragment_to_tasksFragment"
             app:destination="@id/tasksFragment" />
+        <action
+            android:id="@+id/action_lessonsFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/coursesFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/tasksFragment"

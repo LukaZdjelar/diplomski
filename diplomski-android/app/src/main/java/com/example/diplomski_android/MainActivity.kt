@@ -18,7 +18,6 @@ class MainActivity: AppCompatActivity() {
         val navController = navHostFragment.navController
 
         val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
-//        sharedPref.edit().clear().apply()
         val loggedUserId = sharedPref.getLong("user", 0L)
 
 
