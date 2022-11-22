@@ -1,8 +1,10 @@
 package com.example.diplomski_android.ui.adapter
 
+import android.opengl.Visibility
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
@@ -41,6 +43,7 @@ class CoursesAdapter(private val mainViewModel: MainViewModel) : RecyclerView.Ad
     override fun onBindViewHolder(holder: CoursesViewHolder, position: Int) {
         val course = differ.currentList[position]
         holder.itemView.apply {
+            llCourseItemAdmin.isVisible = mainViewModel.isAdmin.value!!
             tvCourseName.text = course.name
 
             setOnClickListener{

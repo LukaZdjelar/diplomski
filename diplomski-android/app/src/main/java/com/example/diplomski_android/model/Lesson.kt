@@ -9,7 +9,6 @@ data class Lesson(
     @PrimaryKey(autoGenerate = true)
     var id: Long? = null,
     var chapter_id: Long? = null,
-    var lesson_status: String? = "",
     var lesson_type: String? = ""
 ){
     @Ignore

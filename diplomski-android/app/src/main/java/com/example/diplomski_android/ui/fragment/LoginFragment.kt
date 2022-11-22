@@ -52,11 +52,12 @@ class LoginFragment : Fragment() {
             }
             runBlocking { job.join() }
 
-            if (user!=null){
+            if (user.id!=null){
                 if (user.password == password){
                     val sharedPreference = activity?.getPreferences(Context.MODE_PRIVATE)
                     val editor = sharedPreference?.edit()
                     editor?.putLong("user",user.id!!)
+                    mainViewModel.setIsAdmin(user.isAdmin!!)
                     editor?.apply()
 
                     Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_coursesFragment)

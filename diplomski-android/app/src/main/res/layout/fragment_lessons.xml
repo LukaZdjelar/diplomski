@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
     <data>
+        <import type="android.view.View"/>
         <variable
             name="viewModel"
             type="com.example.diplomski_android.MainViewModel" />
@@ -24,23 +25,14 @@
             <include android:id="@+id/includeToolbar" layout="@layout/layout_toolbar"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_lessons"
+                android:id="@+id/clLessonsAdmin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/includeToolbar"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Chapter name"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginStart="32dp"/>
+                android:orientation="horizontal"
+                android:visibility="@{viewModel.isAdmin ? View.VISIBLE : View.GONE}">
 
                 <Button
                     android:id="@+id/button_create_lesson"
@@ -58,7 +50,7 @@
                 android:id="@+id/rvLessons"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/cl_lessons" />
+                app:layout_constraintTop_toBottomOf="@+id/clLessonsAdmin" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

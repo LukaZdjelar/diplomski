@@ -3,6 +3,7 @@ package com.example.diplomski_android.ui.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
@@ -45,6 +46,7 @@ class ChaptersAdapter(private val mainViewModel: MainViewModel): RecyclerView.Ad
         val chapter = differ.currentList[position]
 
         holder.itemView.apply {
+            llChapterItemAdmin.isVisible = mainViewModel.isAdmin.value!!
             val progressString = "${chapter.completedLessons}/${chapter.totalLessons}"
 
             tvChapterName.text = chapter.name

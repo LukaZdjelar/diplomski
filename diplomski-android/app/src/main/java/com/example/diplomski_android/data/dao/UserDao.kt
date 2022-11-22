@@ -17,4 +17,7 @@ interface UserDao {
 
     @Query("select * from users where email=:email")
     fun getByEmail(email: String): User
+
+    @Query("select isAdmin from users where id=:id")
+    fun getIsAdmin(id: Long): Boolean
 }

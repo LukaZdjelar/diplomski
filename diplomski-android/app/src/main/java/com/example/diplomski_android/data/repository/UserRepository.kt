@@ -6,4 +6,5 @@ interface UserRepository {
     suspend fun insert(user: User)
     fun getById(id: Long): User
     fun getByEmail(email: String): User
+    fun getIsAdmin(id: Long): Boolean
 }

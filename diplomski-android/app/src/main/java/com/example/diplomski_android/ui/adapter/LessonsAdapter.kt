@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
@@ -51,6 +52,7 @@ class LessonsAdapter(private val mainViewModel: MainViewModel): RecyclerView.Ada
             lessonsStatus = "Completed"
         }
         holder.itemView.apply {
+            llLessonItemAdmin.isVisible = mainViewModel.isAdmin.value!!
             tvLessonName.text = lesson.lesson_type
             tvLessonStatus.text = lessonsStatus
 

@@ -16,4 +16,8 @@ class UserRepositoryImpl(private val userDao: UserDao): UserRepository {
     override fun getByEmail(email: String): User {
         return userDao.getByEmail(email)
     }
+
+    override fun getIsAdmin(id: Long): Boolean {
+        return userDao.getIsAdmin(id)
+    }
 }
