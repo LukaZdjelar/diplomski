@@ -12,17 +12,10 @@
             type="com.example.diplomski_android.ui.fragment.ChaptersFragment" />
     </data>
 
-    <androidx.drawerlayout.widget.DrawerLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/chaptersDrawerLayout">
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:context=".ui.fragment.ChaptersFragment">
-
-            <include android:id="@+id/includeToolbar" layout="@layout/layout_toolbar"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clChaptersAdmin"
@@ -30,9 +23,9 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/includeToolbar"
+                app:layout_constraintTop_toTopOf="parent"
                 android:orientation="horizontal"
-                android:visibility="@{viewModel.isAdmin ? View.VISIBLE : View.GONE}">
+                android:visibility="@{viewModel.user.isAdmin ? View.VISIBLE : View.GONE}">
 
                 <Button
                     android:id="@+id/button_create_chapter"
@@ -42,7 +35,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     android:text="add new chapter"
-                    android:layout_marginEnd="32dp"/>
+                    android:layout_marginEnd="8dp"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -50,15 +43,9 @@
                 android:id="@+id/rvChapters"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginEnd="24dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/clChaptersAdmin" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <include layout="@layout/layout_navigation_view"/>
-
-    </androidx.drawerlayout.widget.DrawerLayout>
 </layout>

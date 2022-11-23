@@ -59,6 +59,7 @@ class LoginFragment : Fragment() {
                     editor?.putLong("user",user.id!!)
                     mainViewModel.setIsAdmin(user.isAdmin!!)
                     editor?.apply()
+                    mainViewModel.setUser(user)
 
                     Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_coursesFragment)
                 }else{

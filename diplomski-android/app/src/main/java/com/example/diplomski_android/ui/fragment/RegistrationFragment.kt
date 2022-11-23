@@ -6,7 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.Navigation
 import com.example.diplomski_android.MainViewModel
+import com.example.diplomski_android.R
 import com.example.diplomski_android.databinding.FragmentRegistrationBinding
 import kotlinx.android.synthetic.main.fragment_registration.*
 import kotlinx.coroutines.CoroutineScope
@@ -44,6 +46,9 @@ class RegistrationFragment : Fragment() {
             }
 
             runBlocking { job.join() }
+            if (Navigation.findNavController(view).previousBackStackEntry?.destination?.id != R.id.loginFragment){
+                mainViewModel.setUser(mainViewModel.newUser.value!!)
+            }
             activity?.onBackPressed()
         }
     }

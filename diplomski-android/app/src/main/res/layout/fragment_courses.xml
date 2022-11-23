@@ -11,18 +11,11 @@
             name="coursesFragment"
             type="com.example.diplomski_android.ui.fragment.CoursesFragment" />
     </data>
-    
-    <androidx.drawerlayout.widget.DrawerLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/coursesDrawerLayout">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:context=".ui.fragment.CoursesFragment">
-
-            <include android:id="@+id/includeToolbar" layout="@layout/layout_toolbar"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clCoursesAdmin"
@@ -30,10 +23,10 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/includeToolbar"
+                app:layout_constraintTop_toTopOf="parent"
                 android:orientation="horizontal"
                 android:layout_margin="8dp"
-                android:visibility="@{viewModel.isAdmin ? View.VISIBLE : View.GONE}">
+                android:visibility="@{viewModel.user.isAdmin ? View.VISIBLE : View.GONE}">
 
                 <Button
                     android:layout_width="wrap_content"
@@ -64,8 +57,4 @@
                 app:layout_constraintTop_toBottomOf="@+id/clCoursesAdmin" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <include layout="@layout/layout_navigation_view"/>
-
-    </androidx.drawerlayout.widget.DrawerLayout>
 </layout>

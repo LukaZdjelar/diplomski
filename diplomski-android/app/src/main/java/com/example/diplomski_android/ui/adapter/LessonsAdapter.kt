@@ -52,7 +52,7 @@ class LessonsAdapter(private val mainViewModel: MainViewModel): RecyclerView.Ada
             lessonsStatus = "Completed"
         }
         holder.itemView.apply {
-            llLessonItemAdmin.isVisible = mainViewModel.isAdmin.value!!
+            llLessonItemAdmin.isVisible = mainViewModel.user.value?.isAdmin!!
             tvLessonName.text = lesson.lesson_type
             tvLessonStatus.text = lessonsStatus
 

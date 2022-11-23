@@ -208,6 +208,9 @@ class MainViewModel @Inject constructor(
     fun getUserByEmail(email: String): User{
         return userRepository.getByEmail(email)
     }
+    fun getUserById(id: Long): User{
+        return userRepository.getById(id)
+    }
     fun getUserIsAdmin(id: Long){
         var isAdmin = false
         val job = CoroutineScope(Dispatchers.IO).launch {
@@ -217,6 +220,20 @@ class MainViewModel @Inject constructor(
             job.join()
             setIsAdmin(isAdmin)
         }
+    }
+
+    private val _user = MutableLiveData(User())
+    val user : LiveData<User> = _user
+    fun setUser(value: User){
+        _user.value = value
+    }
+    fun setUserById(id: Long){
+        var user = User()
+        val job = CoroutineScope(Dispatchers.IO).launch{
+            user = userRepository.getById(id)
+        }
+        runBlocking { job.join() }
+        _user.value = user
     }
 
     private val _isAdmin = MutableLiveData(false)

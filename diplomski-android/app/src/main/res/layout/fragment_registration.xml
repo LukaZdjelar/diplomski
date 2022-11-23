@@ -88,17 +88,6 @@
                     android:hint="Confirm password" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <TextView
-                android:id="@+id/tvRegisterLogin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:textSize="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ti_registration_confirm_password"
-                android:text="Already have an account? Click here to login."/>
-
             <Button
                 android:id="@+id/buttonRegister"
                 android:layout_width="wrap_content"
@@ -108,7 +97,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvRegisterLogin" />
+                app:layout_constraintTop_toBottomOf="@+id/ti_registration_confirm_password" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
