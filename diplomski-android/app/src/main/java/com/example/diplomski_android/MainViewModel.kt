@@ -60,11 +60,17 @@ class MainViewModel @Inject constructor(
     suspend fun insertCourse(course: Course){
         courseRepository.insert(course)
     }
+    suspend fun insertAllCourses(courses: List<Course>){
+        courseRepository.insertAll(courses)
+    }
     fun getCourseById(id: Long): Course {
         return courseRepository.getById(id)
     }
     suspend fun deleteCourse(course: Course){
         courseRepository.delete(course)
+    }
+    suspend fun deleteAllCourses(){
+        courseRepository.deleteAll()
     }
     suspend fun deleteCourseComplete(course: Course){
         getChaptersByCourse(course.id!!).forEach { chapter ->
@@ -75,6 +81,10 @@ class MainViewModel @Inject constructor(
         }
         deleteChaptersByCourse(course.id!!)
         deleteCourse(course)
+    }
+    suspend fun coursesFirebaseSync(result: List<Course>){
+        deleteAllCourses()
+        insertAllCourses(result)
     }
 
     fun getChaptersByCourseFlow(id: Long){
@@ -121,6 +131,10 @@ class MainViewModel @Inject constructor(
     fun countCompletedLessons(chapterId: Long, userId: Long): Int {
         return chapterRepository.countCompletedLessons(chapterId, userId)
     }
+    suspend fun chaptersFirebaseSync(result: List<Chapter>){
+        chapterRepository.deleteAll()
+        chapterRepository.insertAll(result)
+    }
 
     fun getLessonsByChapterFlow(id: Long){
         //TODO: nece da promeni isCompleted na postojecem flow
@@ -160,6 +174,10 @@ class MainViewModel @Inject constructor(
     fun getLessonStatus(lessonId: Long, userId: Long): Boolean{
         return lessonRepository.getLessonStatus(lessonId, userId)
     }
+    suspend fun lessonsFirebaseSync(result: List<Lesson>){
+        lessonRepository.deleteAll()
+        lessonRepository.insertAll(result)
+    }
 
     fun getTasksByLessonFlow(id: Long){
         viewModelScope.launch {
@@ -183,6 +201,10 @@ class MainViewModel @Inject constructor(
     fun countTasksByLesson(lessonId: Long): Int{
         return taskRepository.countByLesson(lessonId)
     }
+    suspend fun tasksFirebaseSync(result: List<Task>){
+        taskRepository.deleteAll()
+        taskRepository.insertAll(result)
+    }
 
     fun getLanguages() {
         viewModelScope.launch {
@@ -194,6 +216,10 @@ class MainViewModel @Inject constructor(
     fun getLanguageById(id: Long): Language{
         return languageRepository.getById(id)
     }
+    suspend fun languagesFirebaseSync(result: List<Language>){
+        languageRepository.deleteAll()
+        languageRepository.insertAll(result)
+    }
 
     suspend fun insertProgress(progress: Progress){
         progressRepository.insert(progress)
@@ -201,9 +227,16 @@ class MainViewModel @Inject constructor(
     fun findProgressByUserAndLessonBoolean(userId: Long, lessonId: Long): Boolean{
         return progressRepository.findByUserAndLessonBoolean(userId, lessonId)
     }
+    suspend fun progressFirebaseSync(result: List<Progress>){
+        progressRepository.deleteAll()
+        progressRepository.insertAll(result)
+    }
 
     suspend fun insertUser(user: User){
         userRepository.insert(user)
+    }
+    suspend fun insertAllUsers(users: List<User>){
+        userRepository.insertAll(users)
     }
     fun getUserByEmail(email: String): User{
         return userRepository.getByEmail(email)
@@ -220,6 +253,13 @@ class MainViewModel @Inject constructor(
             job.join()
             setIsAdmin(isAdmin)
         }
+    }
+    suspend fun deleteAllUsers(){
+        userRepository.deleteAll()
+    }
+    suspend fun usersFirebaseSync(result: List<User>){
+        deleteAllUsers()
+        insertAllUsers(result)
     }
 
     private val _user = MutableLiveData(User())

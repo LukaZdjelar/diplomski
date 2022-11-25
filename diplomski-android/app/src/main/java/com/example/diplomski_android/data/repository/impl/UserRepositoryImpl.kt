@@ -9,6 +9,10 @@ class UserRepositoryImpl(private val userDao: UserDao): UserRepository {
         userDao.insert(user)
     }
 
+    override suspend fun insertAll(users: List<User>) {
+        userDao.insertAll(users)
+    }
+
     override fun getById(id: Long): User {
         return userDao.getById(id)
     }
@@ -19,5 +23,9 @@ class UserRepositoryImpl(private val userDao: UserDao): UserRepository {
 
     override fun getIsAdmin(id: Long): Boolean {
         return userDao.getIsAdmin(id)
+    }
+
+    override suspend fun deleteAll() {
+        userDao.deleteAll()
     }
 }

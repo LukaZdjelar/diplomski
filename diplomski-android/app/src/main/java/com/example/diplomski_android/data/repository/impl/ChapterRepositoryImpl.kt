@@ -31,8 +31,16 @@ class ChapterRepositoryImpl(private val chapterDao: ChapterDao): ChapterReposito
         return chapterDao.insert(chapter)
     }
 
+    override suspend fun insertAll(chapters: List<Chapter>) {
+        chapterDao.insertAll(chapters)
+    }
+
     override suspend fun delete(chapter: Chapter) {
         return chapterDao.delete(chapter)
+    }
+
+    override suspend fun deleteAll() {
+        chapterDao.deleteAll()
     }
 
     override suspend fun deleteByCourse(courseId: Long) {

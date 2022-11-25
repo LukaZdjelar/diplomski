@@ -17,11 +17,20 @@ class CourseRepositoryImpl @Inject constructor(private val courseDao: CourseDao)
     override suspend fun insert(course: Course){
         return courseDao.insert(course)
     }
+
+    override suspend fun insertAll(courses: List<Course>) {
+        return courseDao.insertAll(courses)
+    }
+
     override fun getById(id: Long): Course {
         return courseDao.getById(id)
     }
 
     override suspend fun delete(course: Course) {
         return courseDao.delete(course)
+    }
+
+    override suspend fun deleteAll() {
+        return courseDao.deleteAll()
     }
 }

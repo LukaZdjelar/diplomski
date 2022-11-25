@@ -16,6 +16,9 @@ interface TaskDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(task: Task)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(tasks: List<Task>)
+
     @Query("select * from tasks where lesson_id=:id")
     fun getByLessonFlow(id: Long): Flow<List<Task>>
 
@@ -24,6 +27,9 @@ interface TaskDao {
 
     @Delete
     suspend fun delete(task: Task)
+
+    @Query("delete from tasks")
+    suspend fun deleteAll()
 
     @Query("delete from tasks where lesson_id=:lessonId")
     suspend fun deleteByLesson(lessonId: Long)

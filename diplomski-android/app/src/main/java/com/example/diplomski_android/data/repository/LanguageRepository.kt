@@ -7,5 +7,7 @@ interface LanguageRepository {
     fun getAllFlow(): Flow<List<Language>>
     fun getAll(): List<Language>
     suspend fun insert(language: Language)
+    suspend fun insertAll(languages: List<Language>)
     fun getById(id: Long): Language
+    suspend fun deleteAll()
 }

@@ -16,6 +16,11 @@ class TaskRepositoryImpl(private val taskDao: TaskDao): TaskRepository {
     override suspend fun insert(task: Task){
         return taskDao.insert(task)
     }
+
+    override suspend fun insertAll(tasks: List<Task>) {
+        taskDao.insertAll(tasks)
+    }
+
     override fun getByLessonFlow(id: Long): Flow<List<Task>> {
         return taskDao.getByLessonFlow(id)
     }
@@ -26,6 +31,10 @@ class TaskRepositoryImpl(private val taskDao: TaskDao): TaskRepository {
 
     override suspend fun delete(task: Task) {
         return taskDao.delete(task)
+    }
+
+    override suspend fun deleteAll() {
+        taskDao.deleteAll()
     }
 
     override suspend fun deleteByLesson(lessonId: Long) {

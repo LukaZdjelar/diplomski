@@ -24,11 +24,17 @@ interface ChapterDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(chapter: Chapter)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(chapters: List<Chapter>)
+
     @Delete
     suspend fun delete(chapter: Chapter)
 
     @Query("delete from chapters where course_id=:courseId")
     suspend fun deleteByCourse(courseId: Long)
+
+    @Query("delete from chapters")
+    suspend fun deleteAll()
 
     @Query("select count(id) from lessons where chapter_id=:chapterId")
     fun countTotalLessons(chapterId: Long): Int

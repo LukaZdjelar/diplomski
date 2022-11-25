@@ -10,7 +10,9 @@ interface LessonRepository {
     fun getByChapter(id: Long): List<Lesson>
     fun getById(id: Long): Lesson
     suspend fun insert(lesson: Lesson)
+    suspend fun insertAll(lessons: List<Lesson>)
     suspend fun delete(lesson: Lesson)
+    suspend fun deleteAll()
     suspend fun deleteByChapter(chapterId: Long)
     fun getLessonStatus(lessonId: Long, userId: Long): Boolean
 }

@@ -12,6 +12,9 @@ interface UserDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(user: User)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(users: List<User>)
+
     @Query("select * from users where id=:id")
     fun getById(id: Long): User
 
@@ -20,4 +23,7 @@ interface UserDao {
 
     @Query("select isAdmin from users where id=:id")
     fun getIsAdmin(id: Long): Boolean
+
+    @Query("delete from users")
+    suspend fun deleteAll()
 }

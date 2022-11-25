@@ -15,9 +15,15 @@ interface LanguageDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(language: Language)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(languages: List<Language>)
+
     @Query("select * from languages where id=:id")
     fun getById(id: Long): Language
 
     @Delete
     suspend fun delete(language: Language)
+
+    @Query("delete from languages")
+    suspend fun deleteAll()
 }

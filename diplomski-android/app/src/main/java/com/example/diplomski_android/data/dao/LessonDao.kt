@@ -24,8 +24,14 @@ interface LessonDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(lesson: Lesson)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(lessons: List<Lesson>)
+
     @Delete
     suspend fun delete(lesson: Lesson)
+
+    @Query("delete from lessons")
+    suspend fun deleteAll()
 
     @Query("delete from lessons where chapter_id=:chapterId")
     suspend fun deleteByChapter(chapterId: Long)

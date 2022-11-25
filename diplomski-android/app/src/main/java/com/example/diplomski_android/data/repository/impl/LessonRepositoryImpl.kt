@@ -31,8 +31,16 @@ class LessonRepositoryImpl(private val lessonDao: LessonDao): LessonRepository {
         return lessonDao.insert(lesson)
     }
 
+    override suspend fun insertAll(lessons: List<Lesson>) {
+        return lessonDao.insertAll(lessons)
+    }
+
     override suspend fun delete(lesson: Lesson) {
         return lessonDao.delete(lesson)
+    }
+
+    override suspend fun deleteAll() {
+        return lessonDao.deleteAll()
     }
 
     override suspend fun deleteByChapter(chapterId: Long) {

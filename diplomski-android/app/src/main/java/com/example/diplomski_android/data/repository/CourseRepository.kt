@@ -7,6 +7,8 @@ interface CourseRepository {
     fun getAllFlow(): Flow<List<Course>>
     fun getAll(): List<Course>
     suspend fun insert(course: Course)
+    suspend fun insertAll(courses: List<Course>)
     fun getById(id: Long): Course
     suspend fun delete(course: Course)
+    suspend fun deleteAll()
 }
