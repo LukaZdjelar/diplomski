@@ -13,7 +13,7 @@ interface CourseDao {
     fun getAll(): List<Course>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(course: Course)
+    suspend fun insert(course: Course): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(courses: List<Course>)

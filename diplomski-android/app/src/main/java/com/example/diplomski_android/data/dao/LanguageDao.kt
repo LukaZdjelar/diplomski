@@ -13,7 +13,7 @@ interface LanguageDao {
     fun getAll(): List<Language>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(language: Language)
+    suspend fun insert(language: Language): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(languages: List<Language>)

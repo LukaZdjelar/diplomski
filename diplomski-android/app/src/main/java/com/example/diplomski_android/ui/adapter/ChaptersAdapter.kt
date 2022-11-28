@@ -46,7 +46,7 @@ class ChaptersAdapter(private val mainViewModel: MainViewModel): RecyclerView.Ad
         val chapter = differ.currentList[position]
 
         holder.itemView.apply {
-            llChapterItemAdmin.isVisible = mainViewModel.user.value?.isAdmin!!
+            llChapterItemAdmin.isVisible = mainViewModel.user.value?.admin!!
             val progressString = "${chapter.completedLessons}/${chapter.totalLessons}"
 
             tvChapterName.text = chapter.name

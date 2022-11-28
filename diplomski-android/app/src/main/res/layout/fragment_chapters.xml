@@ -25,7 +25,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:orientation="horizontal"
-                android:visibility="@{viewModel.user.isAdmin ? View.VISIBLE : View.GONE}">
+                android:visibility="@{viewModel.user.admin ? View.VISIBLE : View.GONE}">
 
                 <Button
                     android:id="@+id/button_create_chapter"

@@ -1,7 +1,7 @@
-package com.example.diplomski_android.data.repository.impl
+package com.example.diplomski_android.data.repository.room.impl
 
 import com.example.diplomski_android.data.dao.CourseDao
-import com.example.diplomski_android.data.repository.CourseRepository
+import com.example.diplomski_android.data.repository.room.CourseRepository
 import com.example.diplomski_android.model.Course
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -14,7 +14,7 @@ class CourseRepositoryImpl @Inject constructor(private val courseDao: CourseDao)
     override fun getAll(): List<Course> {
         return courseDao.getAll()
     }
-    override suspend fun insert(course: Course){
+    override suspend fun insert(course: Course): Long {
         return courseDao.insert(course)
     }
 

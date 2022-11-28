@@ -10,7 +10,7 @@ import com.example.diplomski_android.model.User
 interface UserDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(user: User)
+    suspend fun insert(user: User): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(users: List<User>)
@@ -21,7 +21,7 @@ interface UserDao {
     @Query("select * from users where email=:email")
     fun getByEmail(email: String): User
 
-    @Query("select isAdmin from users where id=:id")
+    @Query("select admin from users where id=:id")
     fun getIsAdmin(id: Long): Boolean
 
     @Query("delete from users")

@@ -1,4 +1,4 @@
-package com.example.diplomski_android.data.repository
+package com.example.diplomski_android.data.repository.room
 
 import com.example.diplomski_android.model.Chapter
 import kotlinx.coroutines.flow.Flow
@@ -9,7 +9,7 @@ interface ChapterRepository {
     fun getByCourseFlow(id: Long): Flow<List<Chapter>>
     fun getByCourse(id: Long): List<Chapter>
     fun getById(id: Long): Chapter
-    suspend fun insert(chapter: Chapter)
+    suspend fun insert(chapter: Chapter): Long
     suspend fun insertAll(chapters: List<Chapter>)
     suspend fun delete(chapter: Chapter)
     suspend fun deleteAll()

@@ -10,7 +10,7 @@ import com.example.diplomski_android.model.Progress
 interface ProgressDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(progress: Progress)
+    suspend fun insert(progress: Progress): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(progress: List<Progress>)

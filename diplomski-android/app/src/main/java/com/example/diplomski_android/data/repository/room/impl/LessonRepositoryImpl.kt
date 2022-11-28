@@ -1,7 +1,7 @@
-package com.example.diplomski_android.data.repository.impl
+package com.example.diplomski_android.data.repository.room.impl
 
 import com.example.diplomski_android.data.dao.LessonDao
-import com.example.diplomski_android.data.repository.LessonRepository
+import com.example.diplomski_android.data.repository.room.LessonRepository
 import com.example.diplomski_android.model.Lesson
 import kotlinx.coroutines.flow.Flow
 
@@ -27,7 +27,7 @@ class LessonRepositoryImpl(private val lessonDao: LessonDao): LessonRepository {
         return lessonDao.getById(id)
     }
 
-    override suspend fun insert(lesson: Lesson) {
+    override suspend fun insert(lesson: Lesson): Long {
         return lessonDao.insert(lesson)
     }
 

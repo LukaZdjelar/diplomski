@@ -5,8 +5,13 @@ import android.content.Context
 import com.example.diplomski_android.MyApplication
 import com.example.diplomski_android.data.dao.*
 import com.example.diplomski_android.data.database.AppDatabase
-import com.example.diplomski_android.data.repository.*
-import com.example.diplomski_android.data.repository.impl.*
+import com.example.diplomski_android.data.repository.firestore.*
+import com.example.diplomski_android.data.repository.firestore.impl.*
+import com.example.diplomski_android.data.repository.room.*
+import com.example.diplomski_android.data.repository.room.impl.*
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -37,7 +42,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideCourseRepository(courseDao: CourseDao): CourseRepository{
+    fun provideCourseRepository(courseDao: CourseDao): CourseRepository {
         return CourseRepositoryImpl(courseDao)
     }
 
@@ -49,7 +54,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideChapterRepository(chapterDao: ChapterDao): ChapterRepository{
+    fun provideChapterRepository(chapterDao: ChapterDao): ChapterRepository {
         return ChapterRepositoryImpl(chapterDao)
     }
 
@@ -61,7 +66,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideLessonRepository(lessonDao: LessonDao): LessonRepository{
+    fun provideLessonRepository(lessonDao: LessonDao): LessonRepository {
         return LessonRepositoryImpl(lessonDao)
     }
 
@@ -73,7 +78,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideTaskRepository(taskDao: TaskDao): TaskRepository{
+    fun provideTaskRepository(taskDao: TaskDao): TaskRepository {
         return TaskRepositoryImpl(taskDao)
     }
 
@@ -85,7 +90,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideLanguageRepository(languageDao: LanguageDao): LanguageRepository{
+    fun provideLanguageRepository(languageDao: LanguageDao): LanguageRepository {
         return LanguageRepositoryImpl(languageDao)
     }
 
@@ -97,7 +102,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideUserRepository(userDao: UserDao): UserRepository{
+    fun provideUserRepository(userDao: UserDao): UserRepository {
         return UserRepositoryImpl(userDao)
     }
 
@@ -109,7 +114,55 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideProgressRepository(progressDao: ProgressDao): ProgressRepository{
+    fun provideProgressRepository(progressDao: ProgressDao): ProgressRepository {
         return ProgressRepositoryImpl(progressDao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideFirebaseFirestore(): FirebaseFirestore {
+        return Firebase.firestore
+    }
+
+    @Provides
+    @Singleton
+    fun provideCourseFirestore(firebaseFirestore: FirebaseFirestore): CourseFirestore {
+        return CourseFirestoreImpl(firebaseFirestore)
+    }
+
+    @Provides
+    @Singleton
+    fun provideChapterFirestore(firebaseFirestore: FirebaseFirestore): ChapterFirestore {
+        return ChapterFirestoreImpl(firebaseFirestore)
+    }
+
+    @Provides
+    @Singleton
+    fun provideLanguageFirestore(firebaseFirestore: FirebaseFirestore): LanguageFirestore {
+        return LanguageFirestoreImpl(firebaseFirestore)
+    }
+
+    @Provides
+    @Singleton
+    fun provideLessonFirestore(firebaseFirestore: FirebaseFirestore): LessonFirebase {
+        return LessonFirebaseImpl(firebaseFirestore)
+    }
+
+    @Provides
+    @Singleton
+    fun provideProgressFirestore(firebaseFirestore: FirebaseFirestore): ProgressFirestore {
+        return ProgressFirestoreImpl(firebaseFirestore)
+    }
+
+    @Provides
+    @Singleton
+    fun provideTaskFirestore(firebaseFirestore: FirebaseFirestore): TaskFirestore {
+        return TaskFirestoreImpl(firebaseFirestore)
+    }
+
+    @Provides
+    @Singleton
+    fun provideUserFirestore(firebaseFirestore: FirebaseFirestore): UserFirestore {
+        return UserFirestoreImpl(firebaseFirestore)
     }
 }

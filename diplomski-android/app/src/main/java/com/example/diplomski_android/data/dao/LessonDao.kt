@@ -22,7 +22,7 @@ interface LessonDao {
     fun getById(id: Long): Lesson
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(lesson: Lesson)
+    suspend fun insert(lesson: Lesson): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(lessons: List<Lesson>)

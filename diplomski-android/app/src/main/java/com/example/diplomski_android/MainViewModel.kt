@@ -5,7 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.diplomski_android.data.repository.*
+import com.example.diplomski_android.data.repository.firestore.*
+import com.example.diplomski_android.data.repository.room.*
 import com.example.diplomski_android.model.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -18,12 +19,19 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val courseRepository: CourseRepository,
+    private val courseFirestore: CourseFirestore,
     private val chapterRepository: ChapterRepository,
+    private val chapterFirestore: ChapterFirestore,
     private val lessonRepository: LessonRepository,
+    private val lessonFirebase: LessonFirebase,
     private val taskRepository: TaskRepository,
+    private val taskFirestore: TaskFirestore,
     private val languageRepository: LanguageRepository,
+    private val languageFirestore: LanguageFirestore,
     private val progressRepository: ProgressRepository,
-    private val userRepository: UserRepository
+    private val progressFirestore: ProgressFirestore,
+    private val userRepository: UserRepository,
+    private val userFirestore: UserFirestore,
 ):ViewModel() {
 
     val coursesStateFlow = MutableStateFlow(listOf(Course()))
@@ -58,7 +66,9 @@ class MainViewModel @Inject constructor(
         }
     }
     suspend fun insertCourse(course: Course){
-        courseRepository.insert(course)
+        val id = courseRepository.insert(course)
+        course.id = id
+        courseFirestore.insert(course)
     }
     suspend fun insertAllCourses(courses: List<Course>){
         courseRepository.insertAll(courses)
@@ -95,7 +105,7 @@ class MainViewModel @Inject constructor(
                     val job = CoroutineScope(Dispatchers.IO).launch {
                         chapter.totalLessons = countTotalLessons(chapter.id!!)
                         //TODO: userId=1
-                        chapter.completedLessons = countCompletedLessons(chapter.id!!, 1)
+                        chapter.completedLessons = countCompletedLessons(chapter.id!!, user.value?.id!!)
                     }
                     runBlocking { job.join() }
                 }
@@ -110,7 +120,9 @@ class MainViewModel @Inject constructor(
         return chapterRepository.getById(id)
     }
     suspend fun insertChapter(chapter: Chapter){
-        chapterRepository.insert(chapter)
+        val id = chapterRepository.insert(chapter)
+        chapter.id = id
+        chapterFirestore.insert(chapter)
     }
     suspend fun deleteChapter(chapter: Chapter){
         chapterRepository.delete(chapter)
@@ -159,7 +171,9 @@ class MainViewModel @Inject constructor(
         return lessonRepository.getById(id)
     }
     suspend fun insertLesson(lesson: Lesson){
-        lessonRepository.insert(lesson)
+        val id = lessonRepository.insert(lesson)
+        lesson.id = id
+        lessonFirebase.insert(lesson)
     }
     suspend fun deleteLesson(lesson: Lesson){
         lessonRepository.delete(lesson)
@@ -190,7 +204,9 @@ class MainViewModel @Inject constructor(
         return taskRepository.getByLesson(id)
     }
     suspend fun insertTask(task: Task){
-        taskRepository.insert(task)
+        val id = taskRepository.insert(task)
+        task.id = id
+        taskFirestore.insert(task)
     }
     suspend fun deleteTask(task: Task){
         taskRepository.delete(task)
@@ -216,13 +232,20 @@ class MainViewModel @Inject constructor(
     fun getLanguageById(id: Long): Language{
         return languageRepository.getById(id)
     }
+    suspend fun insertLanguage(language: Language){
+        val id = languageRepository.insert(language)
+        language.id = id
+        languageFirestore.insert(language)
+    }
     suspend fun languagesFirebaseSync(result: List<Language>){
         languageRepository.deleteAll()
         languageRepository.insertAll(result)
     }
 
     suspend fun insertProgress(progress: Progress){
-        progressRepository.insert(progress)
+        val id = progressRepository.insert(progress)
+        progress.id = id
+        progressFirestore.insert(progress)
     }
     fun findProgressByUserAndLessonBoolean(userId: Long, lessonId: Long): Boolean{
         return progressRepository.findByUserAndLessonBoolean(userId, lessonId)
@@ -233,7 +256,9 @@ class MainViewModel @Inject constructor(
     }
 
     suspend fun insertUser(user: User){
-        userRepository.insert(user)
+        val id = userRepository.insert(user)
+        user.id = id
+        userFirestore.insert(user)
     }
     suspend fun insertAllUsers(users: List<User>){
         userRepository.insertAll(users)

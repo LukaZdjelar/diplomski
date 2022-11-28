@@ -56,8 +56,9 @@ class LoginFragment : Fragment() {
                 if (user.password == password){
                     val sharedPreference = activity?.getPreferences(Context.MODE_PRIVATE)
                     val editor = sharedPreference?.edit()
+                    editor?.remove("user")?.apply()
                     editor?.putLong("user",user.id!!)
-                    mainViewModel.setIsAdmin(user.isAdmin!!)
+                    mainViewModel.setIsAdmin(user.admin!!)
                     editor?.apply()
                     mainViewModel.setUser(user)
 

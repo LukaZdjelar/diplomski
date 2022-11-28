@@ -26,7 +26,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 android:orientation="horizontal"
                 android:layout_margin="8dp"
-                android:visibility="@{viewModel.user.isAdmin ? View.VISIBLE : View.GONE}">
+                android:visibility="@{viewModel.user.admin ? View.VISIBLE : View.GONE}">
 
                 <Button
                     android:layout_width="wrap_content"

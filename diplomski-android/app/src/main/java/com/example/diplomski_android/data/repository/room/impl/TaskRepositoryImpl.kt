@@ -1,7 +1,7 @@
-package com.example.diplomski_android.data.repository.impl
+package com.example.diplomski_android.data.repository.room.impl
 
 import com.example.diplomski_android.data.dao.TaskDao
-import com.example.diplomski_android.data.repository.TaskRepository
+import com.example.diplomski_android.data.repository.room.TaskRepository
 import com.example.diplomski_android.model.Task
 import kotlinx.coroutines.flow.Flow
 
@@ -13,7 +13,7 @@ class TaskRepositoryImpl(private val taskDao: TaskDao): TaskRepository {
     override fun getAll(): List<Task> {
         return taskDao.getAll()
     }
-    override suspend fun insert(task: Task){
+    override suspend fun insert(task: Task): Long{
         return taskDao.insert(task)
     }
 

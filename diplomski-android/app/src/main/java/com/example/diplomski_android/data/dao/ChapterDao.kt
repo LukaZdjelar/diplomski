@@ -22,7 +22,7 @@ interface ChapterDao {
     fun getById(id: Long): Chapter
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(chapter: Chapter)
+    suspend fun insert(chapter: Chapter): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(chapters: List<Chapter>)

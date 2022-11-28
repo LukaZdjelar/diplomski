@@ -1,6 +1,5 @@
 package com.example.diplomski_android.ui.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -45,14 +44,13 @@ class LessonsAdapter(private val mainViewModel: MainViewModel): RecyclerView.Ada
 
     override fun onBindViewHolder(holder: LessonsViewHolder, position: Int) {
         val lesson = differ.currentList[position]
-        Log.d("TESTINGG","onBindViewHolder ${lesson.id}")
         var lessonsStatus = ""
         //TODO: userId=1
         if (lesson.isCompleted == true) {
             lessonsStatus = "Completed"
         }
         holder.itemView.apply {
-            llLessonItemAdmin.isVisible = mainViewModel.user.value?.isAdmin!!
+            llLessonItemAdmin.isVisible = mainViewModel.user.value?.admin!!
             tvLessonName.text = lesson.lesson_type
             tvLessonStatus.text = lessonsStatus
 

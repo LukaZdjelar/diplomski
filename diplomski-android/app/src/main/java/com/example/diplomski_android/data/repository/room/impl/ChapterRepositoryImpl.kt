@@ -1,7 +1,7 @@
-package com.example.diplomski_android.data.repository.impl
+package com.example.diplomski_android.data.repository.room.impl
 
 import com.example.diplomski_android.data.dao.ChapterDao
-import com.example.diplomski_android.data.repository.ChapterRepository
+import com.example.diplomski_android.data.repository.room.ChapterRepository
 import com.example.diplomski_android.model.Chapter
 import kotlinx.coroutines.flow.Flow
 
@@ -27,7 +27,7 @@ class ChapterRepositoryImpl(private val chapterDao: ChapterDao): ChapterReposito
         return chapterDao.getById(id)
     }
 
-    override suspend fun insert(chapter: Chapter) {
+    override suspend fun insert(chapter: Chapter): Long {
         return chapterDao.insert(chapter)
     }
 

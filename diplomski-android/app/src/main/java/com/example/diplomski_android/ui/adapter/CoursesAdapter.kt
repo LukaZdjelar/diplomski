@@ -42,7 +42,7 @@ class CoursesAdapter(private val mainViewModel: MainViewModel) : RecyclerView.Ad
     override fun onBindViewHolder(holder: CoursesViewHolder, position: Int) {
         val course = differ.currentList[position]
         holder.itemView.apply {
-            llCourseItemAdmin.isVisible = mainViewModel.user.value?.isAdmin!!
+            llCourseItemAdmin.isVisible = mainViewModel.user.value?.admin!!
             tvCourseName.text = course.name
 
             setOnClickListener{
