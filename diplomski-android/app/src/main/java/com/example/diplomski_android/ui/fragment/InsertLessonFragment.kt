@@ -105,5 +105,10 @@ class InsertLessonFragment : Fragment() {
         actv_lesson_type.setOnItemClickListener{_, _, position, _ ->
             mainViewModel.onLessonTypeItemSelected(typeAdapter, position)
         }
+
+        button_insert_lesson_confirm.setOnClickListener {
+            mainViewModel.onInsertLessonButtonClick()
+            activity?.onBackPressed()
+        }
     }
 }

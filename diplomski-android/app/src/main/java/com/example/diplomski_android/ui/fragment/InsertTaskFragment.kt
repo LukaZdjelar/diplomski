@@ -122,5 +122,10 @@ class InsertTaskFragment : Fragment() {
         actv_task_lesson.setOnItemClickListener { _, _, position, _ ->
             mainViewModel.onTaskLessonItemSelected(lessonAdapter, position)
         }
+
+        button_insert_task_confirm.setOnClickListener {
+            mainViewModel.onInsertTaskButtonClick()
+            activity?.onBackPressed()
+        }
     }
 }

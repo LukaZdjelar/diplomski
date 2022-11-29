@@ -74,5 +74,10 @@ class InsertCourseFragment: Fragment() {
         actv_foreign.setOnItemClickListener { _, _, position, _ ->
             mainViewModel.onForeignLanguageItemSelected(foreignAdapter, position)
         }
+
+        button_insert_course_confirm.setOnClickListener {
+            mainViewModel.onInsertCourseButtonClick()
+            activity?.onBackPressed()
+        }
     }
 }

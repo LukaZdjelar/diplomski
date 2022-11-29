@@ -74,5 +74,10 @@ class InsertChapterFragment : Fragment() {
         actv_chapter_difficulty.setOnItemClickListener{_, _, position, _ ->
             mainViewModel.onChapterDifficultyItemSelected(difficultyAdapter, position)
         }
+
+        button_insert_chapter_confirm.setOnClickListener {
+            mainViewModel.onInsertChapterButtonClick()
+            activity?.onBackPressed()
+        }
     }
 }
