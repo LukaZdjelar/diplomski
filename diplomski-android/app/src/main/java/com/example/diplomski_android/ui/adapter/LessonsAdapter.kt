@@ -45,7 +45,6 @@ class LessonsAdapter(private val mainViewModel: MainViewModel): RecyclerView.Ada
     override fun onBindViewHolder(holder: LessonsViewHolder, position: Int) {
         val lesson = differ.currentList[position]
         var lessonsStatus = ""
-        //TODO: userId=1
         if (lesson.isCompleted == true) {
             lessonsStatus = "Completed"
         }

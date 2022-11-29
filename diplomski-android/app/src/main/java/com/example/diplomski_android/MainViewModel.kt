@@ -78,6 +78,7 @@ class MainViewModel @Inject constructor(
     }
     suspend fun deleteCourse(course: Course){
         courseRepository.delete(course)
+        courseFirestore.delete(course)
     }
     suspend fun deleteAllCourses(){
         courseRepository.deleteAll()
@@ -104,7 +105,6 @@ class MainViewModel @Inject constructor(
                 it.forEach { chapter ->
                     val job = CoroutineScope(Dispatchers.IO).launch {
                         chapter.totalLessons = countTotalLessons(chapter.id!!)
-                        //TODO: userId=1
                         chapter.completedLessons = countCompletedLessons(chapter.id!!, user.value?.id!!)
                     }
                     runBlocking { job.join() }
@@ -126,9 +126,11 @@ class MainViewModel @Inject constructor(
     }
     suspend fun deleteChapter(chapter: Chapter){
         chapterRepository.delete(chapter)
+        chapterFirestore.delete(chapter)
     }
     suspend fun deleteChaptersByCourse(courseId: Long){
         chapterRepository.deleteByCourse(courseId)
+        chapterFirestore.deleteByCourse(courseId)
     }
     suspend fun deleteChapterComplete(chapter: Chapter){
         getLessonsByChapters(chapter.id!!).forEach { lesson ->
@@ -155,8 +157,7 @@ class MainViewModel @Inject constructor(
             lessonRepository.getByChapterFlow(id).collect {
                 it.forEach { lesson ->
                     val job = CoroutineScope(Dispatchers.IO).launch {
-                        //TODO: userId=1
-                        lesson.isCompleted = getLessonStatus(lesson.id!!, 1)
+                        lesson.isCompleted = getLessonStatus(lesson.id!!, user.value?.id!!)
                     }
                     runBlocking { job.join() }
                 }
@@ -177,9 +178,11 @@ class MainViewModel @Inject constructor(
     }
     suspend fun deleteLesson(lesson: Lesson){
         lessonRepository.delete(lesson)
+        lessonFirebase.delete(lesson)
     }
     suspend fun deleteLesonsByChapter(chapterId: Long){
         lessonRepository.deleteByChapter(chapterId)
+        lessonFirebase.deleteByChapter(chapterId)
     }
     suspend fun deleteLessonComplete(lesson: Lesson){
         deleteTasksByLesson(lesson.id!!)
@@ -210,9 +213,11 @@ class MainViewModel @Inject constructor(
     }
     suspend fun deleteTask(task: Task){
         taskRepository.delete(task)
+        taskFirestore.delete(task)
     }
     suspend fun deleteTasksByLesson(lessonId: Long){
         taskRepository.deleteByLesson(lessonId)
+        taskFirestore.deleteByLesson(lessonId)
     }
     fun countTasksByLesson(lessonId: Long): Int{
         return taskRepository.countByLesson(lessonId)
@@ -395,9 +400,8 @@ class MainViewModel @Inject constructor(
         setGrade(gradeString)
         if(grade > 0.85){
             val job2 = CoroutineScope(Dispatchers.IO).launch {
-                //TODO: userId=1
-                if (!findProgressByUserAndLessonBoolean(1, lessonId)){
-                    insertProgress(Progress(null, 1, lessonId))
+                if (!findProgressByUserAndLessonBoolean(user.value?.id!!, lessonId)){
+                    insertProgress(Progress(null, user.value?.id!!, lessonId))
                 }
             }
             runBlocking { job2.join() }

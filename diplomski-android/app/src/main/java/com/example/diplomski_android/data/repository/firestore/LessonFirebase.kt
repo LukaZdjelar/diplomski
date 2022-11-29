@@ -4,4 +4,6 @@ import com.example.diplomski_android.model.Lesson
 
 interface LessonFirebase {
     fun insert(lesson: Lesson)
+    suspend fun delete(lesson: Lesson)
+    suspend fun deleteByChapter(chapterId: Long)
 }
