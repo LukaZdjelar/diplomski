@@ -12,13 +12,12 @@ import com.example.diplomski_android.MainViewModel
 import com.example.diplomski_android.R
 import com.example.diplomski_android.databinding.FragmentInsertChapterBinding
 import com.example.diplomski_android.model.Course
-import kotlinx.android.synthetic.main.fragment_insert_chapter.*
 import kotlinx.coroutines.flow.collectLatest
 
 class InsertChapterFragment : Fragment() {
 
     private val mainViewModel : MainViewModel by activityViewModels()
-    private var insertChapterBinding: FragmentInsertChapterBinding? = null
+    private lateinit var binding: FragmentInsertChapterBinding
     var courses = listOf<Course>()
     val difficultyList = listOf("Basic","Intermediate","Advanced")
 
@@ -26,8 +25,7 @@ class InsertChapterFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val fragmentBinding = FragmentInsertChapterBinding.inflate(inflater, container, false)
-        insertChapterBinding = fragmentBinding
+        binding = FragmentInsertChapterBinding.inflate(inflater, container, false)
 
         mainViewModel.getCourses()
         lifecycleScope.launchWhenCreated {
@@ -36,7 +34,7 @@ class InsertChapterFragment : Fragment() {
             }
         }
 
-        return fragmentBinding.root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -44,7 +42,7 @@ class InsertChapterFragment : Fragment() {
 
         setAdapters()
 
-        insertChapterBinding?.apply {
+        binding.apply {
             lifecycleOwner = viewLifecycleOwner
             viewModel = mainViewModel
             insertChapterFragment = this@InsertChapterFragment
@@ -53,29 +51,29 @@ class InsertChapterFragment : Fragment() {
 
     fun setAdapters(){
         val courseAdapter = ArrayAdapter(requireContext(), R.layout.spinner_item, courses)
-        actv_chapter_course.setAdapter(courseAdapter)
+        binding.actvChapterCourse.setAdapter(courseAdapter)
 
         val difficultyAdapter = ArrayAdapter(requireContext(), R.layout.spinner_item, difficultyList)
-        actv_chapter_difficulty.setAdapter(difficultyAdapter)
+        binding.actvChapterDifficulty.setAdapter(difficultyAdapter)
 
         if (mainViewModel.newChapter.value?.id == null){
-            actv_chapter_course.setText(mainViewModel.newChapter.value?.course!!.name,false)
+            binding.actvChapterCourse.setText(mainViewModel.newChapter.value?.course!!.name,false)
             mainViewModel.newChapter.value?.course_id = mainViewModel.newChapter.value?.course?.id
-            actv_chapter_difficulty.setText("",false)
+            binding.actvChapterDifficulty.setText("",false)
         }else{
-            actv_chapter_course.setText(mainViewModel.newChapter.value?.course!!.name,false)
-            actv_chapter_difficulty.setText(mainViewModel.newChapter.value?.difficulty!!,false)
+            binding.actvChapterCourse.setText(mainViewModel.newChapter.value?.course!!.name,false)
+            binding.actvChapterDifficulty.setText(mainViewModel.newChapter.value?.difficulty!!,false)
         }
 
-        actv_chapter_course.setOnItemClickListener { _, _, position, _ ->
+        binding.actvChapterCourse.setOnItemClickListener { _, _, position, _ ->
             mainViewModel.onChapterCourseItemSelected(courseAdapter, position)
         }
 
-        actv_chapter_difficulty.setOnItemClickListener{_, _, position, _ ->
+        binding.actvChapterDifficulty.setOnItemClickListener{ _, _, position, _ ->
             mainViewModel.onChapterDifficultyItemSelected(difficultyAdapter, position)
         }
 
-        button_insert_chapter_confirm.setOnClickListener {
+        binding.buttonInsertChapterConfirm.setOnClickListener {
             mainViewModel.onInsertChapterButtonClick()
             activity?.onBackPressed()
         }

@@ -23,14 +23,14 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <Button
-            android:id="@+id/button_edit_task"
+            android:id="@+id/buttonEditTask"
             android:layout_width="64dp"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:text="U" />
 
         <Button
-            android:id="@+id/button_delete_task"
+            android:id="@+id/buttonDeleteTask"
             android:layout_width="64dp"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"

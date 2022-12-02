@@ -37,7 +37,7 @@
                     app:layout_constraintTop_toTopOf="parent"/>
 
                 <Button
-                    android:id="@+id/button_create_course"
+                    android:id="@+id/buttonCreateCourse"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintBottom_toBottomOf="parent"

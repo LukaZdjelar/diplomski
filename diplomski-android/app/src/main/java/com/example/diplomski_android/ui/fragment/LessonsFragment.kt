@@ -14,34 +14,32 @@ import com.example.diplomski_android.R
 import com.example.diplomski_android.databinding.FragmentLessonsBinding
 import com.example.diplomski_android.model.Lesson
 import com.example.diplomski_android.ui.adapter.LessonsAdapter
-import kotlinx.android.synthetic.main.fragment_lessons.*
 import kotlinx.coroutines.flow.collectLatest
 
 class LessonsFragment : Fragment() {
     private val mainViewModel : MainViewModel by activityViewModels()
-    private var lessonsBinding : FragmentLessonsBinding? = null
+    private lateinit var binding : FragmentLessonsBinding
     private lateinit var lessonsAdapter: LessonsAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val fragmentBinding = FragmentLessonsBinding.inflate(inflater, container, false)
-        lessonsBinding = fragmentBinding
+        binding = FragmentLessonsBinding.inflate(inflater, container, false)
 
-        return fragmentBinding.root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        lessonsBinding?.apply {
+        binding.apply {
             lifecycleOwner = viewLifecycleOwner
             viewModel = mainViewModel
             lessonsFragment = this@LessonsFragment
         }
 
-        button_create_lesson.setOnClickListener {
+        binding.buttonCreateLesson.setOnClickListener {
             val lesson = Lesson()
             lesson.course = mainViewModel.currentCourse.value
             lesson.chapter = mainViewModel.currentChapter.value
@@ -54,7 +52,7 @@ class LessonsFragment : Fragment() {
 
     private fun setupRecyclerView(){
         lessonsAdapter = LessonsAdapter(mainViewModel)
-        rvLessons.apply {
+        binding.rvLessons.apply {
             adapter = lessonsAdapter
             layoutManager = LinearLayoutManager(activity)
         }

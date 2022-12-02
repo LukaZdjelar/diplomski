@@ -40,20 +40,20 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <Button
-            android:id="@+id/button_manage_tasks"
+            android:id="@+id/buttonManageTasks"
             android:layout_width="64dp"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:text="T" />
         <Button
-            android:id="@+id/button_edit_lesson"
+            android:id="@+id/buttonEditLesson"
             android:layout_width="64dp"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:text="U" />
 
         <Button
-            android:id="@+id/button_delete_lesson"
+            android:id="@+id/buttonDeleteLesson"
             android:layout_width="64dp"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"

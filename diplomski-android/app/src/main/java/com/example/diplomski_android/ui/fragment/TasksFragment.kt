@@ -13,36 +13,34 @@ import com.example.diplomski_android.MainViewModel
 import com.example.diplomski_android.R
 import com.example.diplomski_android.databinding.FragmentTasksBinding
 import com.example.diplomski_android.model.Task
-import com.example.diplomski_android.ui.adapter.TaskAdapter
-import kotlinx.android.synthetic.main.fragment_tasks.*
+import com.example.diplomski_android.ui.adapter.TasksAdapter
 import kotlinx.coroutines.flow.collectLatest
 
 class TasksFragment : Fragment() {
 
     private val mainViewModel : MainViewModel by activityViewModels()
-    private var tasksBinding : FragmentTasksBinding? = null
-    private lateinit var taskAdapter: TaskAdapter
+    private lateinit var binding : FragmentTasksBinding
+    private lateinit var tasksAdapter: TasksAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val fragmentBinding = FragmentTasksBinding.inflate(inflater, container, false)
-        tasksBinding = fragmentBinding
+        binding = FragmentTasksBinding.inflate(inflater, container, false)
 
-        return fragmentBinding.root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        tasksBinding?.apply {
+        binding.apply {
             lifecycleOwner = viewLifecycleOwner
             viewModel = mainViewModel
             tasksFragment = this@TasksFragment
         }
 
-        button_create_task.setOnClickListener {
+        binding.buttonCreateTask.setOnClickListener {
             val task = Task()
             task.course = mainViewModel.currentCourse.value
             task.chapter = mainViewModel.currentChapter.value
@@ -54,15 +52,15 @@ class TasksFragment : Fragment() {
         setupRecyclerView()
         lifecycleScope.launchWhenCreated {
             mainViewModel.tasksStateFlow.collectLatest {
-                taskAdapter.differ.submitList(it)
+                tasksAdapter.differ.submitList(it)
             }
         }
     }
 
     private fun setupRecyclerView(){
-        taskAdapter = TaskAdapter(mainViewModel)
-        rvTasks.apply {
-            adapter = taskAdapter
+        tasksAdapter = TasksAdapter(mainViewModel)
+        binding.rvTasks.apply {
+            adapter = tasksAdapter
             layoutManager = LinearLayoutManager(activity)
         }
     }

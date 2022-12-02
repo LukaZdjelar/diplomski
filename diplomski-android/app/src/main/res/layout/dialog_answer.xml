@@ -28,7 +28,7 @@
             android:layout_marginTop="32dp"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout"
+            android:id="@+id/clDialogAnswer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
@@ -58,13 +58,13 @@
 
 
         <Button
-            android:id="@+id/button_next_task"
+            android:id="@+id/buttonNextTask"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="next task"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+            app:layout_constraintTop_toBottomOf="@+id/clDialogAnswer"
             android:layout_marginTop="32dp"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

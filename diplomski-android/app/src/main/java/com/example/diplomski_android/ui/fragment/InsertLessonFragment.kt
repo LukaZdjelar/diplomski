@@ -13,7 +13,6 @@ import com.example.diplomski_android.R
 import com.example.diplomski_android.databinding.FragmentInsertLessonBinding
 import com.example.diplomski_android.model.Chapter
 import com.example.diplomski_android.model.Course
-import kotlinx.android.synthetic.main.fragment_insert_lesson.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
@@ -23,7 +22,7 @@ import kotlinx.coroutines.runBlocking
 class InsertLessonFragment : Fragment() {
 
     private val mainViewModel : MainViewModel by activityViewModels()
-    private var insertLessonBinding: FragmentInsertLessonBinding? = null
+    private lateinit var binding: FragmentInsertLessonBinding
     var courses = listOf<Course>()
     var chapters = listOf<Chapter>()
     val lessonTypes = listOf("Translating","Vocabulary","Speaking","Listening")
@@ -32,8 +31,7 @@ class InsertLessonFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val fragmentBinding = FragmentInsertLessonBinding.inflate(inflater, container, false)
-        insertLessonBinding = fragmentBinding
+        binding = FragmentInsertLessonBinding.inflate(inflater, container, false)
 
         mainViewModel.getCourses()
         lifecycleScope.launchWhenCreated {
@@ -48,44 +46,44 @@ class InsertLessonFragment : Fragment() {
             }
         }
 
-        return fragmentBinding.root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val courseAdapter = ArrayAdapter(requireContext(), R.layout.spinner_item, courses)
-        actv_lesson_course.setAdapter(courseAdapter)
+        binding.actvLessonCourse.setAdapter(courseAdapter)
 
         lateinit var chapterAdapter: ArrayAdapter<Chapter>
 
         val typeAdapter = ArrayAdapter(requireContext(), R.layout.spinner_item, lessonTypes)
-        actv_lesson_type.setAdapter(typeAdapter)
+        binding.actvLessonType.setAdapter(typeAdapter)
 
         if (mainViewModel.newLesson.value?.id == null){
-            actv_lesson_course.setText(mainViewModel.newLesson.value?.course!!.name,false)
-            actv_lesson_chapter.setText(mainViewModel.newLesson.value?.chapter!!.name,false)
+            binding.actvLessonCourse.setText(mainViewModel.newLesson.value?.course!!.name,false)
+            binding.actvLessonChapter.setText(mainViewModel.newLesson.value?.chapter!!.name,false)
             mainViewModel.newLesson.value?.chapter_id = mainViewModel.newLesson.value?.chapter?.id
-            actv_lesson_type.setText("",false)
+            binding.actvLessonType.setText("",false)
         }else{
-            actv_lesson_course.setText(mainViewModel.newLesson.value?.course!!.name,false)
-            actv_lesson_chapter.setText(mainViewModel.newLesson.value?.chapter!!.name,false)
-            actv_lesson_type.setText(mainViewModel.newLesson.value?.lesson_type!!,false)
+            binding.actvLessonCourse.setText(mainViewModel.newLesson.value?.course!!.name,false)
+            binding.actvLessonChapter.setText(mainViewModel.newLesson.value?.chapter!!.name,false)
+            binding.actvLessonType.setText(mainViewModel.newLesson.value?.lesson_type!!,false)
 
             chapterAdapter = ArrayAdapter(requireContext(), R.layout.spinner_item, chapters)
-            actv_lesson_chapter.setAdapter(chapterAdapter)
+            binding.actvLessonChapter.setAdapter(chapterAdapter)
         }
 
-        insertLessonBinding?.apply {
+        binding?.apply {
             lifecycleOwner = viewLifecycleOwner
             viewModel = mainViewModel
             insertLessonFragment = this@InsertLessonFragment
         }
 
 //      TODO: ???
-        actv_lesson_course.setOnItemClickListener { _, _, position, _ ->
+        binding.actvLessonCourse.setOnItemClickListener { _, _, position, _ ->
             val course = courseAdapter.getItem(position)
-            actv_lesson_chapter.setText("")
+            binding.actvLessonChapter.setText("")
             mainViewModel.newLesson.value?.chapter_id = null
 
             val job = CoroutineScope(Dispatchers.IO).launch {
@@ -95,18 +93,18 @@ class InsertLessonFragment : Fragment() {
             runBlocking { job.join() }
 
             chapterAdapter = ArrayAdapter(requireContext(), R.layout.spinner_item, chapters)
-            actv_lesson_chapter.setAdapter(chapterAdapter)
+            binding.actvLessonChapter.setAdapter(chapterAdapter)
         }
 
-        actv_lesson_chapter.setOnItemClickListener { _, _, position, _ ->
+        binding.actvLessonChapter.setOnItemClickListener { _, _, position, _ ->
             mainViewModel.onLessonChapterItemSelected(chapterAdapter, position)
         }
 
-        actv_lesson_type.setOnItemClickListener{_, _, position, _ ->
+        binding.actvLessonType.setOnItemClickListener{ _, _, position, _ ->
             mainViewModel.onLessonTypeItemSelected(typeAdapter, position)
         }
 
-        button_insert_lesson_confirm.setOnClickListener {
+        binding.buttonInsertLessonConfirm.setOnClickListener {
             mainViewModel.onInsertLessonButtonClick()
             activity?.onBackPressed()
         }

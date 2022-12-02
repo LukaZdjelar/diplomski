@@ -13,7 +13,6 @@ import com.example.diplomski_android.MainViewModel
 import com.example.diplomski_android.R
 import com.example.diplomski_android.databinding.FragmentLoginBinding
 import com.example.diplomski_android.model.User
-import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -22,31 +21,30 @@ import kotlinx.coroutines.runBlocking
 class LoginFragment : Fragment() {
 
     private val mainViewModel : MainViewModel by activityViewModels()
-    private var loginBinding : FragmentLoginBinding? = null
+    private lateinit var binding : FragmentLoginBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val fragmentBinding = FragmentLoginBinding.inflate(inflater, container, false)
-        loginBinding = fragmentBinding
+        binding = FragmentLoginBinding.inflate(inflater, container, false)
 
-        return fragmentBinding.root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        loginBinding?.apply {
+        binding.apply {
             lifecycleOwner = viewLifecycleOwner
             viewModel = mainViewModel
             loginFragment = this@LoginFragment
         }
 
-        buttonLogin.setOnClickListener {
+        binding.buttonLogin.setOnClickListener {
             var user = User()
-            val email = ti_login_email.editText?.text.toString()
-            val password = ti_login_password.editText?.text.toString()
+            val email = binding.tiLoginEmail.editText?.text.toString()
+            val password = binding.tiLoginPassword.editText?.text.toString()
             val job = CoroutineScope(Dispatchers.IO).launch {
                 user = mainViewModel.getUserByEmail(email)
             }
@@ -71,7 +69,7 @@ class LoginFragment : Fragment() {
             }
         }
 
-        tvLoginRegister.setOnClickListener {
+        binding.tvLoginRegister.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_registrationFragment)
         }
     }

@@ -8,33 +8,31 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.example.diplomski_android.MainViewModel
 import com.example.diplomski_android.databinding.DialogResultBinding
-import kotlinx.android.synthetic.main.dialog_result.*
 
 class ResultDialogFragment: DialogFragment() {
     private val mainViewModel : MainViewModel by activityViewModels()
-    private var resultBinding: DialogResultBinding? = null
+    private lateinit var binding: DialogResultBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val fragmentBinding = DialogResultBinding.inflate(inflater, container, false)
-        resultBinding = fragmentBinding
+        binding = DialogResultBinding.inflate(inflater, container, false)
 
-        return resultBinding!!.root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        resultBinding?.apply {
+        binding.apply {
             lifecycleOwner = viewLifecycleOwner
             viewModel = mainViewModel
             resultDialogFragment = this@ResultDialogFragment
         }
 
-        button_result_continue.setOnClickListener {
+        binding.buttonResultContinue.setOnClickListener {
             mainViewModel.onResultNextButtonClick()
             dismiss()
             activity?.onBackPressed()

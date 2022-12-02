@@ -10,7 +10,7 @@ import androidx.navigation.Navigation
 import com.example.diplomski_android.MainViewModel
 import com.example.diplomski_android.R
 import com.example.diplomski_android.databinding.FragmentRegistrationBinding
-import kotlinx.android.synthetic.main.fragment_registration.*
+import com.example.diplomski_android.model.User
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -19,28 +19,27 @@ import kotlinx.coroutines.runBlocking
 class RegistrationFragment : Fragment() {
 
     private val mainViewModel : MainViewModel by activityViewModels()
-    private var registrationBinding : FragmentRegistrationBinding? = null
+    private lateinit var binding : FragmentRegistrationBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val fragmentBinding = FragmentRegistrationBinding.inflate(inflater, container, false)
-        registrationBinding = fragmentBinding
+        binding = FragmentRegistrationBinding.inflate(inflater, container, false)
 
-        return fragmentBinding.root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        registrationBinding?.apply {
+        binding.apply {
             lifecycleOwner = viewLifecycleOwner
             viewModel = mainViewModel
             registrationFragment = this@RegistrationFragment
         }
 
-        buttonRegister.setOnClickListener {
+        binding.buttonRegister.setOnClickListener {
             val job = CoroutineScope(Dispatchers.IO).launch {
                 mainViewModel.insertUser(mainViewModel.newUser.value!!)
             }
@@ -49,6 +48,7 @@ class RegistrationFragment : Fragment() {
             if (Navigation.findNavController(view).previousBackStackEntry?.destination?.id != R.id.loginFragment){
                 mainViewModel.setUser(mainViewModel.newUser.value!!)
             }
+            mainViewModel.setNewUser(User())
             activity?.onBackPressed()
         }
     }

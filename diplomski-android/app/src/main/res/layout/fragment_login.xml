@@ -26,7 +26,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/ti_login_email"
+                android:id="@+id/tiLoginEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="32dp"
@@ -41,13 +41,13 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/ti_login_password"
+                android:id="@+id/tiLoginPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="32dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ti_login_email">
+                app:layout_constraintTop_toBottomOf="@+id/tiLoginEmail">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
@@ -63,7 +63,7 @@
                 android:textSize="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ti_login_password"
+                app:layout_constraintTop_toBottomOf="@+id/tiLoginPassword"
                 android:text="Don't have an account yet? Click here to register."/>
 
             <Button
@@ -78,8 +78,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvLoginRegister" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

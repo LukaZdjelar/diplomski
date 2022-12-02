@@ -14,30 +14,28 @@ import com.example.diplomski_android.R
 import com.example.diplomski_android.databinding.FragmentCoursesBinding
 import com.example.diplomski_android.model.Course
 import com.example.diplomski_android.ui.adapter.CoursesAdapter
-import kotlinx.android.synthetic.main.fragment_courses.*
 import kotlinx.coroutines.flow.collectLatest
 
 class CoursesFragment : Fragment() {
     private val mainViewModel : MainViewModel by activityViewModels()
-    private var coursesBinding : FragmentCoursesBinding? = null
+    private lateinit var binding : FragmentCoursesBinding
     private lateinit var coursesAdapter : CoursesAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val fragmentBinding = FragmentCoursesBinding.inflate(inflater, container, false)
-        coursesBinding = fragmentBinding
+        binding = FragmentCoursesBinding.inflate(inflater, container, false)
 
         mainViewModel.getCourses()
         mainViewModel.getLanguages()
-        return fragmentBinding.root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        coursesBinding?.apply {
+        binding.apply {
             lifecycleOwner = viewLifecycleOwner
             viewModel = mainViewModel
             coursesFragment = this@CoursesFragment
@@ -50,7 +48,7 @@ class CoursesFragment : Fragment() {
             }
         }
 
-        button_create_course.setOnClickListener {
+        binding.buttonCreateCourse.setOnClickListener {
             mainViewModel.setNewCourse(Course())
             Navigation.findNavController(view).navigate(R.id.action_coursesFragment_to_insertCourseFragment)
         }
@@ -58,7 +56,7 @@ class CoursesFragment : Fragment() {
 
     private fun setupRecyclerView(){
         coursesAdapter = CoursesAdapter(mainViewModel)
-        rvCourses.apply {
+        binding.rvCourses.apply {
             adapter = coursesAdapter
             layoutManager = LinearLayoutManager(activity)
         }

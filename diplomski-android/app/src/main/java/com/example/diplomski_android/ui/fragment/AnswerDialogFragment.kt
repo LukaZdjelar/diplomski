@@ -8,34 +8,32 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.example.diplomski_android.MainViewModel
 import com.example.diplomski_android.databinding.DialogAnswerBinding
-import kotlinx.android.synthetic.main.dialog_answer.*
 
 
 class AnswerDialogFragment: DialogFragment() {
     private val mainViewModel : MainViewModel by activityViewModels()
-    private var answerBinding: DialogAnswerBinding? = null
+    private lateinit var binding: DialogAnswerBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val fragmentBinding = DialogAnswerBinding.inflate(inflater, container, false)
-        answerBinding = fragmentBinding
+        binding = DialogAnswerBinding.inflate(inflater, container, false)
 
-        return answerBinding!!.root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        answerBinding?.apply {
+        binding.apply {
             lifecycleOwner = viewLifecycleOwner
             viewModel = mainViewModel
             answerDialogFragment = this@AnswerDialogFragment
         }
 
-        button_next_task.setOnClickListener {
+        binding.buttonNextTask.setOnClickListener {
             mainViewModel.onDialogNextButtonClick()
             dismiss()
         }

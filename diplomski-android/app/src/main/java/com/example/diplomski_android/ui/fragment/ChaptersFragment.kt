@@ -14,33 +14,31 @@ import com.example.diplomski_android.R
 import com.example.diplomski_android.databinding.FragmentChaptersBinding
 import com.example.diplomski_android.model.Chapter
 import com.example.diplomski_android.ui.adapter.ChaptersAdapter
-import kotlinx.android.synthetic.main.fragment_chapters.*
 import kotlinx.coroutines.flow.collectLatest
 
 class ChaptersFragment : Fragment() {
     private val mainViewModel : MainViewModel by activityViewModels()
-    private var chaptersBinding : FragmentChaptersBinding? = null
+    private lateinit var binding : FragmentChaptersBinding
     private lateinit var chaptersAdapter : ChaptersAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val fragmentBinding = FragmentChaptersBinding.inflate(inflater, container, false)
-        chaptersBinding = fragmentBinding
+        binding = FragmentChaptersBinding.inflate(inflater, container, false)
 
-        return fragmentBinding.root
+        return binding.root
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        chaptersBinding?.apply {
+        binding.apply {
             lifecycleOwner = viewLifecycleOwner
             viewModel = mainViewModel
             chaptersFragment = this@ChaptersFragment
         }
 
-        button_create_chapter.setOnClickListener {
+        binding.buttonCreateChapter.setOnClickListener {
             val chapter = Chapter()
             chapter.course = mainViewModel.currentCourse.value
             mainViewModel.setNewChapter(chapter)
@@ -51,7 +49,7 @@ class ChaptersFragment : Fragment() {
 
     private fun setupRecyclerView(){
         chaptersAdapter = ChaptersAdapter(mainViewModel)
-        rvChapters.apply {
+        binding.rvChapters.apply {
             adapter = chaptersAdapter
             layoutManager = LinearLayoutManager(activity)
         }

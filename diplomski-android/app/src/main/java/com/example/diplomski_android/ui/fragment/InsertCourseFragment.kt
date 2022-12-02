@@ -12,21 +12,19 @@ import com.example.diplomski_android.MainViewModel
 import com.example.diplomski_android.R
 import com.example.diplomski_android.databinding.FragmentInsertCourseBinding
 import com.example.diplomski_android.model.Language
-import kotlinx.android.synthetic.main.fragment_insert_course.*
 import kotlinx.coroutines.flow.collectLatest
 
 class InsertCourseFragment: Fragment() {
 
     private val mainViewModel : MainViewModel by activityViewModels()
-    private var insertCourseBinding: FragmentInsertCourseBinding? = null
+    private lateinit var binding: FragmentInsertCourseBinding
     var languages = listOf<Language>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val fragmentBinding = FragmentInsertCourseBinding.inflate(inflater, container, false)
-        insertCourseBinding = fragmentBinding
+        binding = FragmentInsertCourseBinding.inflate(inflater, container, false)
 
         mainViewModel.getLanguages()
         lifecycleScope.launchWhenCreated {
@@ -34,8 +32,7 @@ class InsertCourseFragment: Fragment() {
                 languages = it
             }
         }
-
-        return fragmentBinding.root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -43,7 +40,7 @@ class InsertCourseFragment: Fragment() {
 
         setAdapters()
 
-        insertCourseBinding?.apply {
+        binding.apply {
             lifecycleOwner = viewLifecycleOwner
             viewModel = mainViewModel
             insertCourseFragment = this@InsertCourseFragment
@@ -52,30 +49,30 @@ class InsertCourseFragment: Fragment() {
 
     fun setAdapters(){
         val localAdapter = ArrayAdapter(requireContext(), R.layout.spinner_item, languages)
-        actv_local.setAdapter(localAdapter)
+        binding.actvLocal.setAdapter(localAdapter)
 
         val foreignAdapter = ArrayAdapter(requireContext(), R.layout.spinner_item, languages)
-        actv_foreign.setAdapter(foreignAdapter)
+        binding.actvForeign.setAdapter(foreignAdapter)
 
 //      set initial text
         if (mainViewModel.newCourse.value?.id == null){
-            actv_local.setText("",false)
-            actv_foreign.setText("",false)
+            binding.actvLocal.setText("",false)
+            binding.actvForeign.setText("",false)
         }else{
-            actv_local.setText(mainViewModel.newCourse.value?.local_language?.name,false)
-            actv_foreign.setText(mainViewModel.newCourse.value?.foreign_language?.name,false)
+            binding.actvLocal.setText(mainViewModel.newCourse.value?.local_language?.name,false)
+            binding.actvForeign.setText(mainViewModel.newCourse.value?.foreign_language?.name,false)
         }
 
 //      TODO: Ne radi poziv viewmodel funkcije iz layout-a: onItemSelected
-        actv_local.setOnItemClickListener { _, _, position, _ ->
+        binding.actvLocal.setOnItemClickListener { _, _, position, _ ->
             mainViewModel.onLocalLanguageItemSelected(localAdapter, position)
         }
 
-        actv_foreign.setOnItemClickListener { _, _, position, _ ->
+        binding.actvForeign.setOnItemClickListener { _, _, position, _ ->
             mainViewModel.onForeignLanguageItemSelected(foreignAdapter, position)
         }
 
-        button_insert_course_confirm.setOnClickListener {
+        binding.buttonInsertCourseConfirm.setOnClickListener {
             mainViewModel.onInsertCourseButtonClick()
             activity?.onBackPressed()
         }

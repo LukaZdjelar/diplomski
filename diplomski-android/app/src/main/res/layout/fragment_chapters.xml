@@ -28,7 +28,7 @@
                 android:visibility="@{viewModel.user.admin ? View.VISIBLE : View.GONE}">
 
                 <Button
-                    android:id="@+id/button_create_chapter"
+                    android:id="@+id/buttonCreateChapter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintBottom_toBottomOf="parent"

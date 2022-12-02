@@ -10,36 +10,34 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.diplomski_android.MainViewModel
 import com.example.diplomski_android.databinding.FragmentTaskBinding
-import kotlinx.android.synthetic.main.fragment_task.*
 
 class TaskFragment : Fragment() {
     private val mainViewModel : MainViewModel by activityViewModels()
-    private var taskBinding : FragmentTaskBinding? = null
+    private lateinit var binding : FragmentTaskBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val fragmentBinding = FragmentTaskBinding.inflate(inflater, container, false)
-        taskBinding = fragmentBinding
+        binding = FragmentTaskBinding.inflate(inflater, container, false)
 
 //      TODO: ???
         mainViewModel.setTask(mainViewModel.tasks.value?.get(mainViewModel.taskNumber.value!!))
 
-        return fragmentBinding.root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        taskBinding?.apply {
+        binding.apply {
             lifecycleOwner = viewLifecycleOwner
             viewModel = mainViewModel
             taskFragment = this@TaskFragment
         }
 
 //      TODO: ???
-        buttonAnswer.setOnClickListener {
+        binding.buttonAnswer.setOnClickListener {
             mainViewModel.onAnswerButtonClick()
             hideKeyboard()
             val dialog = AnswerDialogFragment()

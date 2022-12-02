@@ -1,7 +1,6 @@
 package com.example.diplomski_android.ui.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.navigation.Navigation
@@ -10,16 +9,15 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.diplomski_android.MainViewModel
 import com.example.diplomski_android.R
+import com.example.diplomski_android.databinding.ItemCourseBinding
 import com.example.diplomski_android.model.Course
-import kotlinx.android.synthetic.main.item_course.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class CoursesAdapter(private val mainViewModel: MainViewModel) : RecyclerView.Adapter<CoursesAdapter.CoursesViewHolder>() {
-    private lateinit var view: View
 
-    inner class CoursesViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
+    inner class CoursesViewHolder(val binding: ItemCourseBinding): RecyclerView.ViewHolder(binding.root)
 
     private val differCallback = object : DiffUtil.ItemCallback<Course>() {
         override fun areItemsTheSame(oldItem: Course, newItem: Course): Boolean {
@@ -33,27 +31,24 @@ class CoursesAdapter(private val mainViewModel: MainViewModel) : RecyclerView.Ad
     val differ = AsyncListDiffer(this, differCallback)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CoursesViewHolder {
-        view = LayoutInflater.from(parent.context).inflate(R.layout.item_course, parent, false)
-        return CoursesViewHolder(
-            view
-        )
+        return CoursesViewHolder(ItemCourseBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
     override fun onBindViewHolder(holder: CoursesViewHolder, position: Int) {
         val course = differ.currentList[position]
         holder.itemView.apply {
-            llCourseItemAdmin.isVisible = mainViewModel.user.value?.admin!!
-            tvCourseName.text = course.name
+            holder.binding.llCourseItemAdmin.isVisible = mainViewModel.user.value?.admin!!
+            holder.binding.tvCourseName.text = course.name
 
             setOnClickListener{
                 mainViewModel.setCurrentCourse(course)
-                Navigation.findNavController(view).navigate(R.id.action_coursesFragment_to_chaptersFragment)
+                Navigation.findNavController(holder.itemView).navigate(R.id.action_coursesFragment_to_chaptersFragment)
             }
-            button_edit_course.setOnClickListener{
+            holder.binding.buttonEditCourse.setOnClickListener{
                 mainViewModel.setNewCourse(course)
-                Navigation.findNavController(view).navigate(R.id.action_coursesFragment_to_insertCourseFragment)
+                Navigation.findNavController(holder.itemView).navigate(R.id.action_coursesFragment_to_insertCourseFragment)
             }
-            button_delete_course.setOnClickListener {
+            holder.binding.buttonDeleteCourse.setOnClickListener {
                 CoroutineScope(Dispatchers.IO).launch {
                     mainViewModel.deleteCourseComplete(course)
                 }
