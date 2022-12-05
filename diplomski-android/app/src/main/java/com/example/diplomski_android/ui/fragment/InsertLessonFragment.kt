@@ -40,10 +40,8 @@ class InsertLessonFragment : Fragment() {
             }
         }
 
-        if (mainViewModel.newLesson.value?.id != null){
-            CoroutineScope(Dispatchers.IO).launch {
-                chapters = mainViewModel.getChaptersByCourse(mainViewModel.newLesson.value?.course!!.id!!)
-            }
+        CoroutineScope(Dispatchers.IO).launch {
+            chapters = mainViewModel.getChaptersByCourse(mainViewModel.newLesson.value?.course!!.id!!)
         }
 
         return binding.root
@@ -55,7 +53,8 @@ class InsertLessonFragment : Fragment() {
         val courseAdapter = ArrayAdapter(requireContext(), R.layout.spinner_item, courses)
         binding.actvLessonCourse.setAdapter(courseAdapter)
 
-        lateinit var chapterAdapter: ArrayAdapter<Chapter>
+        var chapterAdapter = ArrayAdapter(requireContext(), R.layout.spinner_item, chapters)
+        binding.actvLessonChapter.setAdapter(chapterAdapter)
 
         val typeAdapter = ArrayAdapter(requireContext(), R.layout.spinner_item, lessonTypes)
         binding.actvLessonType.setAdapter(typeAdapter)
@@ -69,12 +68,9 @@ class InsertLessonFragment : Fragment() {
             binding.actvLessonCourse.setText(mainViewModel.newLesson.value?.course!!.name,false)
             binding.actvLessonChapter.setText(mainViewModel.newLesson.value?.chapter!!.name,false)
             binding.actvLessonType.setText(mainViewModel.newLesson.value?.lesson_type!!,false)
-
-            chapterAdapter = ArrayAdapter(requireContext(), R.layout.spinner_item, chapters)
-            binding.actvLessonChapter.setAdapter(chapterAdapter)
         }
 
-        binding?.apply {
+        binding.apply {
             lifecycleOwner = viewLifecycleOwner
             viewModel = mainViewModel
             insertLessonFragment = this@InsertLessonFragment
@@ -85,28 +81,70 @@ class InsertLessonFragment : Fragment() {
             val course = courseAdapter.getItem(position)
             binding.actvLessonChapter.setText("")
             mainViewModel.newLesson.value?.chapter_id = null
+            binding.menuInsertLessonCourses.helperText = validateCourse()
 
             val job = CoroutineScope(Dispatchers.IO).launch {
                 chapters = mainViewModel.getChaptersByCourse(course?.id!!)
             }
 
             runBlocking { job.join() }
-
             chapterAdapter = ArrayAdapter(requireContext(), R.layout.spinner_item, chapters)
             binding.actvLessonChapter.setAdapter(chapterAdapter)
         }
 
         binding.actvLessonChapter.setOnItemClickListener { _, _, position, _ ->
             mainViewModel.onLessonChapterItemSelected(chapterAdapter, position)
+            binding.menuInsertLessonChapters.helperText = validateChapter()
         }
 
         binding.actvLessonType.setOnItemClickListener{ _, _, position, _ ->
             mainViewModel.onLessonTypeItemSelected(typeAdapter, position)
+            binding.menuInsertLessonType.helperText = validateType()
         }
 
         binding.buttonInsertLessonConfirm.setOnClickListener {
-            mainViewModel.onInsertLessonButtonClick()
-            activity?.onBackPressed()
+            if (validateOnConfirm()){
+                mainViewModel.onInsertLessonButtonClick()
+                activity?.onBackPressed()
+            }
         }
+    }
+
+    fun validateCourse(): String?{
+        val course = binding.actvLessonCourse.text.toString()
+        if (course == ""){
+            return "Required"
+        }
+        return null
+    }
+
+    fun validateChapter(): String?{
+        val chapter = binding.actvLessonChapter.text.toString()
+        if (chapter == ""){
+            return "Required"
+        }
+        return null
+    }
+
+    fun validateType(): String?{
+        val type = binding.actvLessonType.text.toString()
+        if (type == ""){
+            return "Required"
+        }
+        return null
+    }
+
+    fun validateOnConfirm(): Boolean{
+        binding.menuInsertLessonCourses.helperText = validateCourse()
+        binding.menuInsertLessonChapters.helperText = validateChapter()
+        binding.menuInsertLessonType.helperText = validateType()
+
+        if (binding.menuInsertLessonCourses.helperText == null &&
+            binding.menuInsertLessonChapters.helperText == null &&
+            binding.menuInsertLessonType.helperText == null){
+            return true
+        }
+
+        return false
     }
 }

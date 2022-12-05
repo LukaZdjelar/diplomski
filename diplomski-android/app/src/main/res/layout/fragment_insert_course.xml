@@ -32,34 +32,36 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tiInsertCourseName"
+            android:id="@+id/insertCourseNameContainer"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="32dp"
-            app:helperText="Required"
             app:helperTextTextColor="#E91E63"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvInsertCourse">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/insertCourseName"
                 android:text="@={viewModel.newCourse.name}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Course name"
-                android:lines="1"/>
+                android:lines="1" />
         </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/menuInsertCourseLocal"
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="32dp"
+                app:helperTextTextColor="#E91E63"
                 android:hint="Local"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tiInsertCourseName">
+                app:layout_constraintTop_toBottomOf="@id/insertCourseNameContainer">
 
                 <AutoCompleteTextView
                     android:id="@+id/actvLocal"
@@ -70,11 +72,12 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/menuInsertCourse_Foreign"
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                android:id="@+id/menuInsertCourseForeign"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="32dp"
+                app:helperTextTextColor="#E91E63"
                 android:hint="Foreign"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -88,7 +91,7 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonInsertCourseConfirm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

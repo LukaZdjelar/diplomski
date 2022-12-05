@@ -18,10 +18,11 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/menuInsertTaskCourses"
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Course"
+            app:helperTextTextColor="#E91E63"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -37,10 +38,11 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/menuInsertTaskChapters"
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Chapter"
+            app:helperTextTextColor="#E91E63"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/menuInsertTaskCourses"
@@ -56,10 +58,11 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/menuInsertTaskLessons"
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Lesson"
+            app:helperTextTextColor="#E91E63"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/menuInsertTaskChapters"
@@ -74,15 +77,18 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tiInsertTaskQuestion"
+            android:id="@+id/insertTaskQuestionContainer"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="32dp"
+            app:helperTextTextColor="#E91E63"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/menuInsertTaskLessons">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/insertTaskQuestion"
                 android:text="@={viewModel.newTask.question}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -90,22 +96,25 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tiInsertTaskAnswer"
+            android:id="@+id/insertTaskAnswerContainer"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="32dp"
+            app:helperTextTextColor="#E91E63"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tiInsertTaskQuestion">
+            app:layout_constraintTop_toBottomOf="@+id/insertTaskQuestionContainer">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/insertTaskAnswer"
                 android:text="@={viewModel.newTask.answer}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Answer" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonInsertTaskConfirm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

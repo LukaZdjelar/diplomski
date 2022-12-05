@@ -18,10 +18,11 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/menuInsertChapterCourses"
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Course"
+            app:helperTextTextColor="#E91E63"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -36,9 +37,11 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tiInsertChapterName"
+            android:id="@+id/insertChapterNameContainer"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:helperTextTextColor="#E91E63"
             android:layout_marginStart="32dp"
             android:layout_marginTop="32dp"
             android:layout_marginEnd="32dp"
@@ -47,6 +50,7 @@
             app:layout_constraintTop_toBottomOf="@+id/menuInsertChapterCourses">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/insertChapterName"
                 android:text="@={viewModel.newChapter.name}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -55,13 +59,14 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/menuInsertChapterDifficulty"
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Difficulty"
+            app:helperTextTextColor="#E91E63"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tiInsertChapterName"
+            app:layout_constraintTop_toBottomOf="@+id/insertChapterNameContainer"
             android:layout_margin="32dp">
 
             <AutoCompleteTextView
@@ -72,7 +77,7 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonInsertChapterConfirm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

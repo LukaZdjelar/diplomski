@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -41,13 +42,12 @@ class InsertTaskFragment : Fragment() {
             }
         }
 
-        if (mainViewModel.newTask.value?.id != null){
-            CoroutineScope(Dispatchers.IO).launch {
-                chapters = mainViewModel.getChaptersByCourse(mainViewModel.newTask.value?.course!!.id!!)
-                lessons = mainViewModel.getLessonsByChapters(mainViewModel.newTask.value?.chapter!!.id!!)
-            }
+        CoroutineScope(Dispatchers.IO).launch {
+            chapters = mainViewModel.getChaptersByCourse(mainViewModel.newTask.value?.course!!.id!!)
+            lessons = mainViewModel.getLessonsByChapters(mainViewModel.newTask.value?.chapter!!.id!!)
         }
 
+        textChangeListener()
         return binding.root
     }
 
@@ -57,9 +57,12 @@ class InsertTaskFragment : Fragment() {
         val courseAdapter = ArrayAdapter(requireContext(), R.layout.spinner_item, courses)
         binding.actvTaskCourse.setAdapter(courseAdapter)
 
-        lateinit var chapterAdapter: ArrayAdapter<Chapter>
 
-        lateinit var lessonAdapter: ArrayAdapter<Lesson>
+        var chapterAdapter = ArrayAdapter(requireContext(), R.layout.spinner_item, chapters)
+        binding.actvTaskChapter.setAdapter(chapterAdapter)
+
+        var lessonAdapter = ArrayAdapter(requireContext(), R.layout.spinner_item, lessons)
+        binding.actvTaskLesson.setAdapter(lessonAdapter)
 
         if (mainViewModel.newTask.value?.id == null){
             binding.actvTaskCourse.setText(mainViewModel.newTask.value?.course!!.name,false)
@@ -70,11 +73,6 @@ class InsertTaskFragment : Fragment() {
             binding.actvTaskCourse.setText(mainViewModel.newTask.value?.course!!.name,false)
             binding.actvTaskChapter.setText(mainViewModel.newTask.value?.chapter!!.name,false)
             binding.actvTaskLesson.setText(mainViewModel.newTask.value?.lesson!!.lesson_type,false)
-
-            chapterAdapter = ArrayAdapter(requireContext(), R.layout.spinner_item, chapters)
-            binding.actvTaskChapter.setAdapter(chapterAdapter)
-            lessonAdapter = ArrayAdapter(requireContext(), R.layout.spinner_item, lessons)
-            binding.actvTaskLesson.setAdapter(lessonAdapter)
         }
 
         binding.apply {
@@ -90,6 +88,7 @@ class InsertTaskFragment : Fragment() {
             binding.actvTaskChapter.setText("")
             binding.actvTaskLesson.setText("")
             mainViewModel.newTask.value?.lesson_id = null
+            binding.menuInsertTaskCourses.helperText = validateCourse()
 
             val job = CoroutineScope(Dispatchers.IO).launch {
                 chapters = mainViewModel.getChaptersByCourse(course?.id!!)
@@ -106,6 +105,7 @@ class InsertTaskFragment : Fragment() {
 
             binding.actvTaskLesson.setText("")
             mainViewModel.newTask.value?.lesson_id = null
+            binding.menuInsertTaskChapters.helperText = validateChapter()
 
             val job = CoroutineScope(Dispatchers.IO).launch {
                 lessons = mainViewModel.getLessonsByChapters(chapter?.id!!)
@@ -119,11 +119,81 @@ class InsertTaskFragment : Fragment() {
 
         binding.actvTaskLesson.setOnItemClickListener { _, _, position, _ ->
             mainViewModel.onTaskLessonItemSelected(lessonAdapter, position)
+            binding.menuInsertTaskLessons.helperText = validateLesson()
         }
 
         binding.buttonInsertTaskConfirm.setOnClickListener {
-            mainViewModel.onInsertTaskButtonClick()
-            activity?.onBackPressed()
+            if(validateOnComplete()){
+                mainViewModel.onInsertTaskButtonClick()
+                activity?.onBackPressed()
+            }
         }
+    }
+
+    fun textChangeListener(){
+        binding.insertTaskQuestion.doOnTextChanged { _, _, _, _ ->
+            binding.insertTaskQuestionContainer.helperText = validateQuestion()
+        }
+        binding.insertTaskAnswer.doOnTextChanged { _, _, _, _ ->
+            binding.insertTaskAnswerContainer.helperText = validateAnswer()
+        }
+    }
+
+    fun validateCourse(): String?{
+        val course = binding.actvTaskCourse.text.toString()
+        if (course == ""){
+            return "Required"
+        }
+        return null
+    }
+
+    fun validateChapter(): String?{
+        val chapter = binding.actvTaskChapter.text.toString()
+        if (chapter == ""){
+            return "Required"
+        }
+        return null
+    }
+
+    fun validateLesson(): String?{
+        val lesson = binding.actvTaskLesson.text.toString()
+        if (lesson == ""){
+            return "Required"
+        }
+        return null
+    }
+
+    fun validateQuestion(): String?{
+        val question = binding.insertTaskQuestion.text.toString()
+        if (question == ""){
+            return "Required"
+        }
+        return null
+    }
+
+    fun validateAnswer(): String?{
+        val answer = binding.insertTaskAnswer.text.toString()
+        if (answer == ""){
+            return "Required"
+        }
+        return null
+    }
+
+    fun validateOnComplete(): Boolean {
+        binding.menuInsertTaskCourses.helperText = validateCourse()
+        binding.menuInsertTaskChapters.helperText = validateChapter()
+        binding.menuInsertTaskLessons.helperText = validateLesson()
+        binding.insertTaskQuestionContainer.helperText = validateQuestion()
+        binding.insertTaskAnswerContainer.helperText = validateAnswer()
+
+        if (binding.menuInsertTaskCourses.helperText == null &&
+            binding.menuInsertTaskChapters.helperText == null &&
+            binding.menuInsertTaskLessons.helperText == null &&
+            binding.insertTaskQuestionContainer.helperText == null &&
+            binding.insertTaskAnswerContainer.helperText == null){
+            return true
+        }
+
+        return false
     }
 }

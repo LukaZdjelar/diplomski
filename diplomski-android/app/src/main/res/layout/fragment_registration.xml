@@ -26,15 +26,18 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tiRegistrationName"
+                android:id="@+id/registrationNameContainer"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="32dp"
+                app:helperTextTextColor="#E91E63"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/registrationName"
                     android:text="@={viewModel.newUser.name}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -42,15 +45,18 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tiRegistrationEmail"
+                android:id="@+id/registrationEmailContainer"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="32dp"
+                app:helperTextTextColor="#E91E63"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tiRegistrationName">
+                app:layout_constraintTop_toBottomOf="@+id/registrationNameContainer">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/registrationEmail"
                     android:text="@={viewModel.newUser.email}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -58,15 +64,18 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tiRegistrationPassword"
+                android:id="@+id/registrationPasswordContainer"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="32dp"
+                app:helperTextTextColor="#E91E63"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tiRegistrationEmail">
+                app:layout_constraintTop_toBottomOf="@+id/registrationEmailContainer">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/registrationPassword"
                     android:text="@={viewModel.newUser.password}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -74,21 +83,24 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tiRegistrationConfirmPassword"
+                android:id="@+id/registrationConfirmPasswordContairner"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="32dp"
+                app:helperTextTextColor="#E91E63"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tiRegistrationPassword">
+                app:layout_constraintTop_toBottomOf="@+id/registrationPasswordContainer">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/registrationConfirmPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Confirm password" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonRegister"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -97,7 +109,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tiRegistrationConfirmPassword" />
+                app:layout_constraintTop_toBottomOf="@+id/registrationConfirmPasswordContairner" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
