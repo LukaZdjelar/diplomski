@@ -13,6 +13,7 @@ import com.example.diplomski_android.MainViewModel
 import com.example.diplomski_android.R
 import com.example.diplomski_android.databinding.FragmentCoursesBinding
 import com.example.diplomski_android.model.Course
+import com.example.diplomski_android.model.Language
 import com.example.diplomski_android.ui.adapter.CoursesAdapter
 import kotlinx.coroutines.flow.collectLatest
 
@@ -51,6 +52,11 @@ class CoursesFragment : Fragment() {
         binding.buttonCreateCourse.setOnClickListener {
             mainViewModel.setNewCourse(Course())
             Navigation.findNavController(view).navigate(R.id.action_coursesFragment_to_insertCourseFragment)
+        }
+
+        binding.buttonCreateLanguage.setOnClickListener {
+            mainViewModel.setNewLanguage(Language())
+            Navigation.findNavController(view).navigate(R.id.action_coursesFragment_to_insertLanguageFragment)
         }
     }
 

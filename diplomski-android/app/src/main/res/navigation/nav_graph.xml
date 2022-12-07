@@ -24,6 +24,9 @@
         <action
             android:id="@+id/action_coursesFragment_to_registrationFragment"
             app:destination="@id/registrationFragment" />
+        <action
+            android:id="@+id/action_coursesFragment_to_insertLanguageFragment"
+            app:destination="@id/insertLanguageFragment" />
     </fragment>
     <fragment
         android:id="@+id/chaptersFragment"
@@ -121,4 +124,9 @@
         android:name="com.example.diplomski_android.ui.fragment.RegistrationFragment"
         android:label="fragment_registration"
         tools:layout="@layout/fragment_registration" />
+    <fragment
+        android:id="@+id/insertLanguageFragment"
+        android:name="com.example.diplomski_android.ui.fragment.InsertLanguageFragment"
+        android:label="fragment_insert_language"
+        tools:layout="@layout/fragment_insert_language" />
 </navigation>

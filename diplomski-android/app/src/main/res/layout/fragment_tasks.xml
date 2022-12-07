@@ -16,12 +16,6 @@
         android:layout_height="match_parent"
         tools:context=".ui.fragment.TasksFragment">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/tasksToolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            android:background="?colorPrimary"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clTasks"
@@ -29,7 +23,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tasksToolbar"
+            app:layout_constraintTop_toTopOf="parent"
             android:orientation="horizontal">
 
             <TextView

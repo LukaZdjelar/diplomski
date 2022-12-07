@@ -29,6 +29,7 @@
                 android:visibility="@{viewModel.user.admin ? View.VISIBLE : View.GONE}">
 
                 <Button
+                    android:id="@+id/buttonCreateLanguage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Add new language"

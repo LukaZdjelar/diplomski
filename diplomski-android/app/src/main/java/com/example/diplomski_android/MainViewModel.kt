@@ -526,4 +526,17 @@ class MainViewModel @Inject constructor(
     fun setNewUser(nu: User){
         _newUser.value = nu
     }
+
+    //INSERT LANGUAGE
+    private val _newLanguage = MutableLiveData(Language())
+    val newLanguage: LiveData<Language> = _newLanguage
+    fun setNewLanguage(nl: Language){
+        _newLanguage.value = nl
+    }
+
+    fun onInsertLanguageButtonClick(){
+        CoroutineScope(Dispatchers.IO).launch {
+            insertLanguage(newLanguage.value!!)
+        }
+    }
 }
