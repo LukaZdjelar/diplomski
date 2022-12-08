@@ -1,5 +1,7 @@
 package com.example.diplomski_android.ui.fragment
 
+import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -40,9 +42,14 @@ class TaskFragment : Fragment() {
         binding.buttonAnswer.setOnClickListener {
             mainViewModel.onAnswerButtonClick()
             hideKeyboard()
-            val dialog = AnswerDialogFragment()
-            dialog.isCancelable = false
-            dialog.show(parentFragmentManager, "answerDialog")
+            AlertDialog.Builder(context)
+                .setTitle("${mainViewModel.corect.value}")
+                .setMessage("Answer was ${mainViewModel.task.value?.answer}")
+                .setPositiveButton("Next task"){ _, _ ->
+                    mainViewModel.onDialogNextButtonClick()
+                }
+                .setCancelable(false)
+                .show()
         }
         showResultsOnComplete()
     }
@@ -51,9 +58,15 @@ class TaskFragment : Fragment() {
         mainViewModel.completed.observe(viewLifecycleOwner) {
             if (it){
                 mainViewModel.onLessonComplete()
-                val dialog = ResultDialogFragment()
-                dialog.isCancelable = false
-                dialog.show(parentFragmentManager, "resultDialog")
+                AlertDialog.Builder(context)
+                    .setTitle("${mainViewModel.passed.value}")
+                    .setMessage("Your grade is ${mainViewModel.grade.value}")
+                    .setPositiveButton("OK"){_, _ ->
+                        mainViewModel.onResultNextButtonClick()
+                        activity?.onBackPressed()
+                    }
+                    .setCancelable(false)
+                    .show()
             }
         }
     }
