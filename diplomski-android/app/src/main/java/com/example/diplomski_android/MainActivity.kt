@@ -12,6 +12,8 @@ import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import com.example.diplomski_android.databinding.ActivityMainBinding
 import com.example.diplomski_android.model.*
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -29,11 +31,13 @@ class MainActivity: AppCompatActivity() {
     private lateinit var navController: NavController
     private var activityMainBinding: ActivityMainBinding? = null
     var loggedUserId: Long = 0L
+    private lateinit var auth: FirebaseAuth;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         //FIREBASE
+        auth = Firebase.auth
         database = Firebase.firestore
         var users: List<User>
         var courses: List<Course>

@@ -1,6 +1,7 @@
 package com.example.diplomski_android.ui.fragment
 
 import android.os.Bundle
+import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,11 +17,13 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import java.util.regex.Pattern
 
 class RegistrationFragment : Fragment() {
 
     private val mainViewModel : MainViewModel by activityViewModels()
     private lateinit var binding : FragmentRegistrationBinding
+    val emailRegex = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}\$"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -85,6 +88,9 @@ class RegistrationFragment : Fragment() {
         if (email == ""){
             return "Required"
         }
+        if (!Regex(emailRegex).containsMatchIn(email)){
+            return "Invalid email address"
+        }
         return null
     }
 
@@ -92,6 +98,9 @@ class RegistrationFragment : Fragment() {
         val password = binding.registrationPassword.text.toString()
         if (password == ""){
             return "Required"
+        }
+        if (password.length<6){
+            return "Password must be at least 6 characters long"
         }
         if (password != binding.registrationConfirmPassword.text.toString()){
             binding.registrationConfirmPasswordContairner.helperText = "Passwords don't match"
@@ -106,6 +115,9 @@ class RegistrationFragment : Fragment() {
         val confirmPassword = binding.registrationConfirmPassword.text.toString()
         if (confirmPassword == ""){
             return "Required"
+        }
+        if (confirmPassword.length<6){
+            return "Password must be at least 6 characters long"
         }
         if (confirmPassword != binding.registrationPassword.text.toString()){
             return "Passwords don't match"
