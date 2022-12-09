@@ -1,7 +1,9 @@
 package com.example.diplomski_android.model
 
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
+import com.google.firebase.firestore.Exclude
 
 @Entity(tableName = "users")
 data class User(
@@ -9,7 +11,9 @@ data class User(
     var id: Long? = null,
     var name: String? = "",
     var email: String? ="",
-    var password: String? ="",
     var admin: Boolean? = false
 ){
+    @Ignore
+    @get:Exclude
+    var password: String? =""
 }

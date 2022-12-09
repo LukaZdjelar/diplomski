@@ -13,6 +13,8 @@ import com.example.diplomski_android.MainViewModel
 import com.example.diplomski_android.R
 import com.example.diplomski_android.databinding.FragmentLoginBinding
 import com.example.diplomski_android.model.User
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -45,26 +47,24 @@ class LoginFragment : Fragment() {
             var user = User()
             val email = binding.tiLoginEmail.editText?.text.toString()
             val password = binding.tiLoginPassword.editText?.text.toString()
-            val job = CoroutineScope(Dispatchers.IO).launch {
-                user = mainViewModel.getUserByEmail(email)
-            }
-            runBlocking { job.join() }
 
-            if (user.id!=null){
-                if (user.password == password){
-                    val sharedPreference = activity?.getPreferences(Context.MODE_PRIVATE)
-                    val editor = sharedPreference?.edit()
-                    editor?.remove("user")?.apply()
-                    editor?.putLong("user",user.id!!)
-                    mainViewModel.setIsAdmin(user.admin!!)
-                    editor?.apply()
-                    mainViewModel.setUser(user)
+            Firebase.auth.signInWithEmailAndPassword(email, password).addOnSuccessListener {
+                val sharedPreference = activity?.getPreferences(Context.MODE_PRIVATE)
+                val editor = sharedPreference?.edit()
 
-                    Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_coursesFragment)
-                }else{
-                    Toast.makeText(context,"Wrong email or password",Toast.LENGTH_SHORT).show()
+                val job = CoroutineScope(Dispatchers.IO).launch {
+                    user = mainViewModel.getUserByEmail(email)
                 }
-            }else{
+                runBlocking { job.join() }
+
+                editor?.remove("user")?.apply()
+                editor?.putLong("user",user.id!!)
+                mainViewModel.setIsAdmin(user.admin!!)
+                editor?.apply()
+                mainViewModel.setUser(user)
+
+                Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_coursesFragment)
+            }.addOnFailureListener {
                 Toast.makeText(context,"Wrong email or password",Toast.LENGTH_SHORT).show()
             }
         }

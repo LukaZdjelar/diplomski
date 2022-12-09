@@ -130,15 +130,16 @@ class MainActivity: AppCompatActivity() {
             drawerLayoutMainActivity.openDrawer(GravityCompat.START)
         }
         tvSignOut.setOnClickListener {
+            Firebase.auth.signOut()
             val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
             sharedPref.edit().remove("user").apply()
             mainViewModel.setUser(User())
             Navigation.findNavController(fragmentContainerView).navigate(getSignOutAction())
         }
-        buttonUpdateProfile.setOnClickListener {
-            mainViewModel.setNewUser(mainViewModel.user.value!!)
-            Navigation.findNavController(fragmentContainerView).navigate(getUpdateProfileAction())
-        }
+//        buttonUpdateProfile.setOnClickListener {
+//            mainViewModel.setNewUser(mainViewModel.user.value!!)
+//            Navigation.findNavController(fragmentContainerView).navigate(getUpdateProfileAction())
+//        }
     }
 
     private fun getSignOutAction(): Int{
@@ -150,12 +151,12 @@ class MainActivity: AppCompatActivity() {
         }
     }
 
-    private fun getUpdateProfileAction(): Int{
-        return when (navController.currentDestination?.id){
-            R.id.coursesFragment -> R.id.action_coursesFragment_to_registrationFragment
-            R.id.chaptersFragment -> R.id.action_chaptersFragment_to_registrationFragment
-            R.id.lessonsFragment -> R.id.action_lessonsFragment_to_registrationFragment
-            else -> 0
-        }
-    }
+//    private fun getUpdateProfileAction(): Int{
+//        return when (navController.currentDestination?.id){
+//            R.id.coursesFragment -> R.id.action_coursesFragment_to_registrationFragment
+//            R.id.chaptersFragment -> R.id.action_chaptersFragment_to_registrationFragment
+//            R.id.lessonsFragment -> R.id.action_lessonsFragment_to_registrationFragment
+//            else -> 0
+//        }
+//    }
 }
