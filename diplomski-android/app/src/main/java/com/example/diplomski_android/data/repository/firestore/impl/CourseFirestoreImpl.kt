@@ -1,8 +1,10 @@
 package com.example.diplomski_android.data.repository.firestore.impl
 
+import androidx.lifecycle.lifecycleScope
 import com.example.diplomski_android.data.repository.firestore.CourseFirestore
 import com.example.diplomski_android.model.Course
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
 class CourseFirestoreImpl(private val firebaseFirestore: FirebaseFirestore): CourseFirestore {
@@ -20,5 +22,10 @@ class CourseFirestoreImpl(private val firebaseFirestore: FirebaseFirestore): Cou
                 collection.document(document.id).delete().await()
             }
         }
+    }
+
+    override suspend fun getAll(): List<Course> {
+        val task = firebaseFirestore.collection("courses").get().await()
+        return task.toObjects(Course::class.java)
     }
 }

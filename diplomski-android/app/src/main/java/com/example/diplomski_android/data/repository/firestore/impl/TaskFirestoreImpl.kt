@@ -30,4 +30,9 @@ class TaskFirestoreImpl(private val firebaseFirestore: FirebaseFirestore): TaskF
             }
         }
     }
+
+    override suspend fun getAll(): List<Task> {
+        val task = firebaseFirestore.collection("tasks").get().await()
+        return task.toObjects(Task::class.java)
+    }
 }

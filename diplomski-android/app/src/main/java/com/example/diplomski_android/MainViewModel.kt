@@ -32,6 +32,7 @@ class MainViewModel @Inject constructor(
     private val progressFirestore: ProgressFirestore,
     private val userRepository: UserRepository,
     private val userFirestore: UserFirestore,
+    private val authFirestore: AuthFirestore,
 ):ViewModel() {
 
     val coursesStateFlow = MutableStateFlow(listOf(Course()))
@@ -93,8 +94,9 @@ class MainViewModel @Inject constructor(
         deleteChaptersByCourse(course.id!!)
         deleteCourse(course)
     }
-    suspend fun coursesFirebaseSync(result: List<Course>){
+    suspend fun coursesFirebaseSync(){
         deleteAllCourses()
+        val result = courseFirestore.getAll()
         insertAllCourses(result)
     }
 
@@ -145,8 +147,9 @@ class MainViewModel @Inject constructor(
     fun countCompletedLessons(chapterId: Long, userId: Long): Int {
         return chapterRepository.countCompletedLessons(chapterId, userId)
     }
-    suspend fun chaptersFirebaseSync(result: List<Chapter>){
+    suspend fun chaptersFirebaseSync(){
         chapterRepository.deleteAll()
+        val result = chapterFirestore.getAll()
         chapterRepository.insertAll(result)
     }
 
@@ -191,8 +194,9 @@ class MainViewModel @Inject constructor(
     fun getLessonStatus(lessonId: Long, userId: Long): Boolean{
         return lessonRepository.getLessonStatus(lessonId, userId)
     }
-    suspend fun lessonsFirebaseSync(result: List<Lesson>){
+    suspend fun lessonsFirebaseSync(){
         lessonRepository.deleteAll()
+        val result = lessonFirebase.getAll()
         lessonRepository.insertAll(result)
     }
 
@@ -222,8 +226,9 @@ class MainViewModel @Inject constructor(
     fun countTasksByLesson(lessonId: Long): Int{
         return taskRepository.countByLesson(lessonId)
     }
-    suspend fun tasksFirebaseSync(result: List<Task>){
+    suspend fun tasksFirebaseSync(){
         taskRepository.deleteAll()
+        val result = taskFirestore.getAll()
         taskRepository.insertAll(result)
     }
 
@@ -242,8 +247,9 @@ class MainViewModel @Inject constructor(
         language.id = id
         languageFirestore.insert(language)
     }
-    suspend fun languagesFirebaseSync(result: List<Language>){
+    suspend fun languagesFirebaseSync(){
         languageRepository.deleteAll()
+        val result = languageFirestore.getAll()
         languageRepository.insertAll(result)
     }
 
@@ -255,8 +261,9 @@ class MainViewModel @Inject constructor(
     fun findProgressByUserAndLessonBoolean(userId: Long, lessonId: Long): Boolean{
         return progressRepository.findByUserAndLessonBoolean(userId, lessonId)
     }
-    suspend fun progressFirebaseSync(result: List<Progress>){
+    suspend fun progressFirebaseSync(){
         progressRepository.deleteAll()
+        val result = progressFirestore.getAll()
         progressRepository.insertAll(result)
     }
 
@@ -276,7 +283,7 @@ class MainViewModel @Inject constructor(
     }
     fun getUserIsAdmin(id: Long){
         var isAdmin = false
-        val job = CoroutineScope(Dispatchers.IO).launch {
+        val job = viewModelScope.launch {
             isAdmin = userRepository.getIsAdmin(id)
         }
         runBlocking {
@@ -287,8 +294,9 @@ class MainViewModel @Inject constructor(
     suspend fun deleteAllUsers(){
         userRepository.deleteAll()
     }
-    suspend fun usersFirebaseSync(result: List<User>){
+    suspend fun usersFirebaseSync(){
         deleteAllUsers()
+        val result = userFirestore.getAll()
         insertAllUsers(result)
     }
 
@@ -390,7 +398,7 @@ class MainViewModel @Inject constructor(
         val lessonId = currentLesson.value?.id!!
         var grade = 0.0
 
-        val job1 = CoroutineScope(Dispatchers.IO).launch {
+        val job1 = viewModelScope.launch {
             val numberOfTasks = countTasksByLesson(lessonId)
             grade = corectCounter.value!!*1.0 / numberOfTasks
         }
@@ -399,7 +407,7 @@ class MainViewModel @Inject constructor(
         val gradeString = "${(grade*100).toInt()}%"
         setGrade(gradeString)
         if(grade > 0.85){
-            val job2 = CoroutineScope(Dispatchers.IO).launch {
+            val job2 = viewModelScope.launch {
                 if (!findProgressByUserAndLessonBoolean(user.value?.id!!, lessonId)){
                     insertProgress(Progress(null, user.value?.id!!, lessonId))
                 }
@@ -422,7 +430,7 @@ class MainViewModel @Inject constructor(
     fun setNewCourse(nc: Course){
         _newCourse.value = nc
         if (nc.id != null){
-            CoroutineScope(Dispatchers.IO).launch {
+            viewModelScope.launch {
                 newCourse.value?.local_language = getLanguageById(nc.local_language_id!!)
                 newCourse.value?.foreign_language = getLanguageById(nc.foreign_language_id!!)
             }
@@ -438,7 +446,7 @@ class MainViewModel @Inject constructor(
         newCourse.value?.foreign_language_id = foreignLanguage.id
     }
     fun onInsertCourseButtonClick(){
-        CoroutineScope(Dispatchers.IO).launch {
+        viewModelScope.launch {
             insertCourse(newCourse.value!!)
         }
     }
@@ -449,7 +457,7 @@ class MainViewModel @Inject constructor(
     fun setNewChapter(nc: Chapter){
         _newChapter.value = nc
         if (nc.id != null){
-            CoroutineScope(Dispatchers.IO).launch{
+            viewModelScope.launch{
                 newChapter.value?.course = getCourseById(nc.course_id!!)
             }
         }
@@ -464,7 +472,7 @@ class MainViewModel @Inject constructor(
         newChapter.value?.difficulty = difficulty
     }
     fun onInsertChapterButtonClick(){
-        CoroutineScope(Dispatchers.IO).launch {
+        viewModelScope.launch {
             insertChapter(newChapter.value!!)
         }
     }
@@ -475,7 +483,7 @@ class MainViewModel @Inject constructor(
     fun setNewLesson(nl: Lesson){
         _newLesson.value = nl
         if (nl.id != null){
-            CoroutineScope(Dispatchers.IO).launch{
+            viewModelScope.launch{
                 newLesson.value?.chapter = getChapterById(nl.chapter_id!!)
                 newLesson.value?.course = getCourseById(newLesson.value?.chapter!!.course_id!!)
             }
@@ -491,7 +499,7 @@ class MainViewModel @Inject constructor(
         newLesson.value?.lesson_type = type
     }
     fun onInsertLessonButtonClick(){
-        CoroutineScope(Dispatchers.IO).launch {
+        viewModelScope.launch {
             insertLesson(newLesson.value!!)
         }
     }
@@ -502,7 +510,7 @@ class MainViewModel @Inject constructor(
     fun setNewTask(nt: Task){
         _newTask.value = nt
         if (nt.id != null){
-            CoroutineScope(Dispatchers.IO).launch{
+            viewModelScope.launch{
                 newTask.value?.lesson = getLessonsById(nt.lesson_id!!)
                 newTask.value?.chapter = getChapterById(newTask.value?.lesson!!.chapter_id!!)
                 newTask.value?.course = getCourseById(newTask.value?.chapter!!.course_id!!)
@@ -515,7 +523,7 @@ class MainViewModel @Inject constructor(
         newTask.value?.lesson_id = lesson.id
     }
     fun onInsertTaskButtonClick(){
-        CoroutineScope(Dispatchers.IO).launch {
+        viewModelScope.launch {
             insertTask(newTask.value!!)
         }
     }
@@ -535,7 +543,7 @@ class MainViewModel @Inject constructor(
     }
 
     fun onInsertLanguageButtonClick(){
-        CoroutineScope(Dispatchers.IO).launch {
+        viewModelScope.launch {
             insertLanguage(newLanguage.value!!)
         }
     }

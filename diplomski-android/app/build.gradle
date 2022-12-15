@@ -79,4 +79,7 @@ dependencies {
 
     implementation platform('com.google.firebase:firebase-bom:31.0.1')
     implementation 'com.google.firebase:firebase-analytics-ktx'
+
+    implementation 'com.koushikdutta.ion:ion:3.0.8'
+    implementation 'com.koushikdutta.async:androidasync-kotlin:3.0.9'
 }

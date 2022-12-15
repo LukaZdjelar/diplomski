@@ -1,5 +1,7 @@
 package com.example.diplomski_android.data.repository.room.impl
 
+import android.content.Context
+import com.example.diplomski_android.R
 import com.example.diplomski_android.data.dao.UserDao
 import com.example.diplomski_android.data.repository.room.UserRepository
 import com.example.diplomski_android.model.User

@@ -6,4 +6,5 @@ interface TaskFirestore {
     fun insert(task: Task)
     suspend fun delete(task: Task)
     suspend fun deleteByLesson(lessonId: Long)
+    suspend fun getAll(): List<Task>
 }

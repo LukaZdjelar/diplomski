@@ -165,4 +165,10 @@ object AppModule {
     fun provideUserFirestore(firebaseFirestore: FirebaseFirestore): UserFirestore {
         return UserFirestoreImpl(firebaseFirestore)
     }
+
+    @Provides
+    @Singleton
+    fun provideAuthFirestore(firebase: Firebase): AuthFirestore {
+        return AuthFirestoreImpl(firebase)
+    }
 }

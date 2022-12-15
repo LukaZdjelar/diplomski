@@ -6,4 +6,5 @@ interface ChapterFirestore {
     fun insert(chapter: Chapter)
     suspend fun delete(chapter: Chapter)
     suspend fun deleteByCourse(courseId: Long)
+    suspend fun getAll(): List<Chapter>
 }

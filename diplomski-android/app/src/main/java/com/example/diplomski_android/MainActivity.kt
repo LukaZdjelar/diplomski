@@ -23,7 +23,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.tasks.await
 
-
 @AndroidEntryPoint
 class MainActivity: AppCompatActivity() {
     private val mainViewModel : MainViewModel by viewModels()
@@ -39,60 +38,15 @@ class MainActivity: AppCompatActivity() {
         //FIREBASE
         auth = Firebase.auth
         database = Firebase.firestore
-        var users: List<User>
-        var courses: List<Course>
-        var chapters: List<Chapter>
-        var lessons: List<Lesson>
-        var tasks: List<Task>
-        var languages: List<Language>
-        var progress: List<Progress>
 
-        runBlocking {
-            val loadUsers = database.collection("users").get().await()
-            users = loadUsers.toObjects(User::class.java)
-            mainViewModel.usersFirebaseSync(users)
-        }
-
-        database.collection("courses").get().addOnCompleteListener {
-            courses = it.result.toObjects(Course::class.java)
-            lifecycleScope.launch {
-                mainViewModel.coursesFirebaseSync(courses)
-            }
-        }
-
-        database.collection("chapters").get().addOnCompleteListener {
-            chapters = it.result.toObjects(Chapter::class.java)
-            lifecycleScope.launch {
-                mainViewModel.chaptersFirebaseSync(chapters)
-            }
-        }
-
-        database.collection("lessons").get().addOnCompleteListener {
-            lessons = it.result.toObjects(Lesson::class.java)
-            lifecycleScope.launch {
-                mainViewModel.lessonsFirebaseSync(lessons)
-            }
-        }
-
-        database.collection("tasks").get().addOnCompleteListener {
-            tasks = it.result.toObjects(Task::class.java)
-            lifecycleScope.launch {
-                mainViewModel.tasksFirebaseSync(tasks)
-            }
-        }
-
-        database.collection("languages").get().addOnCompleteListener {
-            languages = it.result.toObjects(Language::class.java)
-            lifecycleScope.launch {
-                mainViewModel.languagesFirebaseSync(languages)
-            }
-        }
-
-        database.collection("progress").get().addOnCompleteListener {
-            progress = it.result.toObjects(Progress::class.java)
-            lifecycleScope.launch {
-                mainViewModel.progressFirebaseSync(progress)
-            }
+        lifecycleScope.launchWhenCreated {
+            mainViewModel.usersFirebaseSync()
+            mainViewModel.coursesFirebaseSync()
+            mainViewModel.chaptersFirebaseSync()
+            mainViewModel.lessonsFirebaseSync()
+            mainViewModel.tasksFirebaseSync()
+            mainViewModel.languagesFirebaseSync()
+            mainViewModel.progressFirebaseSync()
         }
 
         activityMainBinding = ActivityMainBinding.inflate(layoutInflater)
@@ -107,12 +61,6 @@ class MainActivity: AppCompatActivity() {
         navController = navHostFragment.navController
 
 
-        val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
-        loggedUserId = sharedPref.getLong("user", 0L)
-        if (loggedUserId != 0L){
-            mainViewModel.setUserById(loggedUserId)
-            navController.navigate(R.id.action_loginFragment_to_coursesFragment)
-        }
         setupDrawer()
 
         navController.addOnDestinationChangedListener{_, destination, _ ->
