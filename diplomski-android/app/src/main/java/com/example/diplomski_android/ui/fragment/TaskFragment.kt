@@ -11,6 +11,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.diplomski_android.MainViewModel
 import com.example.diplomski_android.databinding.FragmentTaskBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class TaskFragment : Fragment() {
     private val mainViewModel : MainViewModel by activityViewModels()
@@ -57,7 +60,9 @@ class TaskFragment : Fragment() {
     }
 
     private fun calculateGrade(){
-        mainViewModel.onLessonComplete()
+        CoroutineScope(Dispatchers.IO).launch {
+            mainViewModel.onLessonComplete()
+        }
     }
 
     private fun showResultsOnComplete(){

@@ -14,6 +14,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -105,7 +106,7 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             chapterRepository.getByCourseFlow(id).collect {
                 it.forEach { chapter ->
-                    CoroutineScope(Dispatchers.IO).launch {
+                    withContext(Dispatchers.IO) {
                         chapter.totalLessons = countTotalLessons(chapter.id!!)
                         chapter.completedLessons = countCompletedLessons(chapter.id!!, user.value?.id!!)
                     }
@@ -158,7 +159,7 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             lessonRepository.getByChapterFlow(id).collect {
                 it.forEach { lesson ->
-                    CoroutineScope(Dispatchers.IO).launch {
+                    withContext(Dispatchers.IO) {
                         lesson.isCompleted = getLessonStatus(lesson.id!!, user.value?.id!!)
                     }
                 }
@@ -393,10 +394,10 @@ class MainViewModel @Inject constructor(
     }
 
     //INSERT PROGRESS
-    fun onLessonComplete(){
+    suspend fun onLessonComplete(){
         val lessonId = currentLesson.value?.id!!
 
-        CoroutineScope(Dispatchers.IO).launch {
+        withContext(Dispatchers.IO) {
             val numberOfTasks = countTasksByLesson(lessonId)
             viewModelScope.launch {
                 val lessonGrade = corectCounter.value!!*1.0 / numberOfTasks
@@ -404,7 +405,7 @@ class MainViewModel @Inject constructor(
                 setGrade(gradeString)
 
                 if(lessonGrade > 0.85){
-                    CoroutineScope(Dispatchers.IO).launch {
+                    withContext(Dispatchers.IO) {
                         if (!findProgressByUserAndLessonBoolean(user.value?.id!!, lessonId)){
                             insertProgress(Progress(null, user.value?.id!!, lessonId))
                         }
