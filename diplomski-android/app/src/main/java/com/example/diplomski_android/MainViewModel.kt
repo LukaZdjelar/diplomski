@@ -303,6 +303,16 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    fun sharedPreferencesGetUserId(): Long{
+        return userRepository.sharedPreferencesGetUserId()
+    }
+    fun sharedPreferencesPutUserId(id: Long){
+        userRepository.sharedPreferencesPutUserId(id)
+    }
+    fun sharedPreferencesRemoveUserId(){
+        userRepository.sharedPreferencesRemoveUserId()
+    }
+
     private val _isAdmin = MutableLiveData(false)
     val isAdmin : LiveData<Boolean> = _isAdmin
     fun setIsAdmin(value: Boolean){

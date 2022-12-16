@@ -1,10 +1,16 @@
 package com.example.diplomski_android.data.repository.room.impl
 
+import android.content.SharedPreferences
 import com.example.diplomski_android.data.dao.UserDao
 import com.example.diplomski_android.data.repository.room.UserRepository
 import com.example.diplomski_android.model.User
+import javax.inject.Inject
 
-class UserRepositoryImpl(private val userDao: UserDao): UserRepository {
+class UserRepositoryImpl @Inject constructor (
+    private val userDao: UserDao,
+    private val sharedPreferences: SharedPreferences
+    ): UserRepository {
+
     override suspend fun insert(user: User): Long {
         return userDao.insert(user)
     }
@@ -27,5 +33,17 @@ class UserRepositoryImpl(private val userDao: UserDao): UserRepository {
 
     override suspend fun deleteAll() {
         userDao.deleteAll()
+    }
+
+    override fun sharedPreferencesGetUserId(): Long {
+        return sharedPreferences.getLong("user", 0L)
+    }
+
+    override fun sharedPreferencesPutUserId(id: Long) {
+        sharedPreferences.edit().putLong("user", id).apply()
+    }
+
+    override fun sharedPreferencesRemoveUserId() {
+        sharedPreferences.edit().remove("user").apply()
     }
 }

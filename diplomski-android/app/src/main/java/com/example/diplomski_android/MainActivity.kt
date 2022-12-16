@@ -1,6 +1,5 @@
 package com.example.diplomski_android
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
@@ -24,11 +23,9 @@ class MainActivity: AppCompatActivity() {
     private lateinit var navController: NavController
     private lateinit var activityMainBinding: ActivityMainBinding
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
-        val loggedUserId = sharedPref.getLong("user", 0L)
+        val loggedUserId = mainViewModel.sharedPreferencesGetUserId()
 
         lifecycleScope.launchWhenCreated{
             mainViewModel.usersFirebaseSync()
@@ -78,8 +75,7 @@ class MainActivity: AppCompatActivity() {
         tvSignOut.setOnClickListener {
             lifecycleScope.launchWhenCreated {
                 mainViewModel.signOut()
-                val sharedPref = this@MainActivity.getPreferences(Context.MODE_PRIVATE)
-                sharedPref.edit().remove("user").apply()
+                mainViewModel.sharedPreferencesRemoveUserId()
                 mainViewModel.setUser(User())
                 Navigation.findNavController(fragmentContainerView).navigate(getSignOutAction())
             }

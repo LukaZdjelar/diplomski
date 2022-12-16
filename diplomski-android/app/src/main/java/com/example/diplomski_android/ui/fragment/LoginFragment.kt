@@ -1,6 +1,5 @@
 package com.example.diplomski_android.ui.fragment
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -48,16 +47,13 @@ class LoginFragment : Fragment() {
 
             lifecycleScope.launchWhenCreated {
                 mainViewModel.signInWithEmailAndPassword(email, password).addOnSuccessListener {
-                    val sharedPreference = activity?.getPreferences(Context.MODE_PRIVATE)
-                    val editor = sharedPreference?.edit()
 
                     CoroutineScope(Dispatchers.IO).launch {
                         user = mainViewModel.getUserByEmail(email)
 
                         lifecycleScope.launch {
-                            editor?.remove("user")?.apply()
-                            editor?.putLong("user", user.id!!)
-                            editor?.apply()
+                            mainViewModel.sharedPreferencesRemoveUserId()
+                            mainViewModel.sharedPreferencesPutUserId(user.id!!)
                             mainViewModel.setUser(user)
                             Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_coursesFragment)
                         }

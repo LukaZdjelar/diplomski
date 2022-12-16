@@ -9,4 +9,7 @@ interface UserRepository {
     fun getByEmail(email: String): User
     fun getIsAdmin(id: Long): Boolean
     suspend fun deleteAll()
+    fun sharedPreferencesGetUserId(): Long
+    fun sharedPreferencesPutUserId(id: Long)
+    fun sharedPreferencesRemoveUserId()
 }

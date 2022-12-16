@@ -2,6 +2,7 @@ package com.example.diplomski_android.data.di
 
 import android.app.Application
 import android.content.Context
+import android.content.SharedPreferences
 import com.example.diplomski_android.MyApplication
 import com.example.diplomski_android.data.dao.*
 import com.example.diplomski_android.data.database.AppDatabase
@@ -102,8 +103,8 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideUserRepository(userDao: UserDao): UserRepository {
-        return UserRepositoryImpl(userDao)
+    fun provideUserRepository(userDao: UserDao, sharedPreferences: SharedPreferences): UserRepository {
+        return UserRepositoryImpl(userDao, sharedPreferences)
     }
 
     @Provides
@@ -176,5 +177,11 @@ object AppModule {
     @Singleton
     fun provideAuthFirestore(firebase: Firebase): AuthFirestore {
         return AuthFirestoreImpl(firebase)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSharedPreferences(context: Context): SharedPreferences {
+        return context.getSharedPreferences("default_preferences", Context.MODE_PRIVATE)
     }
 }
