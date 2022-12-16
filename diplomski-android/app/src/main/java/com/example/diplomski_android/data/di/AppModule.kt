@@ -168,6 +168,12 @@ object AppModule {
 
     @Provides
     @Singleton
+    fun provideFirebase(): Firebase {
+        return Firebase
+    }
+
+    @Provides
+    @Singleton
     fun provideAuthFirestore(firebase: Firebase): AuthFirestore {
         return AuthFirestoreImpl(firebase)
     }

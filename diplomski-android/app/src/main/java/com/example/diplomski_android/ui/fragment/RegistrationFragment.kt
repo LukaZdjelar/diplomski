@@ -1,13 +1,13 @@
 package com.example.diplomski_android.ui.fragment
 
 import android.os.Bundle
-import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import com.example.diplomski_android.MainViewModel
 import com.example.diplomski_android.R
@@ -16,8 +16,6 @@ import com.example.diplomski_android.model.User
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import java.util.regex.Pattern
 
 class RegistrationFragment : Fragment() {
 
@@ -46,16 +44,17 @@ class RegistrationFragment : Fragment() {
 
         binding.buttonRegister.setOnClickListener {
             if (validateOnConfirm()){
-                val job = CoroutineScope(Dispatchers.IO).launch {
+                CoroutineScope(Dispatchers.IO).launch {
                     mainViewModel.insertUser(mainViewModel.newUser.value!!)
                 }
 
-                runBlocking { job.join() }
-                if (Navigation.findNavController(view).previousBackStackEntry?.destination?.id != R.id.loginFragment){
-                    mainViewModel.setUser(mainViewModel.newUser.value!!)
+                lifecycleScope.launch {
+                    if (Navigation.findNavController(view).previousBackStackEntry?.destination?.id != R.id.loginFragment){
+                        mainViewModel.setUser(mainViewModel.newUser.value!!)
+                    }
+                    mainViewModel.setNewUser(User())
+                    activity?.onBackPressed()
                 }
-                mainViewModel.setNewUser(User())
-                activity?.onBackPressed()
             }
         }
     }

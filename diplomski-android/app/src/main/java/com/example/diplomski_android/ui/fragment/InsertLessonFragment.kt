@@ -17,7 +17,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 class InsertLessonFragment : Fragment() {
 
@@ -83,13 +82,13 @@ class InsertLessonFragment : Fragment() {
             mainViewModel.newLesson.value?.chapter_id = null
             binding.menuInsertLessonCourses.helperText = validateCourse()
 
-            val job = CoroutineScope(Dispatchers.IO).launch {
+            CoroutineScope(Dispatchers.IO).launch {
                 chapters = mainViewModel.getChaptersByCourse(course?.id!!)
+                lifecycleScope.launch{
+                    chapterAdapter = ArrayAdapter(requireContext(), R.layout.spinner_item, chapters)
+                    binding.actvLessonChapter.setAdapter(chapterAdapter)
+                }
             }
-
-            runBlocking { job.join() }
-            chapterAdapter = ArrayAdapter(requireContext(), R.layout.spinner_item, chapters)
-            binding.actvLessonChapter.setAdapter(chapterAdapter)
         }
 
         binding.actvLessonChapter.setOnItemClickListener { _, _, position, _ ->

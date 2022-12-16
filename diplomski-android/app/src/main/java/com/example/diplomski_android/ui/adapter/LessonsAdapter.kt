@@ -16,7 +16,6 @@ import com.example.diplomski_android.model.Task
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 class LessonsAdapter(private val mainViewModel: MainViewModel): RecyclerView.Adapter<LessonsAdapter.LessonsViewHolder>() {
 
@@ -50,17 +49,18 @@ class LessonsAdapter(private val mainViewModel: MainViewModel): RecyclerView.Ada
 
             setOnClickListener{
                 lateinit var tasks: List<Task>
-                val job = CoroutineScope(Dispatchers.IO).launch {
+                CoroutineScope(Dispatchers.IO).launch {
                     tasks = mainViewModel.getTasksByLesson(lesson.id!!)
-                }
-                runBlocking { job.join() }
-                if (tasks.isEmpty()){
-                    Toast.makeText(context,"There are no tasks", Toast.LENGTH_SHORT).show()
-                }else{
-                    mainViewModel.setCurrentLesson(lesson)
-                    mainViewModel.setTasks(tasks)
-                    //TODO: "... does not have a NavController set" nakon brisanja lekcije
-                    Navigation.findNavController(holder.itemView).navigate(R.id.action_lessonsFragment_to_taskFragment)
+                    CoroutineScope(Dispatchers.Main).launch{
+                        if (tasks.isEmpty()){
+                            Toast.makeText(context,"There are no tasks", Toast.LENGTH_SHORT).show()
+
+                        } else{
+                            mainViewModel.setCurrentLesson(lesson)
+                            mainViewModel.setTasks(tasks)
+                            Navigation.findNavController(holder.itemView).navigate(R.id.action_lessonsFragment_to_taskFragment)
+                        }
+                    }
                 }
             }
 
@@ -70,10 +70,9 @@ class LessonsAdapter(private val mainViewModel: MainViewModel): RecyclerView.Ada
             }
 
             holder.binding.buttonDeleteLesson.setOnClickListener {
-                val job = CoroutineScope(Dispatchers.IO).launch {
+                CoroutineScope(Dispatchers.IO).launch {
                     mainViewModel.deleteLessonComplete(lesson)
                 }
-                runBlocking { job.join() }
             }
 
             holder.binding.buttonManageTasks.setOnClickListener {

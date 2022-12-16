@@ -1,7 +1,6 @@
 package com.example.diplomski_android.ui.fragment
 
 import android.app.AlertDialog
-import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -50,18 +49,24 @@ class TaskFragment : Fragment() {
                 }
                 .setCancelable(false)
                 .show()
+            if ((mainViewModel.taskNumber.value?.plus(1)) == mainViewModel.tasksStateFlow.value.size){
+                calculateGrade()
+            }
         }
         showResultsOnComplete()
     }
 
+    private fun calculateGrade(){
+        mainViewModel.onLessonComplete()
+    }
+
     private fun showResultsOnComplete(){
-        mainViewModel.completed.observe(viewLifecycleOwner) {
-            if (it){
-                mainViewModel.onLessonComplete()
+        mainViewModel.completed.observe(viewLifecycleOwner) { completed ->
+            if (completed) {
                 AlertDialog.Builder(context)
                     .setTitle("${mainViewModel.passed.value}")
                     .setMessage("Your grade is ${mainViewModel.grade.value}")
-                    .setPositiveButton("OK"){_, _ ->
+                    .setPositiveButton("OK") { _, _ ->
                         mainViewModel.onResultNextButtonClick()
                         activity?.onBackPressed()
                     }

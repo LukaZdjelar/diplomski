@@ -11,36 +11,35 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import com.example.diplomski_android.databinding.ActivityMainBinding
-import com.example.diplomski_android.model.*
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
+import com.example.diplomski_android.model.User
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.tasks.await
 
 @AndroidEntryPoint
 class MainActivity: AppCompatActivity() {
     private val mainViewModel : MainViewModel by viewModels()
-    private lateinit var database: FirebaseFirestore
     private lateinit var navController: NavController
-    private var activityMainBinding: ActivityMainBinding? = null
-    var loggedUserId: Long = 0L
-    private lateinit var auth: FirebaseAuth;
+    private lateinit var activityMainBinding: ActivityMainBinding
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
+        val loggedUserId = sharedPref.getLong("user", 0L)
 
-        //FIREBASE
-        auth = Firebase.auth
-        database = Firebase.firestore
-
-        lifecycleScope.launchWhenCreated {
+        lifecycleScope.launchWhenCreated{
             mainViewModel.usersFirebaseSync()
+
+            if (loggedUserId != 0L){
+                navController.navigate(R.id.action_loginFragment_to_coursesFragment)
+                CoroutineScope(Dispatchers.IO).launch {
+                    mainViewModel.setUserById(loggedUserId)
+                }
+            }
+
             mainViewModel.coursesFirebaseSync()
             mainViewModel.chaptersFirebaseSync()
             mainViewModel.lessonsFirebaseSync()
@@ -50,16 +49,15 @@ class MainActivity: AppCompatActivity() {
         }
 
         activityMainBinding = ActivityMainBinding.inflate(layoutInflater)
-        activityMainBinding?.apply {
+        activityMainBinding.apply {
             lifecycleOwner = this@MainActivity
             viewModel = mainViewModel
             mainActivity = this@MainActivity
         }
-        setContentView(activityMainBinding?.root)
+        setContentView(activityMainBinding.root)
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         navController = navHostFragment.navController
-
 
         setupDrawer()
 
@@ -78,11 +76,13 @@ class MainActivity: AppCompatActivity() {
             drawerLayoutMainActivity.openDrawer(GravityCompat.START)
         }
         tvSignOut.setOnClickListener {
-            Firebase.auth.signOut()
-            val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
-            sharedPref.edit().remove("user").apply()
-            mainViewModel.setUser(User())
-            Navigation.findNavController(fragmentContainerView).navigate(getSignOutAction())
+            lifecycleScope.launchWhenCreated {
+                mainViewModel.signOut()
+                val sharedPref = this@MainActivity.getPreferences(Context.MODE_PRIVATE)
+                sharedPref.edit().remove("user").apply()
+                mainViewModel.setUser(User())
+                Navigation.findNavController(fragmentContainerView).navigate(getSignOutAction())
+            }
         }
 //        buttonUpdateProfile.setOnClickListener {
 //            mainViewModel.setNewUser(mainViewModel.user.value!!)

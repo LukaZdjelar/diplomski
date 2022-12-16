@@ -8,12 +8,12 @@ import androidx.lifecycle.viewModelScope
 import com.example.diplomski_android.data.repository.firestore.*
 import com.example.diplomski_android.data.repository.room.*
 import com.example.diplomski_android.model.*
+import com.google.firebase.auth.AuthResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 @HiltViewModel
@@ -105,11 +105,10 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             chapterRepository.getByCourseFlow(id).collect {
                 it.forEach { chapter ->
-                    val job = CoroutineScope(Dispatchers.IO).launch {
+                    CoroutineScope(Dispatchers.IO).launch {
                         chapter.totalLessons = countTotalLessons(chapter.id!!)
                         chapter.completedLessons = countCompletedLessons(chapter.id!!, user.value?.id!!)
                     }
-                    runBlocking { job.join() }
                 }
                 chaptersStateFlow.value = it
             }
@@ -159,10 +158,9 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             lessonRepository.getByChapterFlow(id).collect {
                 it.forEach { lesson ->
-                    val job = CoroutineScope(Dispatchers.IO).launch {
+                    CoroutineScope(Dispatchers.IO).launch {
                         lesson.isCompleted = getLessonStatus(lesson.id!!, user.value?.id!!)
                     }
-                    runBlocking { job.join() }
                 }
                 lessonsStateFlow.value = it
             }
@@ -281,16 +279,6 @@ class MainViewModel @Inject constructor(
     fun getUserById(id: Long): User{
         return userRepository.getById(id)
     }
-    fun getUserIsAdmin(id: Long){
-        var isAdmin = false
-        val job = viewModelScope.launch {
-            isAdmin = userRepository.getIsAdmin(id)
-        }
-        runBlocking {
-            job.join()
-            setIsAdmin(isAdmin)
-        }
-    }
     suspend fun deleteAllUsers(){
         userRepository.deleteAll()
     }
@@ -305,13 +293,14 @@ class MainViewModel @Inject constructor(
     fun setUser(value: User){
         _user.value = value
     }
+
     fun setUserById(id: Long){
-        var user = User()
-        val job = CoroutineScope(Dispatchers.IO).launch{
-            user = userRepository.getById(id)
+        CoroutineScope(Dispatchers.IO).launch{
+            val user = getUserById(id)
+            viewModelScope.launch {
+                _user.value = user
+            }
         }
-        runBlocking { job.join() }
-        _user.value = user
     }
 
     private val _isAdmin = MutableLiveData(false)
@@ -396,26 +385,28 @@ class MainViewModel @Inject constructor(
     //INSERT PROGRESS
     fun onLessonComplete(){
         val lessonId = currentLesson.value?.id!!
-        var grade = 0.0
 
-        val job1 = viewModelScope.launch {
+        CoroutineScope(Dispatchers.IO).launch {
             val numberOfTasks = countTasksByLesson(lessonId)
-            grade = corectCounter.value!!*1.0 / numberOfTasks
-        }
-        runBlocking { job1.join() }
+            viewModelScope.launch {
+                val lessonGrade = corectCounter.value!!*1.0 / numberOfTasks
+                val gradeString = "${(lessonGrade*100).toInt()}%"
+                setGrade(gradeString)
 
-        val gradeString = "${(grade*100).toInt()}%"
-        setGrade(gradeString)
-        if(grade > 0.85){
-            val job2 = viewModelScope.launch {
-                if (!findProgressByUserAndLessonBoolean(user.value?.id!!, lessonId)){
-                    insertProgress(Progress(null, user.value?.id!!, lessonId))
+                if(lessonGrade > 0.85){
+                    CoroutineScope(Dispatchers.IO).launch {
+                        if (!findProgressByUserAndLessonBoolean(user.value?.id!!, lessonId)){
+                            insertProgress(Progress(null, user.value?.id!!, lessonId))
+                        }
+                        viewModelScope.launch {
+                            setPassed("Passed")
+                        }
+                    }
+                }
+                else{
+                    setPassed("Failed")
                 }
             }
-            runBlocking { job2.join() }
-            setPassed("Passed")
-        }else{
-            setPassed("Failed")
         }
     }
 
@@ -546,5 +537,15 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             insertLanguage(newLanguage.value!!)
         }
+    }
+
+    suspend fun createUserWithEmailAndPassword(email: String, password: String): com.google.android.gms.tasks.Task<AuthResult>{
+        return authFirestore.signInWithEmailAndPassword(email, password)
+    }
+    suspend fun signInWithEmailAndPassword(email: String, password: String): com.google.android.gms.tasks.Task<AuthResult>{
+        return authFirestore.signInWithEmailAndPassword(email, password)
+    }
+    suspend fun signOut(): Unit{
+        return authFirestore.signOut()
     }
 }

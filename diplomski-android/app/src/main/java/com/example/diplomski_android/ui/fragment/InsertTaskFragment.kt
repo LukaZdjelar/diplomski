@@ -19,7 +19,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 class InsertTaskFragment : Fragment() {
 
@@ -90,14 +89,14 @@ class InsertTaskFragment : Fragment() {
             mainViewModel.newTask.value?.lesson_id = null
             binding.menuInsertTaskCourses.helperText = validateCourse()
 
-            val job = CoroutineScope(Dispatchers.IO).launch {
+            CoroutineScope(Dispatchers.IO).launch {
                 chapters = mainViewModel.getChaptersByCourse(course?.id!!)
+                lifecycleScope.launch {
+                    chapterAdapter = ArrayAdapter(requireContext(), R.layout.spinner_item, chapters)
+                    binding.actvTaskChapter.setAdapter(chapterAdapter)
+                    binding.actvTaskLesson.setAdapter(ArrayAdapter(requireContext(), R.layout.spinner_item, listOf<Lesson>()))
+                }
             }
-
-            runBlocking { job.join() }
-
-            chapterAdapter = ArrayAdapter(requireContext(), R.layout.spinner_item, chapters)
-            binding.actvTaskChapter.setAdapter(chapterAdapter)
         }
 
         binding.actvTaskChapter.setOnItemClickListener { _, _, position, _ ->
@@ -107,14 +106,13 @@ class InsertTaskFragment : Fragment() {
             mainViewModel.newTask.value?.lesson_id = null
             binding.menuInsertTaskChapters.helperText = validateChapter()
 
-            val job = CoroutineScope(Dispatchers.IO).launch {
+            CoroutineScope(Dispatchers.IO).launch {
                 lessons = mainViewModel.getLessonsByChapters(chapter?.id!!)
+                lifecycleScope.launch {
+                    lessonAdapter = ArrayAdapter(requireContext(), R.layout.spinner_item, lessons)
+                    binding.actvTaskLesson.setAdapter(lessonAdapter)
+                }
             }
-
-            runBlocking { job.join() }
-
-            lessonAdapter = ArrayAdapter(requireContext(), R.layout.spinner_item, lessons)
-            binding.actvTaskLesson.setAdapter(lessonAdapter)
         }
 
         binding.actvTaskLesson.setOnItemClickListener { _, _, position, _ ->
