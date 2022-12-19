@@ -61,8 +61,8 @@ class InsertCourseFragment: Fragment() {
             binding.actvLocal.setText("",false)
             binding.actvForeign.setText("",false)
         }else{
-            binding.actvLocal.setText(mainViewModel.newCourse.value?.local_language?.name,false)
-            binding.actvForeign.setText(mainViewModel.newCourse.value?.foreign_language?.name,false)
+            binding.actvLocal.setText(mainViewModel.newCourse.value?.localLanguage?.name,false)
+            binding.actvForeign.setText(mainViewModel.newCourse.value?.foreignLanguage?.name,false)
         }
 
 //      TODO: Ne radi poziv viewmodel funkcije iz layout-a: onItemSelected

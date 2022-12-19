@@ -18,12 +18,12 @@ data class Course(
     var chapters: List<Chapter>? = null
     @Ignore
     @get:Exclude
-    var local_language: Language? = null
+    var localLanguage: Language? = null
     @Ignore
     @get:Exclude
-    var foreign_language: Language? = null
+    var foreignLanguage: Language? = null
 
     override fun toString(): String {
-        return name!!
+        return name.toString()
     }
 }

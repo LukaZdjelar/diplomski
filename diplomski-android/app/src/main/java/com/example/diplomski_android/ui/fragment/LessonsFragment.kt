@@ -60,7 +60,12 @@ class LessonsFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        mainViewModel.getLessonsByChapterFlow(mainViewModel.currentChapter.value?.id!!)
+        mainViewModel.currentChapter.value?.let { chapter ->
+            chapter.id?.let { id ->
+                mainViewModel.getLessonsByChapterFlow(id)
+            }
+        }
+
         lifecycleScope.launchWhenResumed {
             mainViewModel.lessonsStateFlow.collectLatest {
                 lessonsAdapter.differ.submitList(it)

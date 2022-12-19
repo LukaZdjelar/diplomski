@@ -42,21 +42,21 @@ class MainViewModel @Inject constructor(
     val tasksStateFlow = MutableStateFlow(listOf(Task()))
     val languagesStateFlow = MutableStateFlow(listOf(Language()))
 
-    private val _currentCourse = MutableLiveData<Course?>()
-    val currentCourse : LiveData<Course?> = _currentCourse
-    fun setCurrentCourse(cc: Course?){
+    private val _currentCourse = MutableLiveData<Course>()
+    val currentCourse : LiveData<Course> = _currentCourse
+    fun setCurrentCourse(cc: Course){
         _currentCourse.value = cc
     }
 
-    private val _currentChapter = MutableLiveData<Chapter?>()
-    val currentChapter : LiveData<Chapter?> = _currentChapter
-    fun setCurrentChapter(cc: Chapter?){
+    private val _currentChapter = MutableLiveData<Chapter>()
+    val currentChapter : LiveData<Chapter> = _currentChapter
+    fun setCurrentChapter(cc: Chapter){
         _currentChapter.value = cc
     }
 
-    private val _currentLesson = MutableLiveData<Lesson?>()
-    val currentLesson : LiveData<Lesson?> = _currentLesson
-    fun setCurrentLesson(cl: Lesson?){
+    private val _currentLesson = MutableLiveData<Lesson>()
+    val currentLesson : LiveData<Lesson> = _currentLesson
+    fun setCurrentLesson(cl: Lesson){
         _currentLesson.value = cl
     }
 
@@ -86,13 +86,23 @@ class MainViewModel @Inject constructor(
         courseRepository.deleteAll()
     }
     suspend fun deleteCourseComplete(course: Course){
-        getChaptersByCourse(course.id!!).forEach { chapter ->
-            getLessonsByChapters(chapter.id!!).forEach { lesson ->
-                deleteTasksByLesson(lesson.id!!)
+        course.id?.let { courseId ->
+            getChaptersByCourse(courseId).forEach { chapter ->
+                chapter.id?.let { chapterId ->
+                    getLessonsByChapters(chapterId).forEach { lesson ->
+                        lesson.id?.let { lessonId ->
+                            deleteTasksByLesson(lessonId)
+                        }
+                    }
+                }
+                chapter.id?.let { chapterId ->
+                    deleteLesonsByChapter(chapterId)
+                }
             }
-            deleteLesonsByChapter(chapter.id!!)
         }
-        deleteChaptersByCourse(course.id!!)
+        course.id?.let { courseId ->
+            deleteChaptersByCourse(courseId)
+        }
         deleteCourse(course)
     }
     suspend fun coursesFirebaseSync(){
@@ -104,14 +114,20 @@ class MainViewModel @Inject constructor(
     fun getChaptersByCourseFlow(id: Long){
         chaptersStateFlow.value = emptyList()
         viewModelScope.launch {
-            chapterRepository.getByCourseFlow(id).collect {
-                it.forEach { chapter ->
+            chapterRepository.getByCourseFlow(id).collect { chapters ->
+                chapters.forEach { chapter ->
                     withContext(Dispatchers.IO) {
-                        chapter.totalLessons = countTotalLessons(chapter.id!!)
-                        chapter.completedLessons = countCompletedLessons(chapter.id!!, user.value?.id!!)
+                        chapter.totalLessons = chapter.id?.let { totalLessons ->
+                            countTotalLessons(totalLessons)
+                        }
+                        chapter.completedLessons = chapter.id?.let { chapterId ->
+                            user.value?.id?.let { completedLessons ->
+                                countCompletedLessons(chapterId, completedLessons)
+                            }
+                        }
                     }
                 }
-                chaptersStateFlow.value = it
+                chaptersStateFlow.value = chapters
             }
         }
     }
@@ -135,10 +151,16 @@ class MainViewModel @Inject constructor(
         chapterFirestore.deleteByCourse(courseId)
     }
     suspend fun deleteChapterComplete(chapter: Chapter){
-        getLessonsByChapters(chapter.id!!).forEach { lesson ->
-            deleteTasksByLesson(lesson.id!!)
+        chapter.id?.let { chapterId ->
+            getLessonsByChapters(chapterId).forEach { lesson ->
+                lesson.id?.let { lessonId ->
+                    deleteTasksByLesson(lessonId)
+                }
+            }
         }
-        deleteLesonsByChapter(chapter.id!!)
+        chapter.id?.let { chapterId ->
+            deleteLesonsByChapter(chapterId)
+        }
         deleteChapter(chapter)
     }
     fun countTotalLessons(chapterId: Long): Int {
@@ -154,16 +176,19 @@ class MainViewModel @Inject constructor(
     }
 
     fun getLessonsByChapterFlow(id: Long){
-        //TODO: nece da promeni isCompleted na postojecem flow
         lessonsStateFlow.value = emptyList()
         viewModelScope.launch {
-            lessonRepository.getByChapterFlow(id).collect {
-                it.forEach { lesson ->
+            lessonRepository.getByChapterFlow(id).collect { lessons ->
+                lessons.forEach { lesson ->
                     withContext(Dispatchers.IO) {
-                        lesson.isCompleted = getLessonStatus(lesson.id!!, user.value?.id!!)
+                        lesson.isCompleted = lesson.id?.let { lessonId ->
+                            user.value?.id?.let { userId ->
+                            getLessonStatus(lessonId, userId)
+                            }
+                        }
                     }
                 }
-                lessonsStateFlow.value = it
+                lessonsStateFlow.value = lessons
             }
         }
     }
@@ -187,7 +212,9 @@ class MainViewModel @Inject constructor(
         lessonFirebase.deleteByChapter(chapterId)
     }
     suspend fun deleteLessonComplete(lesson: Lesson){
-        deleteTasksByLesson(lesson.id!!)
+        lesson.id?.let { lessonId ->
+            deleteTasksByLesson(lessonId)
+        }
         deleteLesson(lesson)
     }
     fun getLessonStatus(lessonId: Long, userId: Long): Boolean{
@@ -314,21 +341,15 @@ class MainViewModel @Inject constructor(
         userRepository.sharedPreferencesRemoveUserId()
     }
 
-    private val _isAdmin = MutableLiveData(false)
-    val isAdmin : LiveData<Boolean> = _isAdmin
-    fun setIsAdmin(value: Boolean){
-        _isAdmin.value = value
-    }
-
-    private val _task = MutableLiveData<Task?>()
-    val task : LiveData<Task?> = _task
-    fun setTask(nextTask: Task?){
+    private val _task = MutableLiveData<Task>()
+    val task : LiveData<Task> = _task
+    fun setTask(nextTask: Task){
         _task.value = nextTask
     }
 
-    private val _tasks = MutableLiveData<List<Task?>>()
-    val tasks : LiveData<List<Task?>> = _tasks
-    fun setTasks(tasks: List<Task?>){
+    private val _tasks = MutableLiveData<List<Task>>()
+    val tasks : LiveData<List<Task>> = _tasks
+    fun setTasks(tasks: List<Task>){
         _tasks.value = tasks
     }
 
@@ -362,9 +383,11 @@ class MainViewModel @Inject constructor(
     }
 
     fun onAnswerButtonClick(){
-        if (task.value?.answer!! == answer.value){
+        if (task.value?.answer == answer.value){
             setCorect("Correct")
-            setCorectCounter(corectCounter.value!!.inc())
+            corectCounter.value?.let { correctAnswers ->
+                setCorectCounter(correctAnswers.inc())
+            }
         }else{
             setCorect("Incorrect")
         }
@@ -395,10 +418,15 @@ class MainViewModel @Inject constructor(
 
     //INSERT PROGRESS
     suspend fun onLessonComplete(){
-        val lessonId = currentLesson.value?.id!!
+        val lessonId = currentLesson.value?.id
 
         withContext(Dispatchers.IO) {
-            val numberOfTasks = countTasksByLesson(lessonId)
+            var numberOfTasks = 0
+                lessonId.let { lessonId ->
+                if (lessonId != null) {
+                    numberOfTasks = countTasksByLesson(lessonId)
+                }
+            }
             viewModelScope.launch {
                 val lessonGrade = corectCounter.value!!*1.0 / numberOfTasks
                 val gradeString = "${(lessonGrade*100).toInt()}%"
@@ -406,11 +434,19 @@ class MainViewModel @Inject constructor(
 
                 if(lessonGrade > 0.85){
                     withContext(Dispatchers.IO) {
-                        if (!findProgressByUserAndLessonBoolean(user.value?.id!!, lessonId)){
-                            insertProgress(Progress(null, user.value?.id!!, lessonId))
-                        }
-                        viewModelScope.launch {
-                            setPassed("Passed")
+                        user.value?.id?.let { userId ->
+                            var findProgress = false
+                            lessonId.let { lessonId ->
+                                if (lessonId != null) {
+                                    findProgress = findProgressByUserAndLessonBoolean(userId, lessonId)
+                                }
+                            }
+                            if (!findProgress){
+                                insertProgress(Progress(null, userId, lessonId))
+                            }
+                            viewModelScope.launch {
+                                setPassed("Passed")
+                            }
                         }
                     }
                 }
@@ -433,23 +469,27 @@ class MainViewModel @Inject constructor(
         _newCourse.value = nc
         if (nc.id != null){
             viewModelScope.launch {
-                newCourse.value?.local_language = getLanguageById(nc.local_language_id!!)
-                newCourse.value?.foreign_language = getLanguageById(nc.foreign_language_id!!)
+                newCourse.value?.localLanguage = nc.local_language_id?.let { getLanguageById(it) }
+                newCourse.value?.foreignLanguage = nc.foreign_language_id?.let { getLanguageById(it) }
             }
         }
     }
 
     fun onLocalLanguageItemSelected(adapter: ArrayAdapter<Language>, position: Int){
-        val localLanguage = adapter.getItem(position)!!
-        newCourse.value?.local_language_id = localLanguage.id
+        val localLanguage = adapter.getItem(position)
+        if (localLanguage != null) {
+            newCourse.value?.local_language_id = localLanguage.id
+        }
     }
     fun onForeignLanguageItemSelected(adapter: ArrayAdapter<Language>, position: Int){
-        val foreignLanguage = adapter.getItem(position)!!
-        newCourse.value?.foreign_language_id = foreignLanguage.id
+        val foreignLanguage = adapter.getItem(position)
+        if (foreignLanguage != null) {
+            newCourse.value?.foreign_language_id = foreignLanguage.id
+        }
     }
     fun onInsertCourseButtonClick(){
         viewModelScope.launch {
-            insertCourse(newCourse.value!!)
+            newCourse.value?.let { insertCourse(it) }
         }
     }
 
@@ -460,22 +500,24 @@ class MainViewModel @Inject constructor(
         _newChapter.value = nc
         if (nc.id != null){
             viewModelScope.launch{
-                newChapter.value?.course = getCourseById(nc.course_id!!)
+                newChapter.value?.course = nc.course_id?.let { getCourseById(it) }
             }
         }
     }
 
     fun onChapterCourseItemSelected(adapter: ArrayAdapter<Course>, position: Int){
-        val course = adapter.getItem(position)!!
-        newChapter.value?.course_id = course.id
+        val course = adapter.getItem(position)
+        if (course != null) {
+            newChapter.value?.course_id = course.id
+        }
     }
     fun onChapterDifficultyItemSelected(adapter: ArrayAdapter<String>, position: Int){
-        val difficulty = adapter.getItem(position)!!
+        val difficulty = adapter.getItem(position)
         newChapter.value?.difficulty = difficulty
     }
     fun onInsertChapterButtonClick(){
         viewModelScope.launch {
-            insertChapter(newChapter.value!!)
+            newChapter.value?.let { insertChapter(it) }
         }
     }
 
@@ -486,23 +528,29 @@ class MainViewModel @Inject constructor(
         _newLesson.value = nl
         if (nl.id != null){
             viewModelScope.launch{
-                newLesson.value?.chapter = getChapterById(nl.chapter_id!!)
-                newLesson.value?.course = getCourseById(newLesson.value?.chapter!!.course_id!!)
+                newLesson.value?.chapter = nl.chapter_id?.let { chapterId ->
+                    getChapterById(chapterId)
+                }
+                newLesson.value?.course = newLesson.value?.chapter?.course_id?.let { courseId ->
+                    getCourseById(courseId)
+                }
             }
         }
     }
 
     fun onLessonChapterItemSelected(adapter: ArrayAdapter<Chapter>, position: Int){
-        val chapter = adapter.getItem(position)!!
-        newLesson.value?.chapter_id = chapter.id
+        val chapter = adapter.getItem(position)
+        if (chapter != null) {
+            newLesson.value?.chapter_id = chapter.id
+        }
     }
     fun onLessonTypeItemSelected(adapter: ArrayAdapter<String>, position: Int){
-        val type = adapter.getItem(position)!!
+        val type = adapter.getItem(position)
         newLesson.value?.lesson_type = type
     }
     fun onInsertLessonButtonClick(){
         viewModelScope.launch {
-            insertLesson(newLesson.value!!)
+            newLesson.value?.let { insertLesson(it) }
         }
     }
 
@@ -513,20 +561,26 @@ class MainViewModel @Inject constructor(
         _newTask.value = nt
         if (nt.id != null){
             viewModelScope.launch{
-                newTask.value?.lesson = getLessonsById(nt.lesson_id!!)
-                newTask.value?.chapter = getChapterById(newTask.value?.lesson!!.chapter_id!!)
-                newTask.value?.course = getCourseById(newTask.value?.chapter!!.course_id!!)
+                newTask.value?.lesson = nt.lesson_id?.let { lessonId -> getLessonsById(lessonId) }
+                newTask.value?.chapter = newTask.value?.lesson?.chapter_id?.let { chapterId ->
+                    getChapterById(chapterId)
+                }
+                newTask.value?.course = newTask.value?.chapter?.course_id?.let { courseId ->
+                    getCourseById(courseId)
+                }
             }
         }
     }
 
     fun onTaskLessonItemSelected(adapter: ArrayAdapter<Lesson>, position: Int){
-        val lesson = adapter.getItem(position)!!
-        newTask.value?.lesson_id = lesson.id
+        val lesson = adapter.getItem(position)
+        if (lesson != null) {
+            newTask.value?.lesson_id = lesson.id
+        }
     }
     fun onInsertTaskButtonClick(){
         viewModelScope.launch {
-            insertTask(newTask.value!!)
+            newTask.value?.let { insertTask(it) }
         }
     }
 
@@ -546,7 +600,7 @@ class MainViewModel @Inject constructor(
 
     fun onInsertLanguageButtonClick(){
         viewModelScope.launch {
-            insertLanguage(newLanguage.value!!)
+            newLanguage.value?.let { insertLanguage(it) }
         }
     }
 

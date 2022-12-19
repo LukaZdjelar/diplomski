@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.diplomski_android.MainViewModel
 import com.example.diplomski_android.databinding.FragmentTaskBinding
+import com.example.diplomski_android.model.Task
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -18,6 +19,7 @@ import kotlinx.coroutines.launch
 class TaskFragment : Fragment() {
     private val mainViewModel : MainViewModel by activityViewModels()
     private lateinit var binding : FragmentTaskBinding
+    private lateinit var task : Task
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,8 +27,14 @@ class TaskFragment : Fragment() {
     ): View {
         binding = FragmentTaskBinding.inflate(inflater, container, false)
 
-//      TODO: ???
-        mainViewModel.setTask(mainViewModel.tasks.value?.get(mainViewModel.taskNumber.value!!))
+        mainViewModel.taskNumber.value?.let { number ->
+            mainViewModel.tasks.value?.get(number).let { task0 ->
+                if (task0 != null) {
+                    task = task0
+                }
+            }
+        }
+        mainViewModel.setTask(task)
 
         return binding.root
     }
@@ -52,7 +60,7 @@ class TaskFragment : Fragment() {
                 }
                 .setCancelable(false)
                 .show()
-            if ((mainViewModel.taskNumber.value?.plus(1)) == mainViewModel.tasksStateFlow.value.size){
+            if (mainViewModel.taskNumber.value?.plus(1) == mainViewModel.tasksStateFlow.value.size){
                 calculateGrade()
             }
         }
@@ -89,7 +97,7 @@ class TaskFragment : Fragment() {
     override fun onDetach() {
         super.onDetach()
 
-        mainViewModel.setTask(null)
+        mainViewModel.setTask(Task())
         mainViewModel.setTaskNumber(0)
         mainViewModel.setCompleted(false)
         mainViewModel.setCorectCounter(0)

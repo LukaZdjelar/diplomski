@@ -81,7 +81,7 @@ class MainActivity: AppCompatActivity() {
             }
         }
 //        buttonUpdateProfile.setOnClickListener {
-//            mainViewModel.setNewUser(mainViewModel.user.value!!)
+//            mainViewModel.setNewUser(mainViewModel.user.valueF!!)
 //            Navigation.findNavController(fragmentContainerView).navigate(getUpdateProfileAction())
 //        }
     }

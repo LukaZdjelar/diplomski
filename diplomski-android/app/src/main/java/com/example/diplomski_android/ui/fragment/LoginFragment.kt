@@ -53,12 +53,13 @@ class LoginFragment : Fragment() {
 
                         lifecycleScope.launch {
                             mainViewModel.sharedPreferencesRemoveUserId()
-                            mainViewModel.sharedPreferencesPutUserId(user.id!!)
-                            mainViewModel.setUser(user)
-                            Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_coursesFragment)
+                            user.id?.let { userId ->
+                                mainViewModel.sharedPreferencesPutUserId(userId)
+                                mainViewModel.setUser(user)
+                                Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_coursesFragment)
+                            }
                         }
                     }
-
                 }.addOnFailureListener {
                     Toast.makeText(context,"Wrong email or password",Toast.LENGTH_SHORT).show()
                 }
