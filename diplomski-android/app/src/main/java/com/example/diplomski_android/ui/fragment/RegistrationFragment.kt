@@ -45,12 +45,16 @@ class RegistrationFragment : Fragment() {
         binding.buttonRegister.setOnClickListener {
             if (validateOnConfirm()){
                 CoroutineScope(Dispatchers.IO).launch {
-                    mainViewModel.insertUser(mainViewModel.newUser.value!!)
+                    mainViewModel.newUser.value?.let { user ->
+                        mainViewModel.insertUser(user)
+                    }
                 }
 
                 lifecycleScope.launch {
                     if (Navigation.findNavController(view).previousBackStackEntry?.destination?.id != R.id.loginFragment){
-                        mainViewModel.setUser(mainViewModel.newUser.value!!)
+                        mainViewModel.newUser.value?.let { user ->
+                            mainViewModel.setUser(user)
+                        }
                     }
                     mainViewModel.setNewUser(User())
                     activity?.onBackPressed()

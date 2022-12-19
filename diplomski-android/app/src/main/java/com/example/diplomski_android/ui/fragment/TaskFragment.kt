@@ -53,7 +53,7 @@ class TaskFragment : Fragment() {
             mainViewModel.onAnswerButtonClick()
             hideKeyboard()
             AlertDialog.Builder(context)
-                .setTitle("${mainViewModel.corect.value}")
+                .setTitle("${mainViewModel.correct.value}")
                 .setMessage("Answer was ${mainViewModel.task.value?.answer}")
                 .setPositiveButton("Next task"){ _, _ ->
                     mainViewModel.onDialogNextButtonClick()
@@ -100,6 +100,6 @@ class TaskFragment : Fragment() {
         mainViewModel.setTask(Task())
         mainViewModel.setTaskNumber(0)
         mainViewModel.setCompleted(false)
-        mainViewModel.setCorectCounter(0)
+        mainViewModel.setCorrectCounter(0)
     }
 }

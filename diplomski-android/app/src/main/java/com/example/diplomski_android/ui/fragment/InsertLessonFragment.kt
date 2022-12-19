@@ -40,7 +40,7 @@ class InsertLessonFragment : Fragment() {
         }
 
         CoroutineScope(Dispatchers.IO).launch {
-            chapters = mainViewModel.getChaptersByCourse(mainViewModel.newLesson.value?.course!!.id!!)
+            chapters = mainViewModel.getChaptersByCourse(mainViewModel.newLesson.value?.course?.id ?: 0)
         }
 
         return binding.root
@@ -59,14 +59,14 @@ class InsertLessonFragment : Fragment() {
         binding.actvLessonType.setAdapter(typeAdapter)
 
         if (mainViewModel.newLesson.value?.id == null){
-            binding.actvLessonCourse.setText(mainViewModel.newLesson.value?.course!!.name,false)
-            binding.actvLessonChapter.setText(mainViewModel.newLesson.value?.chapter!!.name,false)
+            binding.actvLessonCourse.setText(mainViewModel.newLesson.value?.course?.name,false)
+            binding.actvLessonChapter.setText(mainViewModel.newLesson.value?.chapter?.name,false)
             mainViewModel.newLesson.value?.chapter_id = mainViewModel.newLesson.value?.chapter?.id
             binding.actvLessonType.setText("",false)
         }else{
-            binding.actvLessonCourse.setText(mainViewModel.newLesson.value?.course!!.name,false)
-            binding.actvLessonChapter.setText(mainViewModel.newLesson.value?.chapter!!.name,false)
-            binding.actvLessonType.setText(mainViewModel.newLesson.value?.lesson_type!!,false)
+            binding.actvLessonCourse.setText(mainViewModel.newLesson.value?.course?.name,false)
+            binding.actvLessonChapter.setText(mainViewModel.newLesson.value?.chapter?.name,false)
+            binding.actvLessonType.setText(mainViewModel.newLesson.value?.lesson_type,false)
         }
 
         binding.apply {
@@ -83,7 +83,12 @@ class InsertLessonFragment : Fragment() {
             binding.menuInsertLessonCourses.helperText = validateCourse()
 
             CoroutineScope(Dispatchers.IO).launch {
-                chapters = mainViewModel.getChaptersByCourse(course?.id!!)
+                if (course != null){
+                    val courseId = course.id
+                    if (courseId != null){
+                        chapters = mainViewModel.getChaptersByCourse(courseId)
+                    }
+                }
                 lifecycleScope.launch{
                     chapterAdapter = ArrayAdapter(requireContext(), R.layout.spinner_item, chapters)
                     binding.actvLessonChapter.setAdapter(chapterAdapter)

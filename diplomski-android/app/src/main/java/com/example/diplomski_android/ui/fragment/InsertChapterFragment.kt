@@ -60,12 +60,12 @@ class InsertChapterFragment : Fragment() {
         binding.actvChapterDifficulty.setAdapter(difficultyAdapter)
 
         if (mainViewModel.newChapter.value?.id == null){
-            binding.actvChapterCourse.setText(mainViewModel.newChapter.value?.course!!.name,false)
+            binding.actvChapterCourse.setText(mainViewModel.newChapter.value?.course?.name,false)
             mainViewModel.newChapter.value?.course_id = mainViewModel.newChapter.value?.course?.id
             binding.actvChapterDifficulty.setText("",false)
         }else{
-            binding.actvChapterCourse.setText(mainViewModel.newChapter.value?.course!!.name,false)
-            binding.actvChapterDifficulty.setText(mainViewModel.newChapter.value?.difficulty!!,false)
+            binding.actvChapterCourse.setText(mainViewModel.newChapter.value?.course?.name,false)
+            binding.actvChapterDifficulty.setText(mainViewModel.newChapter.value?.difficulty,false)
         }
 
         binding.actvChapterCourse.setOnItemClickListener { _, _, position, _ ->

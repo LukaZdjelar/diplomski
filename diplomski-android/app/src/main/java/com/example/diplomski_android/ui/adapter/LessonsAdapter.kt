@@ -43,14 +43,17 @@ class LessonsAdapter(private val mainViewModel: MainViewModel): RecyclerView.Ada
             lessonsStatus = "Completed"
         }
         holder.itemView.apply {
-            holder.binding.llLessonItemAdmin.isVisible = mainViewModel.user.value?.admin!!
+            holder.binding.llLessonItemAdmin.isVisible = mainViewModel.user.value?.admin == true
             holder.binding.tvLessonName.text = lesson.lesson_type
             holder.binding.tvLessonStatus.text = lessonsStatus
 
             setOnClickListener{
                 lateinit var tasks: List<Task>
                 CoroutineScope(Dispatchers.IO).launch {
-                    tasks = mainViewModel.getTasksByLesson(lesson.id!!)
+                    val lessonId = lesson.id
+                    if (lessonId != null){
+                        tasks = mainViewModel.getTasksByLesson(lessonId)
+                    }
                     CoroutineScope(Dispatchers.Main).launch{
                         if (tasks.isEmpty()){
                             Toast.makeText(context,"There are no tasks", Toast.LENGTH_SHORT).show()
@@ -77,7 +80,9 @@ class LessonsAdapter(private val mainViewModel: MainViewModel): RecyclerView.Ada
 
             holder.binding.buttonManageTasks.setOnClickListener {
                 mainViewModel.setCurrentLesson(lesson)
-                mainViewModel.getTasksByLessonFlow(lesson.id!!)
+                lesson.id?.let { lessonId ->
+                    mainViewModel.getTasksByLessonFlow(lessonId)
+                }
                 Navigation.findNavController(holder.itemView).navigate(R.id.action_lessonsFragment_to_tasksFragment)
             }
         }

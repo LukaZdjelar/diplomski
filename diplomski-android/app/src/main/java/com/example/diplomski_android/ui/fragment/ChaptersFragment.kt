@@ -57,10 +57,12 @@ class ChaptersFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        mainViewModel.getChaptersByCourseFlow(mainViewModel.currentCourse.value?.id!!)
+        mainViewModel.currentCourse.value?.id?.let { courseId ->
+            mainViewModel.getChaptersByCourseFlow(courseId)
+        }
         lifecycleScope.launchWhenCreated {
-            mainViewModel.chaptersStateFlow.collectLatest {
-                chaptersAdapter.differ.submitList(it)
+            mainViewModel.chaptersStateFlow.collectLatest { chapters ->
+                chaptersAdapter.differ.submitList(chapters)
             }
         }
     }

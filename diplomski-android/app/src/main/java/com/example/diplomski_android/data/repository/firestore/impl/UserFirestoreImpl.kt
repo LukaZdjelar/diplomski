@@ -10,9 +10,13 @@ import kotlinx.coroutines.tasks.await
 
 class UserFirestoreImpl(private val firebaseFirestore: FirebaseFirestore): UserFirestore {
     override fun insert(user: User) {
-        Firebase.auth.createUserWithEmailAndPassword(user.email!!, user.password!!).addOnCompleteListener { task ->
-            if (task.isSuccessful){
-                firebaseFirestore.collection("users").add(user)
+        user.email?.let { email ->
+            user.password?.let { password ->
+                Firebase.auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+                    if (task.isSuccessful){
+                        firebaseFirestore.collection("users").add(user)
+                    }
+                }
             }
         }
     }
