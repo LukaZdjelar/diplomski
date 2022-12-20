@@ -28,10 +28,8 @@ class TaskFragment : Fragment() {
         binding = FragmentTaskBinding.inflate(inflater, container, false)
 
         mainViewModel.taskNumber.value?.let { number ->
-            mainViewModel.tasks.value?.get(number).let { task0 ->
-                if (task0 != null) {
-                    task = task0
-                }
+            mainViewModel.tasks.value?.get(number)?.let { task0 ->
+                task = task0
             }
         }
         mainViewModel.setTask(task)

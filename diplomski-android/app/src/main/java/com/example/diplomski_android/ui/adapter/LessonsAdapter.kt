@@ -51,7 +51,7 @@ class LessonsAdapter(private val mainViewModel: MainViewModel): RecyclerView.Ada
                 lateinit var tasks: List<Task>
                 CoroutineScope(Dispatchers.IO).launch {
                     val lessonId = lesson.id
-                    if (lessonId != null){
+                    lessonId?.let{
                         tasks = mainViewModel.getTasksByLesson(lessonId)
                     }
                     CoroutineScope(Dispatchers.Main).launch{

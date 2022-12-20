@@ -89,9 +89,9 @@ class InsertTaskFragment : Fragment() {
             binding.menuInsertTaskCourses.helperText = validateCourse()
 
             CoroutineScope(Dispatchers.IO).launch {
-                if (course != null){
+                course?.let{
                     val courseId = course.id
-                    if (courseId != null){
+                    courseId?.let{
                         chapters = mainViewModel.getChaptersByCourse(courseId)
                     }
                 }
@@ -111,9 +111,9 @@ class InsertTaskFragment : Fragment() {
             binding.menuInsertTaskChapters.helperText = validateChapter()
 
             CoroutineScope(Dispatchers.IO).launch {
-                if (chapter != null){
+                chapter?.let{
                     val chapterId = chapter.id
-                    if (chapterId != null){
+                    chapterId?.let{
                         lessons = mainViewModel.getLessonsByChapters(chapterId)
                     }
                 }

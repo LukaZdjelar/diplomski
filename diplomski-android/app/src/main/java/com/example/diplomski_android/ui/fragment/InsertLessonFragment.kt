@@ -83,9 +83,9 @@ class InsertLessonFragment : Fragment() {
             binding.menuInsertLessonCourses.helperText = validateCourse()
 
             CoroutineScope(Dispatchers.IO).launch {
-                if (course != null){
+                course?.let{
                     val courseId = course.id
-                    if (courseId != null){
+                    courseId?.let{
                         chapters = mainViewModel.getChaptersByCourse(courseId)
                     }
                 }

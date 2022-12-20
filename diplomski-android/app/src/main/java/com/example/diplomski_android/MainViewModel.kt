@@ -543,7 +543,7 @@ class MainViewModel @Inject constructor(
     val newChapter: LiveData<Chapter> = _newChapter
     fun setNewChapter(nc: Chapter) {
         _newChapter.value = nc
-        nc.id.let {
+        nc.id?.let {
             viewModelScope.launch {
                 newChapter.value?.course = nc.course_id?.let { getCourseById(it) }
             }
@@ -608,7 +608,7 @@ class MainViewModel @Inject constructor(
     val newTask: LiveData<Task> = _newTask
     fun setNewTask(nt: Task) {
         _newTask.value = nt
-        nt.id.let {
+        nt.id?.let {
             viewModelScope.launch {
                 newTask.value?.lesson = nt.lesson_id?.let { lessonId -> getLessonsById(lessonId) }
                 newTask.value?.chapter = newTask.value?.lesson?.chapter_id?.let { chapterId ->
