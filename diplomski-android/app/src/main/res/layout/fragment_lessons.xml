@@ -34,7 +34,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:text="add new lesson"
+                    android:text="@string/create_new_lesson"
                     android:layout_marginEnd="32dp"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>

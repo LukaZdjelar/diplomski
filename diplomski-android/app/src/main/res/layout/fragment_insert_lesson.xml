@@ -21,7 +21,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Course"
+            android:hint="@string/course"
             app:helperTextTextColor="#E91E63"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -29,8 +29,8 @@
             android:layout_margin="32dp">
 
             <AutoCompleteTextView
-                android:hint="Course"
                 android:id="@+id/actvLessonCourse"
+                android:labelFor="@id/menuInsertLessonCourses"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="none" />
@@ -42,7 +42,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Chapter"
+            android:hint="@string/chapter"
             app:helperTextTextColor="#E91E63"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -50,8 +50,8 @@
             android:layout_margin="32dp">
 
             <AutoCompleteTextView
-                android:hint="Chapter"
                 android:id="@+id/actvLessonChapter"
+                android:labelFor="@id/menuInsertLessonChapters"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="none" />
@@ -63,7 +63,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Lesson type"
+            android:hint="@string/lesson_type"
             app:helperTextTextColor="#E91E63"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -71,8 +71,8 @@
             android:layout_margin="32dp">
 
             <AutoCompleteTextView
-                android:hint="Lesson type"
                 android:id="@+id/actvLessonType"
+                android:labelFor="@id/menuInsertLessonType"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="none"/>
@@ -83,7 +83,7 @@
             android:id="@+id/buttonInsertLessonConfirm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Create lesson"
+            android:text="@string/confirm"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

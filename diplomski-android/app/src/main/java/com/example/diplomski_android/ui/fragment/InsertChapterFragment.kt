@@ -20,7 +20,7 @@ class InsertChapterFragment : Fragment() {
     private val mainViewModel : MainViewModel by activityViewModels()
     private lateinit var binding: FragmentInsertChapterBinding
     var courses = listOf<Course>()
-    val difficultyList = listOf("Basic","Intermediate","Advanced")
+    private val difficultyList = listOf("Basic","Intermediate","Advanced")
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,7 +52,7 @@ class InsertChapterFragment : Fragment() {
         }
     }
 
-    fun setAdapters(){
+    private fun setAdapters(){
         val courseAdapter = ArrayAdapter(requireContext(), R.layout.spinner_item, courses)
         binding.actvChapterCourse.setAdapter(courseAdapter)
 
@@ -86,13 +86,13 @@ class InsertChapterFragment : Fragment() {
         }
     }
 
-    fun textChangeListener(){
+    private fun textChangeListener(){
         binding.insertChapterName.doOnTextChanged { _, _, _, _ ->
             binding.insertChapterNameContainer.helperText = validateName()
         }
     }
 
-    fun validateCourse(): String?{
+    private fun validateCourse(): String?{
         val course = binding.actvChapterCourse.text.toString()
         if (course == ""){
             return "Required"
@@ -100,7 +100,7 @@ class InsertChapterFragment : Fragment() {
         return null
     }
 
-    fun validateName(): String?{
+    private fun validateName(): String?{
         val name = binding.insertChapterName.text.toString()
         if (name == ""){
             return "Required"
@@ -108,7 +108,7 @@ class InsertChapterFragment : Fragment() {
         return null
     }
 
-    fun validateDifficulty(): String?{
+    private fun validateDifficulty(): String?{
         val difficulty = binding.actvChapterDifficulty.text.toString()
         if (difficulty == ""){
             return "Required"
@@ -116,7 +116,7 @@ class InsertChapterFragment : Fragment() {
         return null
     }
 
-    fun validateOnConfirm(): Boolean{
+    private fun validateOnConfirm(): Boolean{
         binding.menuInsertChapterCourses.helperText = validateCourse()
         binding.insertChapterNameContainer.helperText = validateName()
         binding.menuInsertChapterDifficulty.helperText = validateDifficulty()

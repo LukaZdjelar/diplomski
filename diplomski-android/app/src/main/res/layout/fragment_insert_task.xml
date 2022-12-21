@@ -21,7 +21,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Course"
+            android:hint="@string/course"
             app:helperTextTextColor="#E91E63"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -29,8 +29,8 @@
             android:layout_margin="32dp">
 
             <AutoCompleteTextView
-                android:hint="Course"
                 android:id="@+id/actvTaskCourse"
+                android:labelFor="@id/menuInsertTaskCourses"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="none" />
@@ -42,7 +42,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Chapter"
+            android:hint="@string/chapter"
             app:helperTextTextColor="#E91E63"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -50,8 +50,8 @@
             android:layout_margin="32dp">
 
             <AutoCompleteTextView
-                android:hint="Chapter"
                 android:id="@+id/actvTaskChapter"
+                android:labelFor="@id/menuInsertTaskChapters"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="none" />
@@ -63,7 +63,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Lesson"
+            android:hint="@string/lesson"
             app:helperTextTextColor="#E91E63"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -71,8 +71,8 @@
             android:layout_margin="32dp">
 
             <AutoCompleteTextView
-                android:hint="Lesson"
                 android:id="@+id/actvTaskLesson"
+                android:labelFor="@id/menuInsertTaskLessons"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="none" />
@@ -95,7 +95,7 @@
                 android:text="@={viewModel.newTask.question}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Question" />
+                android:hint="@string/question" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -114,14 +114,14 @@
                 android:text="@={viewModel.newTask.answer}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Answer" />
+                android:hint="@string/answer" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonInsertTaskConfirm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Create task"
+            android:text="@string/confirm"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

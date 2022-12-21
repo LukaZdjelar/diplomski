@@ -9,7 +9,6 @@
         android:id="@+id/tvTaskQuestion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TASK QUESTION"
         android:textColor="@android:color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,19 +21,23 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <Button
+        <ImageButton
             android:id="@+id/buttonEditTask"
             android:layout_width="64dp"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
-            android:text="U" />
+            android:src="@drawable/ic_baseline_edit_24"
+            style="?android:attr/buttonBarButtonStyle"
+            android:contentDescription="@string/edit"/>
 
-        <Button
+        <ImageButton
             android:id="@+id/buttonDeleteTask"
             android:layout_width="64dp"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
-            android:text="D" />
+            android:src="@drawable/ic_baseline_delete_24"
+            style="?android:attr/buttonBarButtonStyle"
+            android:contentDescription="@string/delete"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

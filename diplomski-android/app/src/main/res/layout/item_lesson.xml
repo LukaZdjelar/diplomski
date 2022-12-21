@@ -19,14 +19,12 @@
             android:id="@+id/tvLessonName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="LESSON NR."
             android:textColor="@android:color/black" />
 
         <TextView
             android:id="@+id/tvLessonStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="STATUS"
             android:textColor="@android:color/black"
             android:layout_marginTop="8dp"/>
     </LinearLayout>
@@ -44,20 +42,27 @@
             android:layout_width="64dp"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
-            android:text="T" />
-        <Button
+            android:text="@string/tasks"
+            android:textSize="12sp"
+            style="?android:attr/buttonBarButtonStyle" />
+
+        <ImageButton
             android:id="@+id/buttonEditLesson"
             android:layout_width="64dp"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
-            android:text="U" />
+            android:src="@drawable/ic_baseline_edit_24"
+            style="?android:attr/buttonBarButtonStyle"
+            android:contentDescription="@string/edit"/>
 
-        <Button
+        <ImageButton
             android:id="@+id/buttonDeleteLesson"
             android:layout_width="64dp"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
-            android:text="D" />
+            android:src="@drawable/ic_baseline_delete_24"
+            style="?android:attr/buttonBarButtonStyle"
+            android:contentDescription="@string/delete"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

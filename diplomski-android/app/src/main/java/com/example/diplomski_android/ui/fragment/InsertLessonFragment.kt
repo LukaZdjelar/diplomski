@@ -24,7 +24,7 @@ class InsertLessonFragment : Fragment() {
     private lateinit var binding: FragmentInsertLessonBinding
     var courses = listOf<Course>()
     var chapters = listOf<Chapter>()
-    val lessonTypes = listOf("Translating","Vocabulary","Speaking","Listening")
+    private val lessonTypes = listOf("Translating","Vocabulary","Speaking","Listening")
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -114,7 +114,7 @@ class InsertLessonFragment : Fragment() {
         }
     }
 
-    fun validateCourse(): String?{
+    private fun validateCourse(): String?{
         val course = binding.actvLessonCourse.text.toString()
         if (course == ""){
             return "Required"
@@ -122,7 +122,7 @@ class InsertLessonFragment : Fragment() {
         return null
     }
 
-    fun validateChapter(): String?{
+    private fun validateChapter(): String?{
         val chapter = binding.actvLessonChapter.text.toString()
         if (chapter == ""){
             return "Required"
@@ -130,7 +130,7 @@ class InsertLessonFragment : Fragment() {
         return null
     }
 
-    fun validateType(): String?{
+    private fun validateType(): String?{
         val type = binding.actvLessonType.text.toString()
         if (type == ""){
             return "Required"
@@ -138,7 +138,7 @@ class InsertLessonFragment : Fragment() {
         return null
     }
 
-    fun validateOnConfirm(): Boolean{
+    private fun validateOnConfirm(): Boolean{
         binding.menuInsertLessonCourses.helperText = validateCourse()
         binding.menuInsertLessonChapters.helperText = validateChapter()
         binding.menuInsertLessonType.helperText = validateType()

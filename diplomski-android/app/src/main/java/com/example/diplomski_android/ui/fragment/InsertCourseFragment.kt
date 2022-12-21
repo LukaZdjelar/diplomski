@@ -19,7 +19,7 @@ class InsertCourseFragment: Fragment() {
 
     private val mainViewModel : MainViewModel by activityViewModels()
     private lateinit var binding: FragmentInsertCourseBinding
-    var languages = listOf<Language>()
+    private var languages = listOf<Language>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,8 +29,8 @@ class InsertCourseFragment: Fragment() {
 
         mainViewModel.getLanguages()
         lifecycleScope.launchWhenCreated {
-            mainViewModel.languagesStateFlow.collectLatest {
-                languages = it
+            mainViewModel.languagesStateFlow.collectLatest { languagesFlow ->
+                languages = languagesFlow
             }
         }
 
@@ -50,7 +50,7 @@ class InsertCourseFragment: Fragment() {
         }
     }
 
-    fun setAdapters(){
+    private fun setAdapters(){
         val localAdapter = ArrayAdapter(requireContext(), R.layout.spinner_item, languages)
         binding.actvLocal.setAdapter(localAdapter)
 
@@ -85,14 +85,14 @@ class InsertCourseFragment: Fragment() {
         }
     }
 
-    fun textChangeListener(){
+    private fun textChangeListener(){
         //TODO: onFocusChange ili onTextChange
         binding.insertCourseName.doOnTextChanged { _, _, _, _ ->
             binding.insertCourseNameContainer.helperText = validateName()
         }
     }
 
-    fun validateName(): String?{
+    private fun validateName(): String?{
         val name = binding.insertCourseName.text.toString()
         if (name == ""){
             return "Required"
@@ -100,7 +100,7 @@ class InsertCourseFragment: Fragment() {
         return null
     }
 
-    fun validateLocal(): String?{
+    private fun validateLocal(): String?{
         val local = binding.actvLocal.text.toString()
         if (local == ""){
             return "Required"
@@ -115,7 +115,7 @@ class InsertCourseFragment: Fragment() {
         return null
     }
 
-    fun validateForeign(): String?{
+    private fun validateForeign(): String?{
         val foreign = binding.actvForeign.text.toString()
         if (foreign == ""){
             return "Required"
@@ -130,7 +130,7 @@ class InsertCourseFragment: Fragment() {
         return null
     }
 
-    fun validateOnConfirm(): Boolean{
+    private fun validateOnConfirm(): Boolean{
         binding.insertCourseNameContainer.helperText = validateName()
         binding.menuInsertCourseLocal.helperText = validateLocal()
         binding.menuInsertCourseForeign.helperText = validateForeign()

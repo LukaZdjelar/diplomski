@@ -42,13 +42,13 @@ class InsertLanguageFragment : Fragment() {
         }
     }
 
-    fun textChangeListener() {
+    private fun textChangeListener() {
         binding.insertLanguageName.doOnTextChanged { _, _, _, _ ->
             binding.insertLanguageNameContainer.helperText = validateName()
         }
     }
 
-    fun validateName(): String?{
+    private fun validateName(): String?{
         val name = binding.insertLanguageName.text.toString()
         if (name == ""){
             return "Required"
@@ -56,7 +56,7 @@ class InsertLanguageFragment : Fragment() {
         return null
     }
 
-    fun validateOnConfirm(): Boolean{
+    private fun validateOnConfirm(): Boolean{
         binding.insertLanguageNameContainer.helperText = validateName()
 
         if (binding.insertLanguageNameContainer.helperText == null) {

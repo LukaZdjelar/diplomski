@@ -21,7 +21,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Course"
+            android:hint="@string/course"
             app:helperTextTextColor="#E91E63"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -29,8 +29,8 @@
             android:layout_margin="32dp">
 
             <AutoCompleteTextView
-                android:hint="Course"
                 android:id="@+id/actvChapterCourse"
+                android:labelFor="@id/menuInsertChapterCourses"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="none" />
@@ -55,7 +55,7 @@
                 android:text="@={viewModel.newChapter.name}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Chapter name" />
+                android:hint="@string/chapter_name" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -63,7 +63,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Difficulty"
+            android:hint="@string/difficulty"
             app:helperTextTextColor="#E91E63"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -71,8 +71,8 @@
             android:layout_margin="32dp">
 
             <AutoCompleteTextView
-                android:hint="Difficulty"
                 android:id="@+id/actvChapterDifficulty"
+                android:labelFor="@id/menuInsertChapterDifficulty"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="none"/>
@@ -83,7 +83,7 @@
             android:id="@+id/buttonInsertChapterConfirm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Create chapter"
+            android:text="@string/confirm"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

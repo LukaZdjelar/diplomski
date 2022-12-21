@@ -92,7 +92,7 @@ class RegistrationFragment : Fragment() {
         return null
     }
 
-    fun validateEmail(): String?{
+    private fun validateEmail(): String?{
         val email = binding.registrationEmail.text.toString()
         if (email == ""){
             return "Required"
@@ -134,7 +134,7 @@ class RegistrationFragment : Fragment() {
         return null
     }
 
-    fun validateOnConfirm(): Boolean{
+    private fun validateOnConfirm(): Boolean{
         binding.registrationNameContainer.helperText = validateName()
         binding.registrationEmailContainer.helperText = validateEmail()
         binding.registrationPasswordContainer.helperText = validatePassword()

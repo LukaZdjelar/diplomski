@@ -8,15 +8,11 @@ import com.google.firebase.ktx.Firebase
 
 class AuthFirestoreImpl(private val firebase: Firebase): AuthFirestore {
 
-    override suspend fun createUserWithEmailAndPassword(email: String, password: String): Task<AuthResult> {
-        return firebase.auth.createUserWithEmailAndPassword(email, password)
-    }
-
     override suspend fun signInWithEmailAndPassword(email: String, password: String): Task<AuthResult> {
         return firebase.auth.signInWithEmailAndPassword(email, password)
     }
 
-    override suspend fun signOut(): Unit {
+    override suspend fun signOut() {
         return firebase.auth.signOut()
     }
 }

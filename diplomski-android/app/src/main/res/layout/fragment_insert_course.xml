@@ -21,16 +21,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/tvInsertCourse"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:text="Create course"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/insertCourseNameContainer"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
@@ -40,14 +30,14 @@
             app:helperTextTextColor="#E91E63"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvInsertCourse">
+            app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/insertCourseName"
                 android:text="@={viewModel.newCourse.name}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Course name"
+                android:hint="@string/course_name"
                 android:lines="1" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -58,14 +48,14 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="32dp"
                 app:helperTextTextColor="#E91E63"
-                android:hint="Local"
+                android:hint="@string/local"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/insertCourseNameContainer">
 
                 <AutoCompleteTextView
-                    android:hint="Local"
                     android:id="@+id/actvLocal"
+                    android:labelFor="@id/menuInsertCourseLocal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="none"/>
@@ -79,14 +69,14 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="32dp"
                 app:helperTextTextColor="#E91E63"
-                android:hint="Foreign"
+                android:hint="@string/foreign"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/menuInsertCourseLocal">
 
                 <AutoCompleteTextView
-                    android:hint="Foreign"
                     android:id="@+id/actvForeign"
+                    android:labelFor="@id/menuInsertCourseForeign"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="none" />
@@ -97,7 +87,7 @@
             android:id="@+id/buttonInsertCourseConfirm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Create course"
+            android:text="@string/confirm"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

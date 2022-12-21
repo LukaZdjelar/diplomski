@@ -1,10 +1,8 @@
 package com.example.diplomski_android.data.repository.firestore.impl
 
-import androidx.lifecycle.lifecycleScope
 import com.example.diplomski_android.data.repository.firestore.CourseFirestore
 import com.example.diplomski_android.model.Course
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
 class CourseFirestoreImpl(private val firebaseFirestore: FirebaseFirestore): CourseFirestore {

@@ -26,15 +26,6 @@
             app:layout_constraintTop_toTopOf="parent"
             android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Lesson name"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginStart="32dp"/>
-
             <Button
                 android:id="@+id/buttonCreateTask"
                 android:layout_width="wrap_content"
@@ -42,7 +33,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:text="add new task"
+                android:text="@string/create_new_task"
                 android:layout_marginEnd="32dp"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

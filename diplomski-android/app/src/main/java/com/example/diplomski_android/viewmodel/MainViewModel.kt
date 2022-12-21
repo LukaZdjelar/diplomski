@@ -191,9 +191,9 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             lessonRepository.getByChapterFlow(id).collect { lessons ->
                 lessons.forEach { lesson ->
-                    withContext(Dispatchers.IO) {
-                        lesson.id?.let { lessonId ->
-                            user.value?.id?.let { userId ->
+                    lesson.id?.let { lessonId ->
+                        user.value?.id?.let { userId ->
+                            withContext(Dispatchers.IO) {
                                 lesson.isCompleted = getLessonStatus(lessonId, userId)
                             }
                         }
@@ -401,12 +401,12 @@ class MainViewModel @Inject constructor(
 
     private val _correct = MutableLiveData("Incorrect")
     val correct: LiveData<String> = _correct
-    fun setCorrect(isCorrect: String) {
+    private fun setCorrect(isCorrect: String) {
         _correct.value = isCorrect
     }
 
     private val _correctCounter = MutableLiveData(0)
-    val correctCounter: LiveData<Int> = _correctCounter
+    private val correctCounter: LiveData<Int> = _correctCounter
     fun setCorrectCounter(counter: Int) {
         _correctCounter.value = counter
     }
@@ -439,13 +439,13 @@ class MainViewModel @Inject constructor(
 
     private val _grade = MutableLiveData("")
     val grade: LiveData<String> = _grade
-    fun setGrade(newGrade: String) {
+    private fun setGrade(newGrade: String) {
         _grade.value = newGrade
     }
 
     private val _passed = MutableLiveData("")
     val passed: LiveData<String> = _passed
-    fun setPassed(p: String) {
+    private fun setPassed(p: String) {
         _passed.value = p
     }
 
@@ -499,11 +499,13 @@ class MainViewModel @Inject constructor(
         _newCourse.value = nc
         nc.id?.let {
             viewModelScope.launch {
-                newCourse.value?.localLanguage = nc.local_language_id?.let { languageId ->
-                    getLanguageById(languageId)
-                }
-                newCourse.value?.foreignLanguage = nc.foreign_language_id?.let { languageId ->
-                    getLanguageById(languageId)
+                nc.local_language_id?.let { localLanguageId ->
+                    nc.foreign_language_id?.let { foreignLanguageId ->
+                        withContext(Dispatchers.IO) {
+                            newCourse.value?.localLanguage = getLanguageById(localLanguageId)
+                            newCourse.value?.foreignLanguage = getLanguageById(foreignLanguageId)
+                        }
+                    }
                 }
             }
         }
@@ -538,7 +540,11 @@ class MainViewModel @Inject constructor(
         _newChapter.value = nc
         nc.id?.let {
             viewModelScope.launch {
-                newChapter.value?.course = nc.course_id?.let { getCourseById(it) }
+                nc.course_id?.let { courseId ->
+                    withContext(Dispatchers.IO) {
+                        newChapter.value?.course = getCourseById(courseId)
+                    }
+                }
             }
         }
     }
@@ -570,11 +576,13 @@ class MainViewModel @Inject constructor(
         _newLesson.value = nl
         nl.id?.let {
             viewModelScope.launch {
-                newLesson.value?.chapter = nl.chapter_id?.let { chapterId ->
-                    getChapterById(chapterId)
-                }
-                newLesson.value?.course = newLesson.value?.chapter?.course_id?.let { courseId ->
-                    getCourseById(courseId)
+                nl.chapter_id?.let { chapterId ->
+                    withContext(Dispatchers.IO) {
+                        newLesson.value?.chapter = getChapterById(chapterId)
+                        newLesson.value?.chapter?.course_id?.let { courseId ->
+                            newLesson.value?.course = getCourseById(courseId)
+                        }
+                    }
                 }
             }
         }
@@ -607,12 +615,18 @@ class MainViewModel @Inject constructor(
         _newTask.value = nt
         nt.id?.let {
             viewModelScope.launch {
-                newTask.value?.lesson = nt.lesson_id?.let { lessonId -> getLessonsById(lessonId) }
-                newTask.value?.chapter = newTask.value?.lesson?.chapter_id?.let { chapterId ->
-                    getChapterById(chapterId)
-                }
-                newTask.value?.course = newTask.value?.chapter?.course_id?.let { courseId ->
-                    getCourseById(courseId)
+                nt.lesson_id?.let { lessonId ->
+                    withContext(Dispatchers.IO) {
+                        newTask.value?.lesson = getLessonsById(lessonId)
+
+                        newTask.value?.lesson?.chapter_id?.let { chapterId ->
+                            newTask.value?.chapter = getChapterById(chapterId)
+
+                            newTask.value?.chapter?.course_id?.let { courseId ->
+                                newTask.value?.course = getCourseById(courseId)
+                            }
+                        }
+                    }
                 }
             }
         }

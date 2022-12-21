@@ -1,6 +1,5 @@
 package com.example.diplomski_android.data.repository.firestore.impl
 
-import android.util.Log
 import com.example.diplomski_android.data.repository.firestore.UserFirestore
 import com.example.diplomski_android.model.User
 import com.google.firebase.auth.ktx.auth

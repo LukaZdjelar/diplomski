@@ -9,5 +9,4 @@ data class Progress(
     var id: Long? = null,
     var user_id: Long? = null,
     var lesson_id: Long? = null,
-){
-}
+)
