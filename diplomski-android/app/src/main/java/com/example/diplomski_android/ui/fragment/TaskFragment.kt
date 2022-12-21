@@ -9,9 +9,9 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import com.example.diplomski_android.MainViewModel
 import com.example.diplomski_android.databinding.FragmentTaskBinding
 import com.example.diplomski_android.model.Task
+import com.example.diplomski_android.viewmodel.MainViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

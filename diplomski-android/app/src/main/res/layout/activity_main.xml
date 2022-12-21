@@ -8,7 +8,7 @@
             type="com.example.diplomski_android.MainActivity" />
         <variable
             name="viewModel"
-            type="com.example.diplomski_android.MainViewModel" />
+            type="com.example.diplomski_android.viewmodel.MainViewModel" />
     </data>
     <RelativeLayout
         android:layout_width="match_parent"

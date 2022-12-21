@@ -9,11 +9,11 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.diplomski_android.MainViewModel
 import com.example.diplomski_android.R
 import com.example.diplomski_android.databinding.FragmentLessonsBinding
 import com.example.diplomski_android.model.Lesson
 import com.example.diplomski_android.ui.adapter.LessonsAdapter
+import com.example.diplomski_android.viewmodel.MainViewModel
 import kotlinx.coroutines.flow.collectLatest
 
 class LessonsFragment : Fragment() {

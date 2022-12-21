@@ -7,21 +7,26 @@ import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
-import com.example.diplomski_android.MainViewModel
 import com.example.diplomski_android.R
 import com.example.diplomski_android.databinding.FragmentRegistrationBinding
 import com.example.diplomski_android.model.User
+import com.example.diplomski_android.viewmodel.MainViewModel
+import com.example.diplomski_android.viewmodel.RegistrationViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class RegistrationFragment : Fragment() {
 
-    private val mainViewModel : MainViewModel by activityViewModels()
-    private lateinit var binding : FragmentRegistrationBinding
-    val emailRegex = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}\$"
+    private val mainViewModel: MainViewModel by activityViewModels()
+    private val registrationViewModel: RegistrationViewModel by viewModels()
+    private lateinit var binding: FragmentRegistrationBinding
+    private val emailRegex = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}\$"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,31 +44,32 @@ class RegistrationFragment : Fragment() {
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
             viewModel = mainViewModel
+            registrationViewModel = registrationViewModel
             registrationFragment = this@RegistrationFragment
         }
 
         binding.buttonRegister.setOnClickListener {
             if (validateOnConfirm()){
                 CoroutineScope(Dispatchers.IO).launch {
-                    mainViewModel.newUser.value?.let { user ->
+                    registrationViewModel.newUser.value?.let { user ->
                         mainViewModel.insertUser(user)
                     }
                 }
 
                 lifecycleScope.launch {
                     if (Navigation.findNavController(view).previousBackStackEntry?.destination?.id != R.id.loginFragment){
-                        mainViewModel.newUser.value?.let { user ->
+                        registrationViewModel.newUser.value?.let { user ->
                             mainViewModel.setUser(user)
                         }
                     }
-                    mainViewModel.setNewUser(User())
+                    registrationViewModel.setNewUser(User())
                     activity?.onBackPressed()
                 }
             }
         }
     }
 
-    fun textChangeListener(){
+    private fun textChangeListener() {
         binding.registrationName.doOnTextChanged { _, _, _, _ ->
             binding.registrationNameContainer.helperText = validateName()
         }
@@ -74,13 +80,13 @@ class RegistrationFragment : Fragment() {
             binding.registrationPasswordContainer.helperText = validatePassword()
         }
         binding.registrationConfirmPassword.doOnTextChanged { _, _, _, _ ->
-            binding.registrationConfirmPasswordContairner.helperText = validateConfirmPassword()
+            binding.registrationConfirmPasswordContainer.helperText = validateConfirmPassword()
         }
     }
 
-    fun validateName(): String?{
+    private fun validateName(): String? {
         val name = binding.registrationName.text.toString()
-        if (name == ""){
+        if (name == "") {
             return "Required"
         }
         return null
@@ -97,32 +103,32 @@ class RegistrationFragment : Fragment() {
         return null
     }
 
-    fun validatePassword(): String?{
+    private fun validatePassword(): String? {
         val password = binding.registrationPassword.text.toString()
-        if (password == ""){
+        if (password == "") {
             return "Required"
         }
-        if (password.length<6){
+        if (password.length < 6) {
             return "Password must be at least 6 characters long"
         }
-        if (password != binding.registrationConfirmPassword.text.toString()){
-            binding.registrationConfirmPasswordContairner.helperText = "Passwords don't match"
+        if (password != binding.registrationConfirmPassword.text.toString()) {
+            binding.registrationConfirmPasswordContainer.helperText = "Passwords don't match"
         }
-        if (password == binding.registrationConfirmPassword.text.toString()){
-            binding.registrationConfirmPasswordContairner.helperText = null
+        if (password == binding.registrationConfirmPassword.text.toString()) {
+            binding.registrationConfirmPasswordContainer.helperText = null
         }
         return null
     }
 
-    fun validateConfirmPassword(): String?{
+    private fun validateConfirmPassword(): String? {
         val confirmPassword = binding.registrationConfirmPassword.text.toString()
-        if (confirmPassword == ""){
+        if (confirmPassword == "") {
             return "Required"
         }
-        if (confirmPassword.length<6){
+        if (confirmPassword.length < 6) {
             return "Password must be at least 6 characters long"
         }
-        if (confirmPassword != binding.registrationPassword.text.toString()){
+        if (confirmPassword != binding.registrationPassword.text.toString()) {
             return "Passwords don't match"
         }
         return null
@@ -132,12 +138,13 @@ class RegistrationFragment : Fragment() {
         binding.registrationNameContainer.helperText = validateName()
         binding.registrationEmailContainer.helperText = validateEmail()
         binding.registrationPasswordContainer.helperText = validatePassword()
-        binding.registrationConfirmPasswordContairner.helperText = validateConfirmPassword()
+        binding.registrationConfirmPasswordContainer.helperText = validateConfirmPassword()
 
         if (binding.registrationNameContainer.helperText == null &&
             binding.registrationEmailContainer.helperText == null &&
             binding.registrationPasswordContainer.helperText == null &&
-            binding.registrationConfirmPasswordContairner.helperText == null){
+            binding.registrationConfirmPasswordContainer.helperText == null
+        ) {
             return true
         }
 

@@ -9,12 +9,12 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import com.example.diplomski_android.MainViewModel
 import com.example.diplomski_android.R
 import com.example.diplomski_android.databinding.FragmentInsertTaskBinding
 import com.example.diplomski_android.model.Chapter
 import com.example.diplomski_android.model.Course
 import com.example.diplomski_android.model.Lesson
+import com.example.diplomski_android.viewmodel.MainViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
@@ -137,7 +137,7 @@ class InsertTaskFragment : Fragment() {
         }
     }
 
-    fun textChangeListener(){
+    private fun textChangeListener() {
         binding.insertTaskQuestion.doOnTextChanged { _, _, _, _ ->
             binding.insertTaskQuestionContainer.helperText = validateQuestion()
         }
@@ -146,47 +146,47 @@ class InsertTaskFragment : Fragment() {
         }
     }
 
-    fun validateCourse(): String?{
+    private fun validateCourse(): String? {
         val course = binding.actvTaskCourse.text.toString()
-        if (course == ""){
+        if (course == "") {
             return "Required"
         }
         return null
     }
 
-    fun validateChapter(): String?{
+    private fun validateChapter(): String? {
         val chapter = binding.actvTaskChapter.text.toString()
-        if (chapter == ""){
+        if (chapter == "") {
             return "Required"
         }
         return null
     }
 
-    fun validateLesson(): String?{
+    private fun validateLesson(): String? {
         val lesson = binding.actvTaskLesson.text.toString()
-        if (lesson == ""){
+        if (lesson == "") {
             return "Required"
         }
         return null
     }
 
-    fun validateQuestion(): String?{
+    private fun validateQuestion(): String? {
         val question = binding.insertTaskQuestion.text.toString()
-        if (question == ""){
+        if (question == "") {
             return "Required"
         }
         return null
     }
 
-    fun validateAnswer(): String?{
+    private fun validateAnswer(): String? {
         val answer = binding.insertTaskAnswer.text.toString()
-        if (answer == ""){
+        if (answer == "") {
             return "Required"
         }
         return null
     }
 
-    fun validateOnComplete(): Boolean {
+    private fun validateOnComplete(): Boolean {
         binding.menuInsertTaskCourses.helperText = validateCourse()
         binding.menuInsertTaskChapters.helperText = validateChapter()
         binding.menuInsertTaskLessons.helperText = validateLesson()

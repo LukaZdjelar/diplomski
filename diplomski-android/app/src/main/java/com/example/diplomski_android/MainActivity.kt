@@ -11,6 +11,7 @@ import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import com.example.diplomski_android.databinding.ActivityMainBinding
 import com.example.diplomski_android.model.User
+import com.example.diplomski_android.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.CoroutineScope
@@ -81,7 +82,7 @@ class MainActivity: AppCompatActivity() {
             }
         }
 //        buttonUpdateProfile.setOnClickListener {
-//            mainViewModel.setNewUser(mainViewModel.user.valueF!!)
+//            mainViewModel.setNewUser(mainViewModel.user.value!!)
 //            Navigation.findNavController(fragmentContainerView).navigate(getUpdateProfileAction())
 //        }
     }

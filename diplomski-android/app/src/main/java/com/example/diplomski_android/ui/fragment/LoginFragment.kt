@@ -7,20 +7,25 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
-import com.example.diplomski_android.MainViewModel
 import com.example.diplomski_android.R
 import com.example.diplomski_android.databinding.FragmentLoginBinding
 import com.example.diplomski_android.model.User
+import com.example.diplomski_android.viewmodel.LoginViewModel
+import com.example.diplomski_android.viewmodel.MainViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class LoginFragment : Fragment() {
 
-    private val mainViewModel : MainViewModel by activityViewModels()
-    private lateinit var binding : FragmentLoginBinding
+    private val mainViewModel: MainViewModel by activityViewModels()
+    private val loginViewModel: LoginViewModel by viewModels()
+    private lateinit var binding: FragmentLoginBinding
     var user = User()
 
     override fun onCreateView(
@@ -46,17 +51,18 @@ class LoginFragment : Fragment() {
             val password = binding.tiLoginPassword.editText?.text.toString()
 
             lifecycleScope.launchWhenCreated {
-                mainViewModel.signInWithEmailAndPassword(email, password).addOnSuccessListener {
+                loginViewModel.signInWithEmailAndPassword(email, password).addOnSuccessListener {
 
                     CoroutineScope(Dispatchers.IO).launch {
-                        user = mainViewModel.getUserByEmail(email)
+                        user = loginViewModel.getUserByEmail(email)
 
                         lifecycleScope.launch {
                             mainViewModel.sharedPreferencesRemoveUserId()
                             user.id?.let { userId ->
-                                mainViewModel.sharedPreferencesPutUserId(userId)
+                                loginViewModel.sharedPreferencesPutUserId(userId)
                                 mainViewModel.setUser(user)
-                                Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_coursesFragment)
+                                Navigation.findNavController(view)
+                                    .navigate(R.id.action_loginFragment_to_coursesFragment)
                             }
                         }
                     }

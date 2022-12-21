@@ -4,9 +4,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
+
         <variable
             name="viewModel"
-            type="com.example.diplomski_android.MainViewModel" />
+            type="com.example.diplomski_android.viewmodel.MainViewModel" />
+
         <variable
             name="loginFragment"
             type="com.example.diplomski_android.ui.fragment.LoginFragment" />
@@ -62,7 +64,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:textSize="16dp"
+                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tiLoginPassword"

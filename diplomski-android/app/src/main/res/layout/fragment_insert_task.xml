@@ -5,7 +5,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.diplomski_android.MainViewModel" />
+            type="com.example.diplomski_android.viewmodel.MainViewModel" />
         <variable
             name="insertTaskFragment"
             type="com.example.diplomski_android.ui.fragment.InsertTaskFragment" />
@@ -29,6 +29,7 @@
             android:layout_margin="32dp">
 
             <AutoCompleteTextView
+                android:hint="Course"
                 android:id="@+id/actvTaskCourse"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -49,6 +50,7 @@
             android:layout_margin="32dp">
 
             <AutoCompleteTextView
+                android:hint="Chapter"
                 android:id="@+id/actvTaskChapter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -69,6 +71,7 @@
             android:layout_margin="32dp">
 
             <AutoCompleteTextView
+                android:hint="Lesson"
                 android:id="@+id/actvTaskLesson"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

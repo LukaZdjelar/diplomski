@@ -4,9 +4,15 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
+
         <variable
             name="viewModel"
-            type="com.example.diplomski_android.MainViewModel" />
+            type="com.example.diplomski_android.viewmodel.MainViewModel" />
+
+        <variable
+            name="registrationViewModel"
+            type="com.example.diplomski_android.viewmodel.RegistrationViewModel" />
+
         <variable
             name="registrationFragment"
             type="com.example.diplomski_android.ui.fragment.RegistrationFragment" />
@@ -38,7 +44,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/registrationName"
-                    android:text="@={viewModel.newUser.name}"
+                    android:text="@={registrationViewModel.newUser.name}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Name" />
@@ -57,7 +63,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/registrationEmail"
-                    android:text="@={viewModel.newUser.email}"
+                    android:text="@={registrationViewModel.newUser.email}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Email" />
@@ -76,14 +82,14 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/registrationPassword"
-                    android:text="@={viewModel.newUser.password}"
+                    android:text="@={registrationViewModel.newUser.password}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Password" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/registrationConfirmPasswordContairner"
+                android:id="@+id/registrationConfirmPasswordContainer"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -109,7 +115,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/registrationConfirmPasswordContairner" />
+                app:layout_constraintTop_toBottomOf="@+id/registrationConfirmPasswordContainer" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

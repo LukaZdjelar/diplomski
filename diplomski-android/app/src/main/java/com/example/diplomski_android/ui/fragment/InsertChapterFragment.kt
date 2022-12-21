@@ -9,10 +9,10 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import com.example.diplomski_android.MainViewModel
 import com.example.diplomski_android.R
 import com.example.diplomski_android.databinding.FragmentInsertChapterBinding
 import com.example.diplomski_android.model.Course
+import com.example.diplomski_android.viewmodel.MainViewModel
 import kotlinx.coroutines.flow.collectLatest
 
 class InsertChapterFragment : Fragment() {

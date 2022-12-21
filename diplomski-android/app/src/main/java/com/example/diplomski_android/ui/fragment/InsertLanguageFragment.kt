@@ -1,14 +1,14 @@
 package com.example.diplomski_android.ui.fragment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import com.example.diplomski_android.MainViewModel
 import com.example.diplomski_android.databinding.FragmentInsertLanguageBinding
+import com.example.diplomski_android.viewmodel.MainViewModel
 
 class InsertLanguageFragment : Fragment() {
 

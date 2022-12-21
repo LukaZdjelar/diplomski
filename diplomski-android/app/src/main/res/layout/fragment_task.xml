@@ -5,7 +5,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.diplomski_android.MainViewModel" />
+            type="com.example.diplomski_android.viewmodel.MainViewModel" />
         <variable
             name="taskFragment"
             type="com.example.diplomski_android.ui.fragment.TaskFragment" />

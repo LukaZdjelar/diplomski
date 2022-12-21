@@ -4,8 +4,8 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:padding="8dp"
-    android:background="#B39DDB"
-    android:layout_margin="8dp">
+        android:background="#B39DDB"
+        android:layout_margin="8dp">
 
         <TextView
             android:id="@+id/tvCourseName"

@@ -1,4 +1,4 @@
-package com.example.diplomski_android
+package com.example.diplomski_android.viewmodel
 
 import android.widget.ArrayAdapter
 import androidx.lifecycle.LiveData
@@ -8,7 +8,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.diplomski_android.data.repository.firestore.*
 import com.example.diplomski_android.data.repository.room.*
 import com.example.diplomski_android.model.*
-import com.google.firebase.auth.AuthResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -62,32 +61,32 @@ class MainViewModel @Inject constructor(
 
     fun getCourses() {
         viewModelScope.launch {
-            courseRepository.getAllFlow().collect {
-                coursesStateFlow.value = it
+            courseRepository.getAllFlow().collect { courses ->
+                coursesStateFlow.value = courses
             }
         }
     }
 
-    suspend fun insertCourse(course: Course) {
+    private suspend fun insertCourse(course: Course) {
         val id = courseRepository.insert(course)
         course.id = id
         courseFirestore.insert(course)
     }
 
-    suspend fun insertAllCourses(courses: List<Course>) {
+    private suspend fun insertAllCourses(courses: List<Course>) {
         courseRepository.insertAll(courses)
     }
 
-    fun getCourseById(id: Long): Course {
+    private fun getCourseById(id: Long): Course {
         return courseRepository.getById(id)
     }
 
-    suspend fun deleteCourse(course: Course) {
+    private suspend fun deleteCourse(course: Course) {
         courseRepository.delete(course)
         courseFirestore.delete(course)
     }
 
-    suspend fun deleteAllCourses() {
+    private suspend fun deleteAllCourses() {
         courseRepository.deleteAll()
     }
 
@@ -100,7 +99,7 @@ class MainViewModel @Inject constructor(
                             deleteTasksByLesson(lessonId)
                         }
                     }
-                    deleteLesonsByChapter(chapterId)
+                    deleteLessonsByChapter(chapterId)
                 }
             }
             deleteChaptersByCourse(courseId)
@@ -140,22 +139,22 @@ class MainViewModel @Inject constructor(
         return chapterRepository.getByCourse(id)
     }
 
-    fun getChapterById(id: Long): Chapter {
+    private fun getChapterById(id: Long): Chapter {
         return chapterRepository.getById(id)
     }
 
-    suspend fun insertChapter(chapter: Chapter) {
+    private suspend fun insertChapter(chapter: Chapter) {
         val id = chapterRepository.insert(chapter)
         chapter.id = id
         chapterFirestore.insert(chapter)
     }
 
-    suspend fun deleteChapter(chapter: Chapter) {
+    private suspend fun deleteChapter(chapter: Chapter) {
         chapterRepository.delete(chapter)
         chapterFirestore.delete(chapter)
     }
 
-    suspend fun deleteChaptersByCourse(courseId: Long) {
+    private suspend fun deleteChaptersByCourse(courseId: Long) {
         chapterRepository.deleteByCourse(courseId)
         chapterFirestore.deleteByCourse(courseId)
     }
@@ -167,17 +166,17 @@ class MainViewModel @Inject constructor(
                     deleteTasksByLesson(lessonId)
                 }
 
-                deleteLesonsByChapter(chapterId)
+                deleteLessonsByChapter(chapterId)
             }
         }
         deleteChapter(chapter)
     }
 
-    fun countTotalLessons(chapterId: Long): Int {
+    private fun countTotalLessons(chapterId: Long): Int {
         return chapterRepository.countTotalLessons(chapterId)
     }
 
-    fun countCompletedLessons(chapterId: Long, userId: Long): Int {
+    private fun countCompletedLessons(chapterId: Long, userId: Long): Int {
         return chapterRepository.countCompletedLessons(chapterId, userId)
     }
 
@@ -209,22 +208,22 @@ class MainViewModel @Inject constructor(
         return lessonRepository.getByChapter(id)
     }
 
-    fun getLessonsById(id: Long): Lesson {
+    private fun getLessonsById(id: Long): Lesson {
         return lessonRepository.getById(id)
     }
 
-    suspend fun insertLesson(lesson: Lesson) {
+    private suspend fun insertLesson(lesson: Lesson) {
         val id = lessonRepository.insert(lesson)
         lesson.id = id
         lessonFirebase.insert(lesson)
     }
 
-    suspend fun deleteLesson(lesson: Lesson) {
+    private suspend fun deleteLesson(lesson: Lesson) {
         lessonRepository.delete(lesson)
         lessonFirebase.delete(lesson)
     }
 
-    suspend fun deleteLesonsByChapter(chapterId: Long) {
+    private suspend fun deleteLessonsByChapter(chapterId: Long) {
         lessonRepository.deleteByChapter(chapterId)
         lessonFirebase.deleteByChapter(chapterId)
     }
@@ -236,7 +235,7 @@ class MainViewModel @Inject constructor(
         deleteLesson(lesson)
     }
 
-    fun getLessonStatus(lessonId: Long, userId: Long): Boolean {
+    private fun getLessonStatus(lessonId: Long, userId: Long): Boolean {
         return lessonRepository.getLessonStatus(lessonId, userId)
     }
 
@@ -248,8 +247,8 @@ class MainViewModel @Inject constructor(
 
     fun getTasksByLessonFlow(id: Long) {
         viewModelScope.launch {
-            taskRepository.getByLessonFlow(id).collect {
-                tasksStateFlow.value = it
+            taskRepository.getByLessonFlow(id).collect { tasks ->
+                tasksStateFlow.value = tasks
             }
         }
     }
@@ -258,7 +257,7 @@ class MainViewModel @Inject constructor(
         return taskRepository.getByLesson(id)
     }
 
-    suspend fun insertTask(task: Task) {
+    private suspend fun insertTask(task: Task) {
         val id = taskRepository.insert(task)
         task.id = id
         taskFirestore.insert(task)
@@ -269,12 +268,12 @@ class MainViewModel @Inject constructor(
         taskFirestore.delete(task)
     }
 
-    suspend fun deleteTasksByLesson(lessonId: Long) {
+    private suspend fun deleteTasksByLesson(lessonId: Long) {
         taskRepository.deleteByLesson(lessonId)
         taskFirestore.deleteByLesson(lessonId)
     }
 
-    fun countTasksByLesson(lessonId: Long): Int {
+    private fun countTasksByLesson(lessonId: Long): Int {
         return taskRepository.countByLesson(lessonId)
     }
 
@@ -286,17 +285,17 @@ class MainViewModel @Inject constructor(
 
     fun getLanguages() {
         viewModelScope.launch {
-            languageRepository.getAllFlow().collect {
-                languagesStateFlow.value = it
+            languageRepository.getAllFlow().collect { languages ->
+                languagesStateFlow.value = languages
             }
         }
     }
 
-    fun getLanguageById(id: Long): Language {
+    private fun getLanguageById(id: Long): Language {
         return languageRepository.getById(id)
     }
 
-    suspend fun insertLanguage(language: Language) {
+    private suspend fun insertLanguage(language: Language) {
         val id = languageRepository.insert(language)
         language.id = id
         languageFirestore.insert(language)
@@ -308,13 +307,13 @@ class MainViewModel @Inject constructor(
         languageRepository.insertAll(result)
     }
 
-    suspend fun insertProgress(progress: Progress) {
+    private suspend fun insertProgress(progress: Progress) {
         val id = progressRepository.insert(progress)
         progress.id = id
         progressFirestore.insert(progress)
     }
 
-    fun findProgressByUserAndLessonBoolean(userId: Long, lessonId: Long): Boolean {
+    private fun findProgressByUserAndLessonBoolean(userId: Long, lessonId: Long): Boolean {
         return progressRepository.findByUserAndLessonBoolean(userId, lessonId)
     }
 
@@ -330,19 +329,15 @@ class MainViewModel @Inject constructor(
         userFirestore.insert(user)
     }
 
-    suspend fun insertAllUsers(users: List<User>) {
+    private suspend fun insertAllUsers(users: List<User>) {
         userRepository.insertAll(users)
     }
 
-    fun getUserByEmail(email: String): User {
-        return userRepository.getByEmail(email)
-    }
-
-    fun getUserById(id: Long): User {
+    private fun getUserById(id: Long): User {
         return userRepository.getById(id)
     }
 
-    suspend fun deleteAllUsers() {
+    private suspend fun deleteAllUsers() {
         userRepository.deleteAll()
     }
 
@@ -369,10 +364,6 @@ class MainViewModel @Inject constructor(
 
     fun sharedPreferencesGetUserId(): Long {
         return userRepository.sharedPreferencesGetUserId()
-    }
-
-    fun sharedPreferencesPutUserId(id: Long) {
-        userRepository.sharedPreferencesPutUserId(id)
     }
 
     fun sharedPreferencesRemoveUserId() {
@@ -461,7 +452,6 @@ class MainViewModel @Inject constructor(
     //INSERT PROGRESS
     suspend fun onLessonComplete() {
         val lessonId = currentLesson.value?.id
-        var lessonGrade = 0.0
 
         withContext(Dispatchers.IO) {
             var numberOfTasks = 0
@@ -470,7 +460,7 @@ class MainViewModel @Inject constructor(
             }
             viewModelScope.launch {
                 correctCounter.value?.let { correctCounter ->
-                    lessonGrade = correctCounter * 1.0 / numberOfTasks
+                    val lessonGrade = correctCounter * 1.0 / numberOfTasks
                     val gradeString = "${(lessonGrade * 100).toInt()}%"
                     setGrade(gradeString)
                     if (lessonGrade > 0.85) {
@@ -493,8 +483,6 @@ class MainViewModel @Inject constructor(
                         setPassed("Failed")
                     }
                 }
-
-
             }
         }
     }
@@ -511,9 +499,12 @@ class MainViewModel @Inject constructor(
         _newCourse.value = nc
         nc.id?.let {
             viewModelScope.launch {
-                newCourse.value?.localLanguage = nc.local_language_id?.let { getLanguageById(it) }
-                newCourse.value?.foreignLanguage =
-                    nc.foreign_language_id?.let { getLanguageById(it) }
+                newCourse.value?.localLanguage = nc.local_language_id?.let { languageId ->
+                    getLanguageById(languageId)
+                }
+                newCourse.value?.foreignLanguage = nc.foreign_language_id?.let { languageId ->
+                    getLanguageById(languageId)
+                }
             }
         }
     }
@@ -534,7 +525,9 @@ class MainViewModel @Inject constructor(
 
     fun onInsertCourseButtonClick() {
         viewModelScope.launch {
-            newCourse.value?.let { insertCourse(it) }
+            newCourse.value?.let { course ->
+                insertCourse(course)
+            }
         }
     }
 
@@ -564,7 +557,9 @@ class MainViewModel @Inject constructor(
 
     fun onInsertChapterButtonClick() {
         viewModelScope.launch {
-            newChapter.value?.let { insertChapter(it) }
+            newChapter.value?.let { chapter ->
+                insertChapter(chapter)
+            }
         }
     }
 
@@ -599,7 +594,9 @@ class MainViewModel @Inject constructor(
 
     fun onInsertLessonButtonClick() {
         viewModelScope.launch {
-            newLesson.value?.let { insertLesson(it) }
+            newLesson.value?.let { lesson ->
+                insertLesson(lesson)
+            }
         }
     }
 
@@ -630,15 +627,10 @@ class MainViewModel @Inject constructor(
 
     fun onInsertTaskButtonClick() {
         viewModelScope.launch {
-            newTask.value?.let { insertTask(it) }
+            newTask.value?.let { task ->
+                insertTask(task)
+            }
         }
-    }
-
-    //INSERT USER
-    private val _newUser = MutableLiveData(User())
-    val newUser: LiveData<User> = _newUser
-    fun setNewUser(nu: User) {
-        _newUser.value = nu
     }
 
     //INSERT LANGUAGE
@@ -650,25 +642,13 @@ class MainViewModel @Inject constructor(
 
     fun onInsertLanguageButtonClick() {
         viewModelScope.launch {
-            newLanguage.value?.let { insertLanguage(it) }
+            newLanguage.value?.let { language ->
+                insertLanguage(language)
+            }
         }
     }
 
-    suspend fun createUserWithEmailAndPassword(
-        email: String,
-        password: String
-    ): com.google.android.gms.tasks.Task<AuthResult> {
-        return authFirestore.signInWithEmailAndPassword(email, password)
-    }
-
-    suspend fun signInWithEmailAndPassword(
-        email: String,
-        password: String
-    ): com.google.android.gms.tasks.Task<AuthResult> {
-        return authFirestore.signInWithEmailAndPassword(email, password)
-    }
-
-    suspend fun signOut(): Unit {
+    suspend fun signOut() {
         return authFirestore.signOut()
     }
 }

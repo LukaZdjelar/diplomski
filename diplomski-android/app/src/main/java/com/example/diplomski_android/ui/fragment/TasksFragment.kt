@@ -9,11 +9,11 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.diplomski_android.MainViewModel
 import com.example.diplomski_android.R
 import com.example.diplomski_android.databinding.FragmentTasksBinding
 import com.example.diplomski_android.model.Task
 import com.example.diplomski_android.ui.adapter.TasksAdapter
+import com.example.diplomski_android.viewmodel.MainViewModel
 import kotlinx.coroutines.flow.collectLatest
 
 class TasksFragment : Fragment() {

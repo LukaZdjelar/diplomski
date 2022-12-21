@@ -5,7 +5,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.diplomski_android.MainViewModel" />
+            type="com.example.diplomski_android.viewmodel.MainViewModel" />
         <variable
             name="insertCourseFragment"
             type="com.example.diplomski_android.ui.fragment.InsertCourseFragment" />
@@ -64,6 +64,7 @@
                 app:layout_constraintTop_toBottomOf="@id/insertCourseNameContainer">
 
                 <AutoCompleteTextView
+                    android:hint="Local"
                     android:id="@+id/actvLocal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -84,6 +85,7 @@
                 app:layout_constraintTop_toBottomOf="@id/menuInsertCourseLocal">
 
                 <AutoCompleteTextView
+                    android:hint="Foreign"
                     android:id="@+id/actvForeign"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

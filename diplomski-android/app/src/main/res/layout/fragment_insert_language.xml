@@ -4,7 +4,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.diplomski_android.MainViewModel" />
+            type="com.example.diplomski_android.viewmodel.MainViewModel" />
         <variable
             name="insertLanguageFragment"
             type="com.example.diplomski_android.ui.fragment.InsertLanguageFragment" />
