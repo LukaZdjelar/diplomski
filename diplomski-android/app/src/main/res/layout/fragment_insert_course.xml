@@ -48,13 +48,13 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="32dp"
                 app:helperTextTextColor="#E91E63"
-                android:hint="@string/local"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/insertCourseNameContainer">
 
                 <AutoCompleteTextView
                     android:id="@+id/actvLocal"
+                    android:hint="@string/local"
                     android:labelFor="@id/menuInsertCourseLocal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -69,13 +69,13 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="32dp"
                 app:helperTextTextColor="#E91E63"
-                android:hint="@string/foreign"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/menuInsertCourseLocal">
 
                 <AutoCompleteTextView
                     android:id="@+id/actvForeign"
+                    android:hint="@string/foreign"
                     android:labelFor="@id/menuInsertCourseForeign"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

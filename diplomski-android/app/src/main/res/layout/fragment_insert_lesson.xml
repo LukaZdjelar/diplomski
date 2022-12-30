@@ -21,7 +21,6 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/course"
             app:helperTextTextColor="#E91E63"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -30,6 +29,7 @@
 
             <AutoCompleteTextView
                 android:id="@+id/actvLessonCourse"
+                android:hint="@string/course"
                 android:labelFor="@id/menuInsertLessonCourses"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -42,7 +42,6 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/chapter"
             app:helperTextTextColor="#E91E63"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -51,6 +50,7 @@
 
             <AutoCompleteTextView
                 android:id="@+id/actvLessonChapter"
+                android:hint="@string/chapter"
                 android:labelFor="@id/menuInsertLessonChapters"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -63,7 +63,6 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/lesson_type"
             app:helperTextTextColor="#E91E63"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -72,6 +71,7 @@
 
             <AutoCompleteTextView
                 android:id="@+id/actvLessonType"
+                android:hint="@string/lesson_type"
                 android:labelFor="@id/menuInsertLessonType"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

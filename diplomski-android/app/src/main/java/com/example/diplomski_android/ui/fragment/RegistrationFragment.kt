@@ -70,18 +70,21 @@ class RegistrationFragment : Fragment() {
     }
 
     private fun textChangeListener() {
-        binding.registrationName.doOnTextChanged { _, _, _, _ ->
-            binding.registrationNameContainer.helperText = validateName()
+        binding.apply {
+            registrationName.doOnTextChanged { _, _, _, _ ->
+                registrationNameContainer.helperText = validateName()
+            }
+            registrationEmail.doOnTextChanged { _, _, _, _ ->
+                registrationEmailContainer.helperText = validateEmail()
+            }
+            registrationPassword.doOnTextChanged { _, _, _, _ ->
+                registrationPasswordContainer.helperText = validatePassword()
+            }
+            registrationConfirmPassword.doOnTextChanged { _, _, _, _ ->
+                registrationConfirmPasswordContainer.helperText = validateConfirmPassword()
+            }
         }
-        binding.registrationEmail.doOnTextChanged { _, _, _, _ ->
-            binding.registrationEmailContainer.helperText = validateEmail()
-        }
-        binding.registrationPassword.doOnTextChanged { _, _, _, _ ->
-            binding.registrationPasswordContainer.helperText = validatePassword()
-        }
-        binding.registrationConfirmPassword.doOnTextChanged { _, _, _, _ ->
-            binding.registrationConfirmPasswordContainer.helperText = validateConfirmPassword()
-        }
+
     }
 
     private fun validateName(): String? {
@@ -134,11 +137,13 @@ class RegistrationFragment : Fragment() {
         return null
     }
 
-    private fun validateOnConfirm(): Boolean{
-        binding.registrationNameContainer.helperText = validateName()
-        binding.registrationEmailContainer.helperText = validateEmail()
-        binding.registrationPasswordContainer.helperText = validatePassword()
-        binding.registrationConfirmPasswordContainer.helperText = validateConfirmPassword()
+    private fun validateOnConfirm(): Boolean {
+        binding.apply {
+            registrationNameContainer.helperText = validateName()
+            registrationEmailContainer.helperText = validateEmail()
+            registrationPasswordContainer.helperText = validatePassword()
+            registrationConfirmPasswordContainer.helperText = validateConfirmPassword()
+        }
 
         if (binding.registrationNameContainer.helperText == null &&
             binding.registrationEmailContainer.helperText == null &&

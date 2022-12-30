@@ -36,8 +36,8 @@ class InsertTaskFragment : Fragment() {
 
         mainViewModel.getCourses()
         lifecycleScope.launchWhenCreated {
-            mainViewModel.coursesStateFlow.collectLatest {
-                courses = it
+            mainViewModel.coursesStateFlow.collectLatest { coursesFlow ->
+                courses = coursesFlow
             }
         }
 
@@ -54,24 +54,28 @@ class InsertTaskFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val courseAdapter = ArrayAdapter(requireContext(), R.layout.spinner_item, courses)
-        binding.actvTaskCourse.setAdapter(courseAdapter)
-
-
         var chapterAdapter = ArrayAdapter(requireContext(), R.layout.spinner_item, chapters)
-        binding.actvTaskChapter.setAdapter(chapterAdapter)
-
         var lessonAdapter = ArrayAdapter(requireContext(), R.layout.spinner_item, lessons)
-        binding.actvTaskLesson.setAdapter(lessonAdapter)
 
-        if (mainViewModel.newTask.value?.id == null){
-            binding.actvTaskCourse.setText(mainViewModel.newTask.value?.course?.name,false)
-            binding.actvTaskChapter.setText(mainViewModel.newTask.value?.chapter?.name,false)
-            binding.actvTaskLesson.setText(mainViewModel.newTask.value?.lesson?.lesson_type,false)
+        binding.apply {
+            actvTaskCourse.setAdapter(courseAdapter)
+            actvTaskChapter.setAdapter(chapterAdapter)
+            actvTaskLesson.setAdapter(lessonAdapter)
+        }
+
+        mainViewModel.newTask.value?.id?.let {
+            binding.apply {
+                actvTaskCourse.setText(mainViewModel.newTask.value?.course?.name)
+                actvTaskChapter.setText(mainViewModel.newTask.value?.chapter?.name)
+                actvTaskLesson.setText(mainViewModel.newTask.value?.lesson?.lesson_type)
+            }
+        } ?: run {
+            binding.apply {
+                actvTaskCourse.setText("")
+                actvTaskChapter.setText("")
+                actvTaskLesson.setText("")
+            }
             mainViewModel.newTask.value?.lesson_id = mainViewModel.currentLesson.value?.id
-        }else{
-            binding.actvTaskCourse.setText(mainViewModel.newTask.value?.course?.name,false)
-            binding.actvTaskChapter.setText(mainViewModel.newTask.value?.chapter?.name,false)
-            binding.actvTaskLesson.setText(mainViewModel.newTask.value?.lesson?.lesson_type,false)
         }
 
         binding.apply {
@@ -187,11 +191,13 @@ class InsertTaskFragment : Fragment() {
     }
 
     private fun validateOnComplete(): Boolean {
-        binding.menuInsertTaskCourses.helperText = validateCourse()
-        binding.menuInsertTaskChapters.helperText = validateChapter()
-        binding.menuInsertTaskLessons.helperText = validateLesson()
-        binding.insertTaskQuestionContainer.helperText = validateQuestion()
-        binding.insertTaskAnswerContainer.helperText = validateAnswer()
+        binding.apply {
+            menuInsertTaskCourses.helperText = validateCourse()
+            menuInsertTaskChapters.helperText = validateChapter()
+            menuInsertTaskLessons.helperText = validateLesson()
+            insertTaskQuestionContainer.helperText = validateQuestion()
+            insertTaskAnswerContainer.helperText = validateAnswer()
+        }
 
         if (binding.menuInsertTaskCourses.helperText == null &&
             binding.menuInsertTaskChapters.helperText == null &&

@@ -52,17 +52,23 @@ class InsertCourseFragment: Fragment() {
 
     private fun setAdapters(){
         val localAdapter = ArrayAdapter(requireContext(), R.layout.spinner_item, languages)
-        binding.actvLocal.setAdapter(localAdapter)
-
         val foreignAdapter = ArrayAdapter(requireContext(), R.layout.spinner_item, languages)
-        binding.actvForeign.setAdapter(foreignAdapter)
 
-        if (mainViewModel.newCourse.value?.id == null){
-            binding.actvLocal.setText("",false)
-            binding.actvForeign.setText("",false)
-        }else{
-            binding.actvLocal.setText(mainViewModel.newCourse.value?.localLanguage?.name,false)
-            binding.actvForeign.setText(mainViewModel.newCourse.value?.foreignLanguage?.name,false)
+        binding.apply {
+            actvLocal.setAdapter(localAdapter)
+            actvForeign.setAdapter(foreignAdapter)
+        }
+
+        mainViewModel.newCourse.value?.id?.let {
+            binding.apply {
+                actvLocal.setText(mainViewModel.newCourse.value?.localLanguage?.name)
+                actvForeign.setText(mainViewModel.newCourse.value?.foreignLanguage?.name)
+            }
+        } ?: run {
+            binding.apply {
+                actvLocal.setText("")
+                actvForeign.setText("")
+            }
         }
 
 //      TODO: Ne radi poziv viewmodel funkcije iz layout-a: onItemSelected
@@ -131,9 +137,11 @@ class InsertCourseFragment: Fragment() {
     }
 
     private fun validateOnConfirm(): Boolean{
-        binding.insertCourseNameContainer.helperText = validateName()
-        binding.menuInsertCourseLocal.helperText = validateLocal()
-        binding.menuInsertCourseForeign.helperText = validateForeign()
+        binding.apply {
+            insertCourseNameContainer.helperText = validateName()
+            menuInsertCourseLocal.helperText = validateLocal()
+            menuInsertCourseForeign.helperText = validateForeign()
+        }
 
         if (binding.insertCourseNameContainer.helperText == null &&
             binding.menuInsertCourseLocal.helperText == null &&

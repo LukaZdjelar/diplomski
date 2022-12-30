@@ -30,11 +30,10 @@ class InsertChapterFragment : Fragment() {
 
         mainViewModel.getCourses()
         lifecycleScope.launchWhenCreated {
-            mainViewModel.coursesStateFlow.collectLatest {
-                courses = it
+            mainViewModel.coursesStateFlow.collectLatest { coursesFlow ->
+                courses = coursesFlow
             }
         }
-
         textChangeListener()
 
         return binding.root
@@ -54,18 +53,24 @@ class InsertChapterFragment : Fragment() {
 
     private fun setAdapters(){
         val courseAdapter = ArrayAdapter(requireContext(), R.layout.spinner_item, courses)
-        binding.actvChapterCourse.setAdapter(courseAdapter)
-
         val difficultyAdapter = ArrayAdapter(requireContext(), R.layout.spinner_item, difficultyList)
-        binding.actvChapterDifficulty.setAdapter(difficultyAdapter)
 
-        if (mainViewModel.newChapter.value?.id == null){
-            binding.actvChapterCourse.setText(mainViewModel.newChapter.value?.course?.name,false)
+        binding.apply {
+            actvChapterCourse.setAdapter(courseAdapter)
+            actvChapterDifficulty.setAdapter(difficultyAdapter)
+        }
+
+        mainViewModel.newChapter.value?.id?.let {
+            binding.apply {
+                actvChapterCourse.setText(mainViewModel.newChapter.value?.course?.name)
+                actvChapterDifficulty.setText(mainViewModel.newChapter.value?.difficulty)
+            }
+        } ?: run {
+            binding.apply {
+                actvChapterCourse.setText("")
+                actvChapterDifficulty.setText("")
+            }
             mainViewModel.newChapter.value?.course_id = mainViewModel.newChapter.value?.course?.id
-            binding.actvChapterDifficulty.setText("",false)
-        }else{
-            binding.actvChapterCourse.setText(mainViewModel.newChapter.value?.course?.name,false)
-            binding.actvChapterDifficulty.setText(mainViewModel.newChapter.value?.difficulty,false)
         }
 
         binding.actvChapterCourse.setOnItemClickListener { _, _, position, _ ->
@@ -117,9 +122,11 @@ class InsertChapterFragment : Fragment() {
     }
 
     private fun validateOnConfirm(): Boolean{
-        binding.menuInsertChapterCourses.helperText = validateCourse()
-        binding.insertChapterNameContainer.helperText = validateName()
-        binding.menuInsertChapterDifficulty.helperText = validateDifficulty()
+        binding.apply {
+            menuInsertChapterCourses.helperText = validateCourse()
+            insertChapterNameContainer.helperText = validateName()
+            menuInsertChapterDifficulty.helperText = validateDifficulty()
+        }
 
         if (binding.menuInsertChapterCourses.helperText == null &&
             binding.insertChapterNameContainer.helperText == null &&

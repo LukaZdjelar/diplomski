@@ -34,8 +34,8 @@ class InsertLessonFragment : Fragment() {
 
         mainViewModel.getCourses()
         lifecycleScope.launchWhenCreated {
-            mainViewModel.coursesStateFlow.collectLatest {
-                courses = it
+            mainViewModel.coursesStateFlow.collectLatest { coursesFlow ->
+                courses = coursesFlow
             }
         }
 
@@ -50,23 +50,28 @@ class InsertLessonFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val courseAdapter = ArrayAdapter(requireContext(), R.layout.spinner_item, courses)
-        binding.actvLessonCourse.setAdapter(courseAdapter)
-
         var chapterAdapter = ArrayAdapter(requireContext(), R.layout.spinner_item, chapters)
-        binding.actvLessonChapter.setAdapter(chapterAdapter)
-
         val typeAdapter = ArrayAdapter(requireContext(), R.layout.spinner_item, lessonTypes)
-        binding.actvLessonType.setAdapter(typeAdapter)
 
-        if (mainViewModel.newLesson.value?.id == null){
-            binding.actvLessonCourse.setText(mainViewModel.newLesson.value?.course?.name,false)
-            binding.actvLessonChapter.setText(mainViewModel.newLesson.value?.chapter?.name,false)
+        binding.apply {
+            actvLessonCourse.setAdapter(courseAdapter)
+            actvLessonChapter.setAdapter(chapterAdapter)
+            actvLessonType.setAdapter(typeAdapter)
+        }
+
+        mainViewModel.newLesson.value?.id?.let {
+            binding.apply {
+                actvLessonCourse.setText(mainViewModel.newLesson.value?.course?.name)
+                actvLessonChapter.setText(mainViewModel.newLesson.value?.chapter?.name)
+                actvLessonType.setText(mainViewModel.newLesson.value?.lesson_type)
+            }
+        } ?: run {
+            binding.apply {
+                actvLessonCourse.setText("")
+                actvLessonChapter.setText("")
+                actvLessonType.setText("")
+            }
             mainViewModel.newLesson.value?.chapter_id = mainViewModel.newLesson.value?.chapter?.id
-            binding.actvLessonType.setText("",false)
-        }else{
-            binding.actvLessonCourse.setText(mainViewModel.newLesson.value?.course?.name,false)
-            binding.actvLessonChapter.setText(mainViewModel.newLesson.value?.chapter?.name,false)
-            binding.actvLessonType.setText(mainViewModel.newLesson.value?.lesson_type,false)
         }
 
         binding.apply {
@@ -139,9 +144,11 @@ class InsertLessonFragment : Fragment() {
     }
 
     private fun validateOnConfirm(): Boolean{
-        binding.menuInsertLessonCourses.helperText = validateCourse()
-        binding.menuInsertLessonChapters.helperText = validateChapter()
-        binding.menuInsertLessonType.helperText = validateType()
+        binding.apply {
+            menuInsertLessonCourses.helperText = validateCourse()
+            menuInsertLessonChapters.helperText = validateChapter()
+            menuInsertLessonType.helperText = validateType()
+        }
 
         if (binding.menuInsertLessonCourses.helperText == null &&
             binding.menuInsertLessonChapters.helperText == null &&

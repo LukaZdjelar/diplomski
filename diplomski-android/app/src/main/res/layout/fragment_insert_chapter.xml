@@ -21,7 +21,6 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/course"
             app:helperTextTextColor="#E91E63"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -30,6 +29,7 @@
 
             <AutoCompleteTextView
                 android:id="@+id/actvChapterCourse"
+                android:hint="@string/course"
                 android:labelFor="@id/menuInsertChapterCourses"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

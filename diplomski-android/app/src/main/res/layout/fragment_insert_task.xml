@@ -21,7 +21,6 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/course"
             app:helperTextTextColor="#E91E63"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -30,6 +29,7 @@
 
             <AutoCompleteTextView
                 android:id="@+id/actvTaskCourse"
+                android:hint="@string/course"
                 android:labelFor="@id/menuInsertTaskCourses"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -42,7 +42,6 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/chapter"
             app:helperTextTextColor="#E91E63"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -51,6 +50,7 @@
 
             <AutoCompleteTextView
                 android:id="@+id/actvTaskChapter"
+                android:hint="@string/chapter"
                 android:labelFor="@id/menuInsertTaskChapters"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -63,7 +63,6 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/lesson"
             app:helperTextTextColor="#E91E63"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -72,6 +71,7 @@
 
             <AutoCompleteTextView
                 android:id="@+id/actvTaskLesson"
+                android:hint="@string/lesson"
                 android:labelFor="@id/menuInsertTaskLessons"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
